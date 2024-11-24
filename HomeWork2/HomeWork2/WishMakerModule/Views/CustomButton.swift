@@ -10,11 +10,9 @@ import UIKit
 final class CustomButton: UIButton {
     // MARK: - Constants
     private enum Constants {
-        static let titleColor = UIColor.black
-        static let backgroundColor = UIColor.clear
-        static let borderWidth: CGFloat = 1
-        static let cornerRadius: CGFloat = 10
-        static let borderColor: CGColor = UIColor.black.cgColor
+        static let titleColor: UIColor = .systemPink
+        static let backgroundColor: UIColor = .white
+        static let cornerRadius: CGFloat = 20
     }
     
     // MARK: - Lifecycle
@@ -32,10 +30,9 @@ final class CustomButton: UIButton {
     // MARK: - Setup
     private func setUp() {
         setTitleColor(Constants.titleColor, for: .normal)
+        titleLabel?.font = .preferredFont(forTextStyle: .headline)
         backgroundColor = Constants.backgroundColor
-        layer.borderWidth = Constants.borderWidth
         layer.cornerRadius = Constants.cornerRadius
-        layer.borderColor = Constants.borderColor
         translatesAutoresizingMaskIntoConstraints = false
     }
 }

@@ -20,7 +20,7 @@ final class CustomSlider: UIView {
         }
         
         enum CurrentValue {
-            static let text = "0%"
+            static let text: String = "0%"
             static let top: Double = 10
             static let leading: Double = 10
         }
@@ -46,11 +46,13 @@ final class CustomSlider: UIView {
     init(title: String, min: Double, max: Double) {
         super.init(frame: .zero)
         titleView.text = title
+        titleView.font = .preferredFont(forTextStyle: .headline)
         slider.value = Constants.Slider.startValue
         slider.maximumValue = Float(max)
         slider.minimumValue = Float(min)
         slider.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
         currentValue.text = Constants.CurrentValue.text
+        currentValue.font = .preferredFont(forTextStyle: .headline)
         setUp()
     }
     
