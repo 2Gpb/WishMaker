@@ -105,6 +105,24 @@ extension WishStoringViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.Table.heightForRow
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt
+                   indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { (_, _, completionHandler) in
+            if var savedArray = self.defaults.array(forKey: Constants.Defaults.wishesKey) as? [String] {
+                savedArray.remove(at: indexPath.row)
+                self.defaults.set(savedArray, forKey: Constants.Defaults.wishesKey)
+                self.wishArray = savedArray
+            }
+            
+//            tableView.deleteRows(at: [indexPath], with: .top) - ??
+            tableView.reloadData()
+            completionHandler(true)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 // MARK: - UITableViewDataSource

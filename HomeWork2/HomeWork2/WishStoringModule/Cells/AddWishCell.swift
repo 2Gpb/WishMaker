@@ -64,21 +64,22 @@ final class AddWishCell: UITableViewCell {
         addWishButton.addTarget(self, action: #selector(addWishButtonTapped), for: .touchUpInside)
         
         contentView.addSubview(addWishButton)
-        addWishButton.pinRight(to: contentView.trailingAnchor, Constants.AddWishButton.offset)
-        addWishButton.pinTop(to: contentView.topAnchor, Constants.AddWishButton.offset)
-        addWishButton.pinBottom(to: contentView.bottomAnchor, Constants.AddWishButton.offset)
+        addWishButton.pinRight(to: trailingAnchor, Constants.AddWishButton.offset)
+        addWishButton.pinTop(to: topAnchor, Constants.AddWishButton.offset)
+        addWishButton.pinBottom(to: bottomAnchor, Constants.AddWishButton.offset)
         addWishButton.setWidth(Constants.AddWishButton.width)
     }
     
     private func setUpTextView() {
         textView.layer.cornerRadius = Constants.TextView.cornerRadius
         textView.layer.borderWidth = Constants.TextView.borderWidth
+        textView.font = .preferredFont(forTextStyle: .callout)
         
         contentView.addSubview(textView)
-        textView.pinLeft(to: contentView.leadingAnchor, Constants.TextView.leading)
+        textView.pinLeft(to: leadingAnchor, Constants.TextView.leading)
         textView.pinRight(to: addWishButton.leadingAnchor, Constants.TextView.offset)
-        textView.pinTop(to: contentView.topAnchor, Constants.TextView.offset)
-        textView.pinBottom(to: contentView.bottomAnchor, Constants.TextView.offset)
+        textView.pinTop(to: topAnchor, Constants.TextView.offset)
+        textView.pinBottom(to: bottomAnchor, Constants.TextView.offset)
     }
     
     // MARK: - Actions
