@@ -23,6 +23,9 @@ final class WishStoringViewController: UIViewController {
         }
     }
     
+    // MARK: - Private variables
+    private var wishArray: [String] = ["I wish to add cell to the table"]
+    
     // MARK: - Private fields
     private let closeButton: UIButton = UIButton(type: .close)
     private let table: UITableView = UITableView(frame: .zero)
@@ -58,6 +61,7 @@ final class WishStoringViewController: UIViewController {
         table.dataSource = self
         table.separatorStyle = .none
         table.layer.cornerRadius = Constants.Table.cornerRadius
+        table.register(WrittenWishCell.self, forCellReuseIdentifier: WrittenWishCell.reuseId)
         
         table.pin(to: view, Constants.Table.offset)
     }
@@ -72,10 +76,18 @@ final class WishStoringViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension WishStoringViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        wishArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        UITableViewCell()
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: WrittenWishCell.reuseId,
+            for: indexPath)
+        
+        guard let wishCell = cell as? WrittenWishCell else { return cell }
+        
+        wishCell.configure(with: wishArray[indexPath.row])
+        
+        return wishCell
     }
 }
