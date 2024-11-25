@@ -54,7 +54,7 @@ final class WishMakerViewController: UIViewController {
             static let title: String = "Background Color"
         }
         
-        enum addWishButton {
+        enum AddWishButton {
             static let title: String = "Add wish"
             static let cornerRadius: CGFloat = 20
             static let height: CGFloat = 44
@@ -122,17 +122,17 @@ final class WishMakerViewController: UIViewController {
     
     private func setUpAddWishButton() {
         addWishButton.backgroundColor = .white
-        addWishButton.setTitle(Constants.addWishButton.title, for: .normal)
+        addWishButton.setTitle(Constants.AddWishButton.title, for: .normal)
         addWishButton.setTitleColor(.systemPink, for: .normal)
-        addWishButton.layer.cornerRadius = Constants.addWishButton.cornerRadius
+        addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
         addWishButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         addWishButton.addTarget(self, action: #selector(addWishButtonPressed), for: .touchUpInside)
         
         view.addSubview(addWishButton)
-        addWishButton.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.addWishButton.leading)
-        addWishButton.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor, Constants.addWishButton.trailing)
-        addWishButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.addWishButton.bottom)
-        addWishButton.setHeight(Constants.addWishButton.height)
+        addWishButton.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.AddWishButton.leading)
+        addWishButton.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor, Constants.AddWishButton.trailing)
+        addWishButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.AddWishButton.bottom)
+        addWishButton.setHeight(Constants.AddWishButton.height)
     }
     
     private func setUpSliders() {

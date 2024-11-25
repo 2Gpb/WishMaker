@@ -30,18 +30,24 @@ final class WishStoringViewController: UIViewController {
             static let message: String = "Please enter a wish"
             static let actionTitle: String = "OK"
         }
+        
+        enum Defaults {
+            static let wishesKey: String = "Wishes"
+        }
     }
     
     // MARK: - Private variables
-    private var wishArray: [String] = ["I wish to add cell to the table"]
+    private var wishArray: [String] = []
     
     // MARK: - Private fields
     private let closeButton: UIButton = UIButton(type: .close)
     private let table: UITableView = UITableView(frame: .zero)
+    private let defaults = UserDefaults.standard
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        wishArray = defaults.array(forKey: Constants.Defaults.wishesKey) as? [String] ?? []
         setUp()
     }
     
@@ -135,6 +141,7 @@ extension WishStoringViewController: UITableViewDataSource {
             cell.addWish = { [weak self] text in
                 if text != "" {
                     self?.wishArray.append(text)
+                    self?.defaults.set(self?.wishArray, forKey: Constants.Defaults.wishesKey)
                     tableView.reloadData()
                 } else {
                     self?.setUpAlert()
