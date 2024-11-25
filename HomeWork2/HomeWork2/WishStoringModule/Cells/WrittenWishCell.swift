@@ -15,7 +15,7 @@ final class WrittenWishCell: UITableViewCell {
     private enum Constants {
         enum Wrap {
             static let color: UIColor = .white
-            static let cornerRadius: CGFloat = 16
+            static let cornerRadius: CGFloat = 14
             static let offsetV: CGFloat = 5
             static let offsetH: CGFloat = 10
         }
@@ -56,6 +56,9 @@ final class WrittenWishCell: UITableViewCell {
         wrap.layer.cornerRadius = Constants.Wrap.cornerRadius
         wrap.pinVertical(to: self, Constants.Wrap.offsetV)
         wrap.pinHorizontal(to: self, Constants.Wrap.offsetH)
+        
+        wishLabel.textAlignment = .center
+        wishLabel.font = .preferredFont(forTextStyle: .headline)
         
         wrap.addSubview(wishLabel)
         wishLabel.pin(to: wrap, Constants.WishLabel.offset)

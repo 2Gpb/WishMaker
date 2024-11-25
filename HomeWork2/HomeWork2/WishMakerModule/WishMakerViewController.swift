@@ -44,7 +44,7 @@ final class WishMakerViewController: UIViewController {
             static let hide: String = "Hide sliders"
             static let show: String = "Show sliders"
             static let random: String = "Rand color"
-            static let height: CGFloat = 48
+            static let height: CGFloat = 44
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 10
             static let indent: CGFloat = Stack.leading * 2 + leading * 2
@@ -57,7 +57,7 @@ final class WishMakerViewController: UIViewController {
         enum addWishButton {
             static let title: String = "Add wish"
             static let cornerRadius: CGFloat = 20
-            static let height: CGFloat = 48
+            static let height: CGFloat = 44
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
             static let trailing: CGFloat = 20

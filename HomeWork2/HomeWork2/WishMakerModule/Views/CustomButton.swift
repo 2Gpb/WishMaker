@@ -12,7 +12,7 @@ final class CustomButton: UIButton {
     private enum Constants {
         static let titleColor: UIColor = .systemPink
         static let backgroundColor: UIColor = .white
-        static let cornerRadius: CGFloat = 20
+        static let cornerRadius: CGFloat = 18
     }
     
     // MARK: - Lifecycle

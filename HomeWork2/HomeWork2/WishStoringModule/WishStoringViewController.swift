@@ -20,8 +20,15 @@ final class WishStoringViewController: UIViewController {
         enum Table {
             static let cornerRadius: CGFloat = 20
             static let offset: CGFloat = 20
-            static let sections: Int = 2
             static let titlesSections: [String] = ["Add wish", "Wishes"]
+            static let heightForRow: CGFloat = 44
+            static let addWishSectionsCount: Int = 1
+        }
+        
+        enum Alert {
+            static let title: String = "Error!"
+            static let message: String = "Please enter a wish"
+            static let actionTitle: String = "OK"
         }
     }
     
@@ -59,14 +66,26 @@ final class WishStoringViewController: UIViewController {
     private func setUpTable() {
         view.addSubview(table)
         
-        table.backgroundColor = .red
         table.dataSource = self
-        table.separatorStyle = .none
+        table.delegate = self
+        table.backgroundColor = .clear
+        table.separatorStyle = .singleLine
         table.layer.cornerRadius = Constants.Table.cornerRadius
         table.register(WrittenWishCell.self, forCellReuseIdentifier: WrittenWishCell.reuseId)
+        table.register(AddWishCell.self, forCellReuseIdentifier: AddWishCell.reuseId)
         
-        table.pin(to: view, Constants.Table.offset)
+        table.pinTop(to: closeButton.bottomAnchor)
+        table.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor)
+        table.pinHorizontal(to: view, Constants.Table.offset)
     }
+    
+    private func setUpAlert() {
+        let alert = UIAlertController(title: Constants.Alert.title, message: Constants.Alert.message, preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: Constants.Alert.actionTitle, style: .cancel)
+        alert.addAction(alertAction)
+        present(alert, animated: true)
+    }
+
     
     // MARK: - Actions
     @objc
@@ -75,12 +94,27 @@ final class WishStoringViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDelegate
+extension WishStoringViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constants.Table.heightForRow
+    }
+}
+
 // MARK: - UITableViewDataSource
 extension WishStoringViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        Constants.Table.titlesSections.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        Constants.Table.titlesSections[section]
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
-            return 1
+            return Constants.Table.addWishSectionsCount
         case 1:
             return wishArray.count
         default:
@@ -91,27 +125,36 @@ extension WishStoringViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            return UITableViewCell()
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: AddWishCell.reuseId,
+                for: indexPath
+            ) as? AddWishCell else {
+                return UITableViewCell()
+            }
+            
+            cell.addWish = { [weak self] text in
+                if text != "" {
+                    self?.wishArray.append(text)
+                    tableView.reloadData()
+                } else {
+                    self?.setUpAlert()
+                }
+            }
+            
+            return cell
         case 1:
-            let cell = tableView.dequeueReusableCell(
+            guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: WrittenWishCell.reuseId,
-                for: indexPath)
+                for: indexPath
+            ) as? WrittenWishCell else {
+                return UITableViewCell()
+            }
             
-            guard let wishCell = cell as? WrittenWishCell else { return cell }
+            cell.configure(with: wishArray[indexPath.row])
             
-            wishCell.configure(with: wishArray[indexPath.row])
-            
-            return wishCell
+            return cell
         default:
             return UITableViewCell()
         }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        Constants.Table.sections
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        Constants.Table.titlesSections[section]
     }
 }
