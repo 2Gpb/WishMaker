@@ -20,6 +20,8 @@ final class WishStoringViewController: UIViewController {
         enum Table {
             static let cornerRadius: CGFloat = 20
             static let offset: CGFloat = 20
+            static let sections: Int = 2
+            static let titlesSections: [String] = ["Add wish", "Wishes"]
         }
     }
     
@@ -76,18 +78,40 @@ final class WishStoringViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension WishStoringViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        wishArray.count
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return wishArray.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: WrittenWishCell.reuseId,
-            for: indexPath)
-        
-        guard let wishCell = cell as? WrittenWishCell else { return cell }
-        
-        wishCell.configure(with: wishArray[indexPath.row])
-        
-        return wishCell
+        switch indexPath.section {
+        case 0:
+            return UITableViewCell()
+        case 1:
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: WrittenWishCell.reuseId,
+                for: indexPath)
+            
+            guard let wishCell = cell as? WrittenWishCell else { return cell }
+            
+            wishCell.configure(with: wishArray[indexPath.row])
+            
+            return wishCell
+        default:
+            return UITableViewCell()
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        Constants.Table.sections
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        Constants.Table.titlesSections[section]
     }
 }
