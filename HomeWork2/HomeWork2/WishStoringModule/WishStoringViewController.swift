@@ -50,13 +50,13 @@ final class WishStoringViewController: UIViewController {
     // MARK: - Private fields
     private let closeButton: UIButton = UIButton(type: .close)
     private let table: UITableView = UITableView(frame: .zero)
-    private let defaults = UserDefaults.standard
+    private let defaults: WishServiceLogic = WishService()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        wishArray = defaults.array(forKey: Constants.Defaults.wishesKey) as? [String] ?? []
         setUp()
+        wishArray = defaults.get(for: .wishList)
     }
     
     // MARK: - Setup
@@ -95,8 +95,8 @@ final class WishStoringViewController: UIViewController {
     
     private func setUpWarningAlert() {
         let warningAlert: UIAlertController = UIAlertController(title: Constants.Alert.title,
-                                                                        message: Constants.Alert.message,
-                                                                        preferredStyle: .alert)
+                                                                message: Constants.Alert.message,
+                                                                preferredStyle: .alert)
         let alertAction = UIAlertAction(title: Constants.Alert.actionTitle, style: .cancel)
         warningAlert.addAction(alertAction)
         present(warningAlert, animated: true)
@@ -104,35 +104,32 @@ final class WishStoringViewController: UIViewController {
     
     private func setUpEditAlert(index: Int) {
         let editAlert: UIAlertController = UIAlertController(title: Constants.EditAlert.title,
-                                                                     message: Constants.EditAlert.message,
-                                                                     preferredStyle: .alert)
+                                                             message: Constants.EditAlert.message,
+                                                             preferredStyle: .alert)
         editAlert.addTextField()
         editAlert.textFields?.first?.text = wishArray[index]
         
-        let alertAction = getEditAlertAction(alert: editAlert, index: index)
+        let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
+            self?.getEditAlertAction(alert: editAlert, index: index)
+        }
         
         editAlert.addAction(alertAction)
         present(editAlert, animated: true)
     }
-
+    
     // MARK: - Actions
     @objc
     private func closeButtonTapped() {
         dismiss(animated: true)
     }
     
-    private func getEditAlertAction(alert: UIAlertController, index: Int) -> UIAlertAction {
-        let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
-            if var savedArray = self?.defaults.array(forKey: Constants.Defaults.wishesKey) as? [String],
-                let text = alert.textFields?.first?.text {
-                savedArray[index] = text
-                self?.defaults.set(savedArray, forKey: Constants.Defaults.wishesKey)
-                self?.wishArray = savedArray
-                self?.table.reloadData()
-            }
-        }
-        
-        return alertAction
+    private func getEditAlertAction(alert: UIAlertController, index: Int) {
+        var savedArray = defaults.get(for: .wishList)
+        let text = alert.textFields?.first?.text ?? "_"
+        savedArray[index] = text
+        self.defaults.set(savedArray, for: .wishList)
+        self.wishArray = savedArray
+        self.table.reloadData()
     }
 }
 
@@ -147,11 +144,11 @@ extension WishStoringViewController: UITableViewDelegate {
                    indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completionHandler) in
-            if var savedArray = self?.defaults.array(forKey: Constants.Defaults.wishesKey) as? [String] {
+                var savedArray = self?.defaults.get(for: .wishList) ?? [""]
                 savedArray.remove(at: indexPath.row)
-                self?.defaults.set(savedArray, forKey: Constants.Defaults.wishesKey)
+                self?.defaults.set(savedArray, for: .wishList)
                 self?.wishArray = savedArray
-            }
+            
             
             tableView.reloadData()
             completionHandler(true)
@@ -203,8 +200,10 @@ extension WishStoringViewController: UITableViewDataSource {
             
             cell.addWish = { [weak self] text in
                 if text != "" {
-                    self?.wishArray.append(text)
-                    self?.defaults.set(self?.wishArray, forKey: Constants.Defaults.wishesKey)
+                    var savedArray = self?.defaults.get(for: .wishList) ?? [""]
+                    savedArray.append(text)
+                    self?.defaults.set(savedArray, for: .wishList)
+                    self?.wishArray = savedArray
                     tableView.reloadData()
                 } else {
                     self?.setUpWarningAlert()
