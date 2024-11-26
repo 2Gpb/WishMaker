@@ -10,7 +10,7 @@ import UIKit
 final class CustomButton: UIButton {
     // MARK: - Constants
     private enum Constants {
-        static let titleColor: UIColor = .systemPink
+        static let titleColor: UIColor = .systemCyan
         static let backgroundColor: UIColor = .white
         static let cornerRadius: CGFloat = 18
     }

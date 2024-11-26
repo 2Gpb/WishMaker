@@ -21,13 +21,21 @@ final class WishStoringViewController: UIViewController {
             static let cornerRadius: CGFloat = 20
             static let offset: CGFloat = 20
             static let titlesSections: [String] = ["Add wish", "Wishes"]
-            static let heightForRow: CGFloat = 44
+            static let heightForRow: CGFloat = 48
             static let addWishSectionsCount: Int = 1
+            static let titleDelete: String = "Удалить"
+            static let titleEdit: String = "Изменить"
         }
         
         enum Alert {
             static let title: String = "Error!"
             static let message: String = "Please enter a wish"
+            static let actionTitle: String = "OK"
+        }
+        
+        enum EditAlert {
+            static let title: String = "Edit"
+            static let message: String = "Please enter an edited wish"
             static let actionTitle: String = "OK"
         }
         
@@ -53,7 +61,7 @@ final class WishStoringViewController: UIViewController {
     
     // MARK: - Setup
     private func setUp() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemCyan
         
         setUpCloseButton()
         setUpTable()
@@ -75,28 +83,56 @@ final class WishStoringViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.backgroundColor = .clear
-        table.separatorStyle = .singleLine
+        table.separatorStyle = .none
         table.layer.cornerRadius = Constants.Table.cornerRadius
         table.register(WrittenWishCell.self, forCellReuseIdentifier: WrittenWishCell.reuseId)
         table.register(AddWishCell.self, forCellReuseIdentifier: AddWishCell.reuseId)
         
-        table.pinTop(to: closeButton.bottomAnchor)
+        table.pinTop(to: closeButton.bottomAnchor, Constants.Table.offset)
         table.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor)
         table.pinHorizontal(to: view, Constants.Table.offset)
     }
     
-    private func setUpAlert() {
-        let alert = UIAlertController(title: Constants.Alert.title, message: Constants.Alert.message, preferredStyle: .alert)
+    private func setUpWarningAlert() {
+        let warningAlert: UIAlertController = UIAlertController(title: Constants.Alert.title,
+                                                                        message: Constants.Alert.message,
+                                                                        preferredStyle: .alert)
         let alertAction = UIAlertAction(title: Constants.Alert.actionTitle, style: .cancel)
-        alert.addAction(alertAction)
-        present(alert, animated: true)
+        warningAlert.addAction(alertAction)
+        present(warningAlert, animated: true)
+    }
+    
+    private func setUpEditAlert(index: Int) {
+        let editAlert: UIAlertController = UIAlertController(title: Constants.EditAlert.title,
+                                                                     message: Constants.EditAlert.message,
+                                                                     preferredStyle: .alert)
+        editAlert.addTextField()
+        editAlert.textFields?.first?.text = wishArray[index]
+        
+        let alertAction = getEditAlertAction(alert: editAlert, index: index)
+        
+        editAlert.addAction(alertAction)
+        present(editAlert, animated: true)
     }
 
-    
     // MARK: - Actions
     @objc
     private func closeButtonTapped() {
         dismiss(animated: true)
+    }
+    
+    private func getEditAlertAction(alert: UIAlertController, index: Int) -> UIAlertAction {
+        let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
+            if var savedArray = self?.defaults.array(forKey: Constants.Defaults.wishesKey) as? [String],
+                let text = alert.textFields?.first?.text {
+                savedArray[index] = text
+                self?.defaults.set(savedArray, forKey: Constants.Defaults.wishesKey)
+                self?.wishArray = savedArray
+                self?.table.reloadData()
+            }
+        }
+        
+        return alertAction
     }
 }
 
@@ -110,18 +146,27 @@ extension WishStoringViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt
                    indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { (_, _, completionHandler) in
-            if var savedArray = self.defaults.array(forKey: Constants.Defaults.wishesKey) as? [String] {
+        let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completionHandler) in
+            if var savedArray = self?.defaults.array(forKey: Constants.Defaults.wishesKey) as? [String] {
                 savedArray.remove(at: indexPath.row)
-                self.defaults.set(savedArray, forKey: Constants.Defaults.wishesKey)
-                self.wishArray = savedArray
+                self?.defaults.set(savedArray, forKey: Constants.Defaults.wishesKey)
+                self?.wishArray = savedArray
             }
             
-//            tableView.deleteRows(at: [indexPath], with: .top) - ??
             tableView.reloadData()
             completionHandler(true)
         }
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(style: .normal, title: Constants.Table.titleEdit) { [weak self] (_, _, completionHandler) in
+            self?.setUpEditAlert(index: indexPath.row)
+            completionHandler(true)
+        }
+        
+        editAction.backgroundColor = .orange
+        return UISwipeActionsConfiguration(actions: [editAction])
     }
 }
 
@@ -162,7 +207,7 @@ extension WishStoringViewController: UITableViewDataSource {
                     self?.defaults.set(self?.wishArray, forKey: Constants.Defaults.wishesKey)
                     tableView.reloadData()
                 } else {
-                    self?.setUpAlert()
+                    self?.setUpWarningAlert()
                 }
             }
             

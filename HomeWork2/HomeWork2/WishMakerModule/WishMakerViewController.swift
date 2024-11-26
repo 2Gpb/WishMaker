@@ -44,7 +44,7 @@ final class WishMakerViewController: UIViewController {
             static let hide: String = "Hide sliders"
             static let show: String = "Show sliders"
             static let random: String = "Rand color"
-            static let height: CGFloat = 44
+            static let height: CGFloat = 46
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 10
             static let indent: CGFloat = Stack.leading * 2 + leading * 2
@@ -57,7 +57,7 @@ final class WishMakerViewController: UIViewController {
         enum AddWishButton {
             static let title: String = "Add wish"
             static let cornerRadius: CGFloat = 20
-            static let height: CGFloat = 44
+            static let height: CGFloat = 46
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
             static let trailing: CGFloat = 20
@@ -85,7 +85,7 @@ final class WishMakerViewController: UIViewController {
     
     // MARK: - Setup
     private func setUp() {
-        view.backgroundColor = .black
+        view.backgroundColor = .systemCyan
         
         setUpTitle()
         setUpDescription()
@@ -123,7 +123,7 @@ final class WishMakerViewController: UIViewController {
     private func setUpAddWishButton() {
         addWishButton.backgroundColor = .white
         addWishButton.setTitle(Constants.AddWishButton.title, for: .normal)
-        addWishButton.setTitleColor(.systemPink, for: .normal)
+        addWishButton.setTitleColor(.systemCyan, for: .normal)
         addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
         addWishButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         addWishButton.addTarget(self, action: #selector(addWishButtonPressed), for: .touchUpInside)

@@ -51,6 +51,7 @@ final class AddWishCell: UITableViewCell {
     
     // MARK: - Setup
     private func setUp() {
+        backgroundColor = .clear
         setUpAddWishButton()
         setUpTextView()
     }
@@ -78,8 +79,7 @@ final class AddWishCell: UITableViewCell {
         contentView.addSubview(textView)
         textView.pinLeft(to: leadingAnchor, Constants.TextView.leading)
         textView.pinRight(to: addWishButton.leadingAnchor, Constants.TextView.offset)
-        textView.pinTop(to: topAnchor, Constants.TextView.offset)
-        textView.pinBottom(to: bottomAnchor, Constants.TextView.offset)
+        textView.pinVertical(to: self, Constants.TextView.offset)
     }
     
     // MARK: - Actions
