@@ -110,7 +110,7 @@ final class WishStoringViewController: UIViewController {
         editAlert.textFields?.first?.text = wishArray[index]
         
         let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
-            self?.getEditAlertAction(alert: editAlert, index: index)
+            self?.editAlertAction(alert: editAlert, index: index)
         }
         
         editAlert.addAction(alertAction)
@@ -123,13 +123,27 @@ final class WishStoringViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func getEditAlertAction(alert: UIAlertController, index: Int) {
+    private func editAlertAction(alert: UIAlertController, index: Int) {
         var savedArray = defaults.get(for: .wishList)
-        let text = alert.textFields?.first?.text ?? "_"
+        let text = alert.textFields?.first?.text ?? "-"
         savedArray[index] = text
         self.defaults.set(savedArray, for: .wishList)
         self.wishArray = savedArray
         self.table.reloadData()
+    }
+    
+    private func deleteActionCell(index: Int) {
+        var savedArray = defaults.get(for: .wishList)
+        savedArray.remove(at: index)
+        defaults.set(savedArray, for: .wishList)
+        wishArray = savedArray
+    }
+    
+    private func addWishAction(text: String) {
+        var savedArray = defaults.get(for: .wishList)
+        savedArray.append(text)
+        defaults.set(savedArray, for: .wishList)
+        wishArray = savedArray
     }
 }
 
@@ -139,27 +153,20 @@ extension WishStoringViewController: UITableViewDelegate {
         return Constants.Table.heightForRow
     }
     
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt
-                   indexPath: IndexPath) -> UISwipeActionsConfiguration?
-    {
-        let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completionHandler) in
-                var savedArray = self?.defaults.get(for: .wishList) ?? [""]
-                savedArray.remove(at: indexPath.row)
-                self?.defaults.set(savedArray, for: .wishList)
-                self?.wishArray = savedArray
-            
-            
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completion) in
+            self?.deleteActionCell(index: indexPath.row)
             tableView.reloadData()
-            completionHandler(true)
+            completion(true)
         }
+        
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let editAction = UIContextualAction(style: .normal, title: Constants.Table.titleEdit) { [weak self] (_, _, completionHandler) in
+        let editAction = UIContextualAction(style: .normal, title: Constants.Table.titleEdit) { [weak self] (_, _, completion) in
             self?.setUpEditAlert(index: indexPath.row)
-            completionHandler(true)
+            completion(true)
         }
         
         editAction.backgroundColor = .orange
@@ -200,10 +207,7 @@ extension WishStoringViewController: UITableViewDataSource {
             
             cell.addWish = { [weak self] text in
                 if text != "" {
-                    var savedArray = self?.defaults.get(for: .wishList) ?? [""]
-                    savedArray.append(text)
-                    self?.defaults.set(savedArray, for: .wishList)
-                    self?.wishArray = savedArray
+                    self?.addWishAction(text: text)
                     tableView.reloadData()
                 } else {
                     self?.setUpWarningAlert()
