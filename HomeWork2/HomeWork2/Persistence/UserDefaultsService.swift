@@ -8,9 +8,9 @@
 import Foundation
 
 protocol UserDefaultsLogic {
-    func set(value: [String], forKey key: String)
-    func get(forKey key: String, defaultValue: [String]) -> [String]
-    func removeObject(forKey key: String)
+    func set<T>(value: T, forKey key: String)
+    func get<T>(forKey key: String, defaultValue: T) -> T
+    func removeObject(for key: String)
 }
 
 final class UserDefaultsService: UserDefaultsLogic {
@@ -19,18 +19,15 @@ final class UserDefaultsService: UserDefaultsLogic {
     init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
     }
-    func set(value: [String], forKey key: String) {
+    func set<T>(value: T, forKey key: String) {
         userDefaults.set(value, forKey: key)
     }
     
-    func get(forKey key: String, defaultValue: [String]) -> [String] {
-        if let data = userDefaults.object(forKey: key) as? [String] {
-            return data
-        }
-        return defaultValue
+    func get<T>(forKey key: String, defaultValue: T) -> T {
+        userDefaults.object(forKey: key) as? T ?? defaultValue
     }
     
-    func removeObject(forKey key: String) {
+    func removeObject(for key: String) {
         userDefaults.removeObject(forKey: key)
     }
 }

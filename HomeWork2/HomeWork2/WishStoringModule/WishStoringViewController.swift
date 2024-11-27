@@ -56,7 +56,7 @@ final class WishStoringViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
-        wishArray = defaults.get(for: .wishList)
+        wishArray = defaults.get(for: .wishList) ?? []
     }
     
     // MARK: - Setup
@@ -123,8 +123,9 @@ final class WishStoringViewController: UIViewController {
         dismiss(animated: true)
     }
     
+    // MARK: - Busines logic
     private func editAlertAction(alert: UIAlertController, index: Int) {
-        var savedArray = defaults.get(for: .wishList)
+        var savedArray: [String] = defaults.get(for: .wishList) ?? []
         let text = alert.textFields?.first?.text ?? "-"
         savedArray[index] = text
         self.defaults.set(savedArray, for: .wishList)
@@ -133,14 +134,14 @@ final class WishStoringViewController: UIViewController {
     }
     
     private func deleteActionCell(index: Int) {
-        var savedArray = defaults.get(for: .wishList)
+        var savedArray: [String] = defaults.get(for: .wishList) ?? []
         savedArray.remove(at: index)
         defaults.set(savedArray, for: .wishList)
         wishArray = savedArray
     }
     
     private func addWishAction(text: String) {
-        var savedArray = defaults.get(for: .wishList)
+        var savedArray: [String] = defaults.get(for: .wishList) ?? []
         savedArray.append(text)
         defaults.set(savedArray, for: .wishList)
         wishArray = savedArray

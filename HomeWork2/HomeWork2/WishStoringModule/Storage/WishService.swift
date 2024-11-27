@@ -9,9 +9,8 @@ enum WishKeys: String {
 }
 
 protocol WishServiceLogic {
-    func set(_ value: [String], for key: WishKeys)
-    func get(for key: WishKeys) -> [String]
-    func remove(for key: WishKeys)
+    func set<T>(_ value: T, for key: WishKeys)
+    func get<T>(for key: WishKeys) -> T?
 }
 
 class WishService: WishServiceLogic {
@@ -21,15 +20,11 @@ class WishService: WishServiceLogic {
         self.defaults = defaults
     }
     
-    func set(_ value: [String], for key: WishKeys) {
+    func set<T>(_ value: T, for key: WishKeys) {
         defaults.set(value: value, forKey: key.rawValue)
     }
     
-    func get(for key: WishKeys) -> [String] {
-        defaults.get(forKey: key.rawValue, defaultValue: [])
-    }
-    
-    func remove(for key: WishKeys) {
-        defaults.removeObject(forKey: key.rawValue)
+    func get<T>(for key: WishKeys) -> T? {
+        defaults.get(forKey: key.rawValue, defaultValue: nil)
     }
 }
