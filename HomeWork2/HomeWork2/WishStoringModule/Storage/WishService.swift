@@ -9,8 +9,10 @@ enum WishKeys: String {
 }
 
 protocol WishServiceLogic {
-    func set<T>(_ value: T, for key: WishKeys)
-    func get<T>(for key: WishKeys) -> T?
+    func getElements(for key: WishKeys) -> [String]
+    func deleteElement(for key: WishKeys, index: Int) -> [String]
+    func editElement(for key: WishKeys, index: Int, newValue: String) -> [String]
+    func addElement(for key: WishKeys, index: Int, newValue: String) -> [String] 
 }
 
 class WishService: WishServiceLogic {
@@ -20,11 +22,28 @@ class WishService: WishServiceLogic {
         self.defaults = defaults
     }
     
-    func set<T>(_ value: T, for key: WishKeys) {
-        defaults.set(value: value, forKey: key.rawValue)
+    func getElements(for key: WishKeys) -> [String] {
+        defaults.get(forKey: key.rawValue, defaultValue: [])
     }
     
-    func get<T>(for key: WishKeys) -> T? {
-        defaults.get(forKey: key.rawValue, defaultValue: nil)
+    func addElement(for key: WishKeys, index: Int, newValue: String) -> [String] {
+        var savedArray: [String] = defaults.get(forKey: key.rawValue, defaultValue: [])
+        savedArray.append(newValue)
+        defaults.set(value: savedArray, forKey: key.rawValue)
+        return savedArray
+    }
+    
+    func editElement(for key: WishKeys, index: Int, newValue: String) -> [String] {
+        var savedArray: [String] = defaults.get(forKey: key.rawValue, defaultValue: [])
+        savedArray[index] = newValue
+        defaults.set(value: savedArray, forKey: key.rawValue)
+        return savedArray
+    }
+    
+    func deleteElement(for key: WishKeys, index: Int) -> [String] {
+        var savedArray: [String] = defaults.get(forKey: key.rawValue, defaultValue: [])
+        savedArray.remove(at: index)
+        defaults.set(value: savedArray, forKey: key.rawValue)
+        return savedArray
     }
 }
