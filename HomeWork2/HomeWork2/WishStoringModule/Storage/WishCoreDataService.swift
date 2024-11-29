@@ -11,7 +11,7 @@ protocol WishCoreDataServiceLogic {
     func logCoreDataDBPath()
     func addElement(_ id: Int16, text: String)
     func getElement(_ id: Int16) -> String
-    func getElements(_ id: Int16) -> [String]
+    func getElements() -> [String]
     func editElement(_ id: Int16, newValue: String)
     func deleteElement(_ id: Int16)
 }
@@ -53,11 +53,15 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         }
     }
     
-    func getElements(_ id: Int16) -> [String] {
+    func getElements() -> [String] {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Wish")
         do {
             let wishes = try? context.fetch(fetchRequest) as? [Wish]
-            return wishes as? [String] ?? []
+            var textWishes: [String] = []
+            wishes?.forEach({ wish in
+                textWishes.append(wish.text ?? "")
+            })
+            return textWishes
         }
     }
     

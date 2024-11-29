@@ -55,9 +55,9 @@ final class WishStoringViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        WishCoreDataService.shared.logCoreDataDBPath()
+//        wishArray = defaults.getElements(for: .wishList)
+        wishArray = WishCoreDataService.shared.getElements()
         setUp()
-        wishArray = defaults.getElements(for: .wishList)
     }
     
     // MARK: - Setup
@@ -112,7 +112,9 @@ final class WishStoringViewController: UIViewController {
         
         let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
             let newValue = editAlert.textFields?.first?.text ?? ""
-            self?.wishArray = self?.defaults.editElement(for: .wishList, index: index, newValue: newValue) ?? []
+//            self?.wishArray = self?.defaults.editElement(for: .wishList, index: index, newValue: newValue) ?? []
+            WishCoreDataService.shared.editElement(Int16(index), newValue: newValue)
+            self?.wishArray = WishCoreDataService.shared.getElements()
             self?.table.reloadData()
         }
         
@@ -135,7 +137,9 @@ extension WishStoringViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completion) in
-            self?.wishArray = self?.defaults.deleteElement(for: .wishList, index: indexPath.row) ?? []
+//            self?.wishArray = self?.defaults.deleteElement(for: .wishList, index: indexPath.row) ?? []
+            WishCoreDataService.shared.deleteElement(Int16(indexPath.row))
+            self?.wishArray = WishCoreDataService.shared.getElements()
             tableView.reloadData()
             completion(true)
         }
@@ -187,7 +191,9 @@ extension WishStoringViewController: UITableViewDataSource {
             
             cell.addWish = { [weak self] text in
                 if text != "" {
-                    self?.wishArray = self?.defaults.addElement(for: .wishList, index: indexPath.row, newValue: text) ?? []
+//                    self?.wishArray = self?.defaults.addElement(for: .wishList, index: indexPath.row, newValue: text) ?? []
+                    WishCoreDataService.shared.addElement(Int16(self?.wishArray.count ?? 0), text: text)
+                    self?.wishArray = WishCoreDataService.shared.getElements()
                     tableView.reloadData()
                 } else {
                     self?.setUpWarningAlert()

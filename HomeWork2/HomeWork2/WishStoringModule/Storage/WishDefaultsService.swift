@@ -10,12 +10,12 @@ enum WishKeys: String {
 
 protocol WishServiceLogic {
     func getElements(for key: WishKeys) -> [String]
-    func addElement(for key: WishKeys, index: Int, newValue: String) -> [String]
+    func addElement(for key: WishKeys, newValue: String) -> [String]
     func editElement(for key: WishKeys, index: Int, newValue: String) -> [String]
     func deleteElement(for key: WishKeys, index: Int) -> [String]
 }
 
-class WishDefaultsService: WishServiceLogic {
+final class WishDefaultsService: WishServiceLogic {
     private let defaults: UserDefaultsLogic
     
     init(defaults: UserDefaultsLogic = UserDefaultsService()) {
@@ -26,7 +26,7 @@ class WishDefaultsService: WishServiceLogic {
         defaults.get(forKey: key.rawValue, defaultValue: [])
     }
     
-    func addElement(for key: WishKeys, index: Int, newValue: String) -> [String] {
+    func addElement(for key: WishKeys, newValue: String) -> [String] {
         var savedArray: [String] = defaults.get(forKey: key.rawValue, defaultValue: [])
         savedArray.append(newValue)
         defaults.set(value: savedArray, forKey: key.rawValue)
