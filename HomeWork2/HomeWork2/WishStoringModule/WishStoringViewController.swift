@@ -50,11 +50,12 @@ final class WishStoringViewController: UIViewController {
     // MARK: - Private fields
     private let closeButton: UIButton = UIButton(type: .close)
     private let table: UITableView = UITableView(frame: .zero)
-    private let defaults: WishServiceLogic = WishService()
+    private let defaults: WishServiceLogic = WishDefaultsService()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        WishCoreDataService.shared.logCoreDataDBPath()
         setUp()
         wishArray = defaults.getElements(for: .wishList)
     }
@@ -110,7 +111,7 @@ final class WishStoringViewController: UIViewController {
         editAlert.textFields?.first?.text = wishArray[index]
         
         let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
-            let newValue = editAlert.textFields?.first?.text ?? "-=-=-=-=-=-="
+            let newValue = editAlert.textFields?.first?.text ?? ""
             self?.wishArray = self?.defaults.editElement(for: .wishList, index: index, newValue: newValue) ?? []
             self?.table.reloadData()
         }
