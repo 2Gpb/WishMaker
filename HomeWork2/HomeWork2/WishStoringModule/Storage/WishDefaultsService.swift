@@ -4,10 +4,11 @@
 //
 //  Created by Peter on 26.11.2024.
 //
+// MARK: - WishKeys
 enum WishKeys: String {
     case wishList = "wishList"
 }
-
+// MARK: - WishServiceLogic
 protocol WishServiceLogic {
     func getElements(for key: WishKeys) -> [String]
     func addElement(for key: WishKeys, newValue: String) -> [String]
@@ -16,12 +17,15 @@ protocol WishServiceLogic {
 }
 
 final class WishDefaultsService: WishServiceLogic {
+    // MARK: - Private fields
     private let defaults: UserDefaultsLogic
     
+    // MARK: - Lifecycle
     init(defaults: UserDefaultsLogic = UserDefaultsService()) {
         self.defaults = defaults
     }
     
+    // MARK: - CRUD
     func getElements(for key: WishKeys) -> [String] {
         defaults.get(forKey: key.rawValue, defaultValue: [])
     }

@@ -14,7 +14,6 @@ final class WrittenWishCell: UITableViewCell {
     // MARK: - Constants
     private enum Constants {
         enum Wrap {
-            static let color: UIColor = .white
             static let cornerRadius: CGFloat = 12
             static let offsetV: CGFloat = 5
             static let trailing: CGFloat = 5
@@ -53,7 +52,7 @@ final class WrittenWishCell: UITableViewCell {
         let wrap: UIView = UIView()
         addSubview(wrap)
         
-        wrap.backgroundColor = Constants.Wrap.color
+        wrap.backgroundColor = .white
         wrap.layer.cornerRadius = Constants.Wrap.cornerRadius
         wrap.pinVertical(to: self, Constants.Wrap.offsetV)
         wrap.pinRight(to: self.trailingAnchor, Constants.Wrap.trailing)

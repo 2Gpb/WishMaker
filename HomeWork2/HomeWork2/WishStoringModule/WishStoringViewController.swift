@@ -11,10 +11,19 @@ final class WishStoringViewController: UIViewController {
     // MARK: - Constants
     private enum Constants {
         enum CloseButton {
-            static let height: CGFloat = 40
-            static let width: CGFloat = 40
+            static let image: String = "xmark.circle"
+            static let height: CGFloat = 30
+            static let width: CGFloat = 30
             static let top: CGFloat = 20
             static let right: CGFloat = 20
+        }
+        
+        enum ShareButton {
+            static let image: String = "square.and.arrow.up"
+            static let height: CGFloat = 30
+            static let width: CGFloat = 30
+            static let top: CGFloat = 20
+            static let left: CGFloat = 20
         }
         
         enum Table {
@@ -48,27 +57,41 @@ final class WishStoringViewController: UIViewController {
     private var wishArray: [String] = []
     
     // MARK: - Private fields
-    private let closeButton: UIButton = UIButton(type: .close)
+    private let shareButton: UIButton = UIButton(type: .system)
+    private let closeButton: UIButton = UIButton(type: .system)
     private let table: UITableView = UITableView(frame: .zero)
-    private let defaults: WishServiceLogic = WishDefaultsService()
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        wishArray = defaults.getElements(for: .wishList)
         wishArray = WishCoreDataService.shared.getElements()
         setUp()
     }
     
-    // MARK: - Setup
+    // MARK: - SetUp
     private func setUp() {
         view.backgroundColor = .systemCyan
         
+        setUpShareButton()
         setUpCloseButton()
         setUpTable()
     }
     
+    private func setUpShareButton() {
+        shareButton.setImage(UIImage(systemName: Constants.ShareButton.image), for: .normal)
+        shareButton.tintColor = .white
+        shareButton.addTarget(self, action: #selector (shareButtonTapped), for: .touchUpInside)
+        
+        view.addSubview(shareButton)
+        shareButton.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.ShareButton.top)
+        shareButton.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.ShareButton.left)
+        shareButton.setHeight(Constants.ShareButton.height)
+        shareButton.setWidth(Constants.ShareButton.width)
+    }
+    
     private func setUpCloseButton() {
+        closeButton.setImage(UIImage(systemName: Constants.CloseButton.image), for: .normal)
+        closeButton.tintColor = .white
         closeButton.addTarget(self, action: #selector (closeButtonTapped), for: .touchUpInside)
         view.addSubview(closeButton)
         
@@ -112,10 +135,15 @@ final class WishStoringViewController: UIViewController {
         
         let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
             let newValue = editAlert.textFields?.first?.text ?? ""
-//            self?.wishArray = self?.defaults.editElement(for: .wishList, index: index, newValue: newValue) ?? []
-            WishCoreDataService.shared.editElement(Int16(index), newValue: newValue)
-            self?.wishArray = WishCoreDataService.shared.getElements()
-            self?.table.reloadData()
+            if newValue != "" {
+                WishCoreDataService.shared.editElement(Int16(index), newValue: newValue)
+                self?.wishArray = WishCoreDataService.shared.getElements()
+                self?.table.reloadData()
+            } else {
+                WishCoreDataService.shared.deleteElement(Int16(index))
+                self?.wishArray = WishCoreDataService.shared.getElements()
+                self?.table.reloadData()
+            }
         }
         
         editAlert.addAction(alertAction)
@@ -123,6 +151,13 @@ final class WishStoringViewController: UIViewController {
     }
     
     // MARK: - Actions
+    @objc
+    private func shareButtonTapped() {
+        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: wishArray,
+                                                                                        applicationActivities: nil)
+        present(activityViewController, animated: true)
+    }
+    
     @objc
     private func closeButtonTapped() {
         dismiss(animated: true)
@@ -135,9 +170,9 @@ extension WishStoringViewController: UITableViewDelegate {
         return Constants.Table.heightForRow
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completion) in
-//            self?.wishArray = self?.defaults.deleteElement(for: .wishList, index: indexPath.row) ?? []
             WishCoreDataService.shared.deleteElement(Int16(indexPath.row))
             self?.wishArray = WishCoreDataService.shared.getElements()
             tableView.reloadData()
@@ -147,7 +182,8 @@ extension WishStoringViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
-    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(style: .normal, title: Constants.Table.titleEdit) { [weak self] (_, _, completion) in
             self?.setUpEditAlert(index: indexPath.row)
             completion(true)
@@ -191,7 +227,6 @@ extension WishStoringViewController: UITableViewDataSource {
             
             cell.addWish = { [weak self] text in
                 if text != "" {
-//                    self?.wishArray = self?.defaults.addElement(for: .wishList, index: indexPath.row, newValue: text) ?? []
                     WishCoreDataService.shared.addElement(Int16(self?.wishArray.count ?? 0), text: text)
                     self?.wishArray = WishCoreDataService.shared.getElements()
                     tableView.reloadData()

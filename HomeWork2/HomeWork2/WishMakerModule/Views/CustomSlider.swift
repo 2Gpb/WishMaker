@@ -61,7 +61,7 @@ final class CustomSlider: UIView {
         fatalError(Constants.Error.fatalError)
     }
     
-    // MARK: - Setup
+    // MARK: - SetUp
     private func setUp() {
         backgroundColor = .white
         translatesAutoresizingMaskIntoConstraints = false

@@ -7,6 +7,7 @@
 import UIKit
 import CoreData
 
+// MARK: - WishCoreDataServiceLogic
 protocol WishCoreDataServiceLogic {
     func logCoreDataDBPath()
     func addElement(_ id: Int16, text: String)
@@ -17,10 +18,13 @@ protocol WishCoreDataServiceLogic {
 }
 
 final class WishCoreDataService: WishCoreDataServiceLogic {
-    static let shared = WishCoreDataService()
+    // MARK: - Singleton
+    static let shared: WishCoreDataServiceLogic = WishCoreDataService()
     
+    // MARK: - Lifecycle
     private init() {}
     
+    // MARK: - Properties
     private var appDelegate: AppDelegate {
         UIApplication.shared.delegate as! AppDelegate
     }
@@ -29,12 +33,14 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         appDelegate.persistentContainer.viewContext
     }
     
+    // MARK: Methods
     func logCoreDataDBPath() {
         if let url = appDelegate.persistentContainer.persistentStoreCoordinator.persistentStores.first?.url {
-            print ("DB url - \(url)")
+            print("DB url - \(url)")
         }
     }
     
+    // MARK: - CRUD
     func addElement(_ id: Int16, text: String) {
         guard let wishEntityDescription = NSEntityDescription.entity(forEntityName: "Wish", in: context) else { return }
         let wish = Wish(entity: wishEntityDescription, insertInto: context)

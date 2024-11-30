@@ -83,7 +83,7 @@ final class WishMakerViewController: UIViewController {
         setUp()
     }
     
-    // MARK: - Setup
+    // MARK: - SetUp
     private func setUp() {
         view.backgroundColor = .systemCyan
         

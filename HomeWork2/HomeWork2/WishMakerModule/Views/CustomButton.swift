@@ -10,7 +10,6 @@ import UIKit
 final class CustomButton: UIButton {
     // MARK: - Constants
     private enum Constants {
-        static let titleColor: UIColor = .systemCyan
         static let backgroundColor: UIColor = .white
         static let cornerRadius: CGFloat = 18
     }
@@ -27,9 +26,9 @@ final class CustomButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    // MARK: - SetUp
     private func setUp() {
-        setTitleColor(Constants.titleColor, for: .normal)
+        setTitleColor(.systemCyan, for: .normal)
         titleLabel?.font = .preferredFont(forTextStyle: .headline)
         backgroundColor = Constants.backgroundColor
         layer.cornerRadius = Constants.cornerRadius

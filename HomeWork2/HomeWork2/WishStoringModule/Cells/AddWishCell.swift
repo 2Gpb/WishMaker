@@ -15,7 +15,6 @@ final class AddWishCell: UITableViewCell {
     private enum Constants {
         enum AddWishButton {
             static let title: String = "Add"
-            static let color: UIColor = .black
             static let fontSize: CGFloat = 12
             static let cornerRadius: CGFloat = 12
             static let borderWidth: CGFloat = 1
@@ -49,16 +48,17 @@ final class AddWishCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Setup
+    // MARK: - SetUp
     private func setUp() {
         backgroundColor = .clear
+        
         setUpAddWishButton()
         setUpTextView()
     }
     
     private func setUpAddWishButton() {
         addWishButton.setTitle(Constants.AddWishButton.title, for: .normal)
-        addWishButton.setTitleColor(Constants.AddWishButton.color, for: .normal)
+        addWishButton.setTitleColor(.black, for: .normal)
         addWishButton.titleLabel?.font = UIFont.systemFont(ofSize: Constants.AddWishButton.fontSize, weight: .bold)
         addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
         addWishButton.layer.borderWidth = Constants.AddWishButton.borderWidth
