@@ -11,21 +11,6 @@ import Foundation
 final class WishMakerViewController: UIViewController {
     // MARK: - Constants
     private enum Constants {
-        enum Slider {
-            static let max: Double = 1
-            static let min: Double = 0
-            
-            static let red: String = "Red"
-            static let green: String = "Green"
-            static let blue: String = "Blue"
-        }
-        
-        enum Stack {
-            static let radius: CGFloat = 20
-            static let bottom: CGFloat = 20
-            static let leading: CGFloat = 20
-        }
-        
         enum Title {
             static let text: String = "Wish Maker"
             static let fontSize: CGFloat = 32
@@ -39,6 +24,43 @@ final class WishMakerViewController: UIViewController {
             static let leading: CGFloat = 20
         }
         
+        enum AddWishesButton {
+            static let title: String = "Add wish"
+            static let cornerRadius: CGFloat = 20
+            static let height: CGFloat = 46
+        }
+        
+        enum ScheduleWishesButton {
+            static let title: String = "Schedule wish granting"
+            static let cornerRadius: CGFloat = 20
+            static let height: CGFloat = 46
+        }
+        
+        enum ActionStack {
+            static let spacing: CGFloat = 20
+            static let leading: CGFloat = 20
+            static let bottom: CGFloat = 20
+        }
+        
+        enum Slider {
+            static let max: Double = 1
+            static let min: Double = 0
+            
+            static let red: String = "Red"
+            static let green: String = "Green"
+            static let blue: String = "Blue"
+        }
+        
+        enum SlidersStack {
+            static let radius: CGFloat = 20
+            static let bottom: CGFloat = 20
+            static let leading: CGFloat = 20
+        }
+        
+        enum Picker {
+            static let title: String = "Background Color"
+        }
+        
         enum ColorButton {
             static let picker: String = "Pick color"
             static let hide: String = "Hide sliders"
@@ -47,20 +69,7 @@ final class WishMakerViewController: UIViewController {
             static let height: CGFloat = 46
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 10
-            static let indent: CGFloat = Stack.leading * 2 + leading * 2
-        }
-        
-        enum Picker {
-            static let title: String = "Background Color"
-        }
-        
-        enum AddWishButton {
-            static let title: String = "Add wish"
-            static let cornerRadius: CGFloat = 20
-            static let height: CGFloat = 46
-            static let bottom: CGFloat = 20
-            static let leading: CGFloat = 20
-            static let trailing: CGFloat = 20
+            static let indent: CGFloat = SlidersStack.leading * 2 + leading * 2
         }
     }
     
@@ -75,7 +84,9 @@ final class WishMakerViewController: UIViewController {
     private let colorPickerButton: CustomButton = CustomButton(title: Constants.ColorButton.picker)
     private let showHideButton: CustomButton = CustomButton(title: Constants.ColorButton.hide)
     private let randomColorButton: CustomButton = CustomButton(title: Constants.ColorButton.random)
-    private let addWishButton: UIButton = UIButton(type: .system)
+    private let addWishesButton: UIButton = UIButton(type: .system)
+    private let scheduleWishesButton: UIButton = UIButton(type: .system)
+    private let actionsStack: UIStackView = UIStackView()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -89,7 +100,9 @@ final class WishMakerViewController: UIViewController {
         
         setUpTitle()
         setUpDescription()
-        setUpAddWishButton()
+        setUpAddWishesButton()
+        setUpScheduleWishesButton()
+        setUpActionsStack()
         setUpSliders()
         setUpColorPicker()
         setUpColorPickerButton()
@@ -120,39 +133,60 @@ final class WishMakerViewController: UIViewController {
         wishDescription.pinTop(to: wishTitle.bottomAnchor, Constants.Description.top)
     }
     
-    private func setUpAddWishButton() {
-        addWishButton.backgroundColor = .white
-        addWishButton.setTitle(Constants.AddWishButton.title, for: .normal)
-        addWishButton.setTitleColor(.systemCyan, for: .normal)
-        addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
-        addWishButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-        addWishButton.addTarget(self, action: #selector(addWishButtonPressed), for: .touchUpInside)
+    private func setUpAddWishesButton() {
+        addWishesButton.backgroundColor = .white
+        addWishesButton.setTitle(Constants.AddWishesButton.title, for: .normal)
+        addWishesButton.setTitleColor(.systemCyan, for: .normal)
+        addWishesButton.layer.cornerRadius = Constants.AddWishesButton.cornerRadius
+        addWishesButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        addWishesButton.addTarget(self, action: #selector(addWishButtonPressed), for: .touchUpInside)
+
+        addWishesButton.setHeight(Constants.AddWishesButton.height)
+    }
+    
+    private func setUpScheduleWishesButton() {
+        scheduleWishesButton.backgroundColor = .white
+        scheduleWishesButton.setTitle(Constants.ScheduleWishesButton.title, for: .normal)
+        scheduleWishesButton.setTitleColor(.systemCyan, for: .normal)
+        scheduleWishesButton.layer.cornerRadius = Constants.ScheduleWishesButton.cornerRadius
+        scheduleWishesButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        scheduleWishesButton.addTarget(self, action: #selector(scheduleWishesButtonPressed), for: .touchUpInside)
         
-        view.addSubview(addWishButton)
-        addWishButton.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.AddWishButton.leading)
-        addWishButton.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor, Constants.AddWishButton.trailing)
-        addWishButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.AddWishButton.bottom)
-        addWishButton.setHeight(Constants.AddWishButton.height)
+        scheduleWishesButton.setHeight(Constants.ScheduleWishesButton.height)
+    }
+    
+    private func setUpActionsStack() {
+        actionsStack.axis = .vertical
+        actionsStack.spacing = Constants.ActionStack.spacing
+        
+        view.addSubview(actionsStack)
+        
+        for action in [addWishesButton, scheduleWishesButton] {
+            actionsStack.addArrangedSubview(action)
+        }
+        
+        actionsStack.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.ActionStack.bottom)
+        actionsStack.pinHorizontal(to: view, Constants.ActionStack.leading)
     }
     
     private func setUpSliders() {
         slidersStack.axis = .vertical
         slidersStack.translatesAutoresizingMaskIntoConstraints = false
-        slidersStack.layer.cornerRadius = Constants.Stack.radius
+        slidersStack.layer.cornerRadius = Constants.SlidersStack.radius
         slidersStack.clipsToBounds = true
         
         for slider in [sliderRed, sliderGreen, sliderBlue] {
             slidersStack.addArrangedSubview(slider)
             slider.valueChanged = { [weak self] in
-                self?.changeBackgroundColor()
+                self?.slidersChangeBackgroundColor()
                 slider.currentValue.text = "\(Int(CGFloat(slider.slider.value) * 100))%"
             }
         }
         
         view.addSubview(slidersStack)
         slidersStack.pinCenterX(to: view)
-        slidersStack.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.Stack.leading)
-        slidersStack.pinBottom(to: addWishButton.topAnchor, Constants.Stack.bottom)
+        slidersStack.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.SlidersStack.leading)
+        slidersStack.pinBottom(to: actionsStack.topAnchor, Constants.SlidersStack.bottom)
     }
     
     private func setUpColorPicker() {
@@ -184,7 +218,7 @@ final class WishMakerViewController: UIViewController {
     }
     
     private func setUpRandomColorButton() {
-        randomColorButton.addTarget(self, action: #selector(changeBackgroundRandomColor), for: .touchUpInside)
+        randomColorButton.addTarget(self, action: #selector(randomChangeBackgroundColor), for: .touchUpInside)
         
         view.addSubview(randomColorButton)
         randomColorButton.setWidth((view.frame.width - CGFloat(Constants.ColorButton.indent)) / CGFloat(3))
@@ -194,7 +228,17 @@ final class WishMakerViewController: UIViewController {
     }
     
     // MARK: - Actions
-    private func changeBackgroundColor() {
+    @objc
+    private func addWishButtonPressed() {
+        present(WishStoringViewController(), animated: true)
+    }
+    
+    @objc
+    private func scheduleWishesButtonPressed() {
+        present(WishStoringViewController(), animated: true)
+    }
+    
+    private func slidersChangeBackgroundColor() {
         let red = sliderRed.slider.value
         let green = sliderGreen.slider.value
         let blue = sliderBlue.slider.value
@@ -219,13 +263,8 @@ final class WishMakerViewController: UIViewController {
     }
     
     @objc
-    private func changeBackgroundRandomColor() {
+    private func randomChangeBackgroundColor() {
         view.backgroundColor = .random
-    }
-    
-    @objc
-    private func addWishButtonPressed() {
-        present(WishStoringViewController(), animated: true)
     }
 }
 
