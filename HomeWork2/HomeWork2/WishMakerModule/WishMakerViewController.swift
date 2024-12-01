@@ -200,7 +200,8 @@ final class WishMakerViewController: UIViewController {
     }
     
     private func scheduleWishesButtonPressed() {
-        present(WishStoringViewController(), animated: true)
+        let vc = WishCalendarViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func slidersChangeBackgroundColor() {
