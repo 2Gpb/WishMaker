@@ -85,7 +85,7 @@ final class CustomSlider: UIView {
     
     // MARK: - Actions
     @objc
-    func sliderValueChanged() {
+    private func sliderValueChanged() {
         valueChanged?()
     }
 }

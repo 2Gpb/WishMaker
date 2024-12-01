@@ -14,41 +14,30 @@ final class WishMakerViewController: UIViewController {
         enum Title {
             static let text: String = "Wish Maker"
             static let fontSize: CGFloat = 32
-            static let top: CGFloat = 20
+            static let top: CGFloat = 10
         }
         
         enum Description {
             static let text: String = "This app will bring you joy and will fulfill three of your wishes!\n - The first wish is to change the background color."
             static let numberOfLines: Int = 4
-            static let top: CGFloat = 20
+            static let top: CGFloat = 10
             static let leading: CGFloat = 20
         }
         
-        enum AddWishesButton {
-            static let title: String = "Add wish"
-            static let cornerRadius: CGFloat = 20
-            static let height: CGFloat = 46
-        }
-        
-        enum ScheduleWishesButton {
-            static let title: String = "Schedule wish granting"
-            static let cornerRadius: CGFloat = 20
-            static let height: CGFloat = 46
-        }
-        
-        enum ActionStack {
+        enum MoveActionsStack {
+            static let addWishesTitle: String = "Add wish"
+            static let scheduleWishesTitle: String = "Schedule wish granting"
             static let spacing: CGFloat = 20
             static let leading: CGFloat = 20
             static let bottom: CGFloat = 20
         }
         
         enum Slider {
-            static let max: Double = 1
-            static let min: Double = 0
-            
             static let red: String = "Red"
             static let green: String = "Green"
             static let blue: String = "Blue"
+            static let max: Double = 1
+            static let min: Double = 0
         }
         
         enum SlidersStack {
@@ -61,32 +50,35 @@ final class WishMakerViewController: UIViewController {
             static let title: String = "Background Color"
         }
         
-        enum ColorButton {
-            static let picker: String = "Pick color"
-            static let hide: String = "Hide sliders"
-            static let show: String = "Show sliders"
-            static let random: String = "Rand color"
-            static let height: CGFloat = 46
+        enum ChangeColorButtonsStack {
+            static let pickerTitle: String = "Pick color"
+            static let hideTitle: String = "Hide sliders"
+            static let showTitle: String = "Show sliders"
+            static let randomTitle: String = "Rand color"
             static let bottom: CGFloat = 20
-            static let leading: CGFloat = 10
-            static let indent: CGFloat = SlidersStack.leading * 2 + leading * 2
+            static let leading: CGFloat = 20
         }
     }
     
     // MARK: - Private fields
     private let wishTitle: UILabel = UILabel()
     private let wishDescription: UILabel = UILabel()
-    private let slidersStack: UIStackView = UIStackView()
+    
+    private let addWishesButton: CustomButton = CustomButton(title: Constants.MoveActionsStack.addWishesTitle)
+    private let scheduleWishesButton: CustomButton = CustomButton(title: Constants.MoveActionsStack.scheduleWishesTitle)
+    private let moveActionsStack: UIStackView = UIStackView()
+    
     private let sliderRed: CustomSlider = CustomSlider(title: Constants.Slider.red, min: Constants.Slider.min, max: Constants.Slider.max)
     private let sliderGreen: CustomSlider = CustomSlider(title: Constants.Slider.green, min: Constants.Slider.min, max: Constants.Slider.max)
     private let sliderBlue: CustomSlider = CustomSlider(title: Constants.Slider.blue, min: Constants.Slider.min, max: Constants.Slider.max)
+    private let slidersStack: UIStackView = UIStackView()
+    
     private let colorPicker: UIColorPickerViewController = UIColorPickerViewController()
-    private let colorPickerButton: CustomButton = CustomButton(title: Constants.ColorButton.picker)
-    private let showHideButton: CustomButton = CustomButton(title: Constants.ColorButton.hide)
-    private let randomColorButton: CustomButton = CustomButton(title: Constants.ColorButton.random)
-    private let addWishesButton: UIButton = UIButton(type: .system)
-    private let scheduleWishesButton: UIButton = UIButton(type: .system)
-    private let actionsStack: UIStackView = UIStackView()
+    
+    private let colorPickerButton: CustomButton = CustomButton(title: Constants.ChangeColorButtonsStack.pickerTitle)
+    private let showHideButton: CustomButton = CustomButton(title: Constants.ChangeColorButtonsStack.hideTitle)
+    private let randomColorButton: CustomButton = CustomButton(title: Constants.ChangeColorButtonsStack.randomTitle)
+    private let changeColorButtonsStack: UIStackView = UIStackView()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -100,14 +92,9 @@ final class WishMakerViewController: UIViewController {
         
         setUpTitle()
         setUpDescription()
-        setUpAddWishesButton()
-        setUpScheduleWishesButton()
-        setUpActionsStack()
-        setUpSliders()
-        setUpColorPicker()
-        setUpColorPickerButton()
-        setUpShowHideButton()
-        setUpRandomColorButton()
+        setUpMoveActionsStack()
+        setUpSlidersStack()
+        setUpChangeColorButtonsStack()
     }
     
     private func setUpTitle() {
@@ -133,45 +120,33 @@ final class WishMakerViewController: UIViewController {
         wishDescription.pinTop(to: wishTitle.bottomAnchor, Constants.Description.top)
     }
     
-    private func setUpAddWishesButton() {
-        addWishesButton.backgroundColor = .white
-        addWishesButton.setTitle(Constants.AddWishesButton.title, for: .normal)
-        addWishesButton.setTitleColor(.systemCyan, for: .normal)
-        addWishesButton.layer.cornerRadius = Constants.AddWishesButton.cornerRadius
-        addWishesButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-        addWishesButton.addTarget(self, action: #selector(addWishButtonPressed), for: .touchUpInside)
-
-        addWishesButton.setHeight(Constants.AddWishesButton.height)
+    private func setUpColorPicker() {
+        colorPicker.title = Constants.Picker.title
+        colorPicker.supportsAlpha = false
+        colorPicker.delegate = self
+        colorPicker.modalPresentationStyle = .popover
+        colorPicker.popoverPresentationController?.sourceItem = self.navigationItem.rightBarButtonItem
     }
     
-    private func setUpScheduleWishesButton() {
-        scheduleWishesButton.backgroundColor = .white
-        scheduleWishesButton.setTitle(Constants.ScheduleWishesButton.title, for: .normal)
-        scheduleWishesButton.setTitleColor(.systemCyan, for: .normal)
-        scheduleWishesButton.layer.cornerRadius = Constants.ScheduleWishesButton.cornerRadius
-        scheduleWishesButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
-        scheduleWishesButton.addTarget(self, action: #selector(scheduleWishesButtonPressed), for: .touchUpInside)
+    private func setUpMoveActionsStack() {
+        moveActionsStack.axis = .vertical
+        moveActionsStack.spacing = Constants.MoveActionsStack.spacing
         
-        scheduleWishesButton.setHeight(Constants.ScheduleWishesButton.height)
-    }
-    
-    private func setUpActionsStack() {
-        actionsStack.axis = .vertical
-        actionsStack.spacing = Constants.ActionStack.spacing
+        let buttons = [addWishesButton, scheduleWishesButton]
+        let actions = [addWishButtonPressed, scheduleWishesButtonPressed]
         
-        view.addSubview(actionsStack)
-        
-        for action in [addWishesButton, scheduleWishesButton] {
-            actionsStack.addArrangedSubview(action)
+        for i in 0..<buttons.count {
+            buttons[i].action = actions[i]
+            moveActionsStack.addArrangedSubview(buttons[i])
         }
         
-        actionsStack.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.ActionStack.bottom)
-        actionsStack.pinHorizontal(to: view, Constants.ActionStack.leading)
+        view.addSubview(moveActionsStack)
+        moveActionsStack.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.MoveActionsStack.bottom)
+        moveActionsStack.pinHorizontal(to: view, Constants.MoveActionsStack.leading)
     }
     
-    private func setUpSliders() {
+    private func setUpSlidersStack() {
         slidersStack.axis = .vertical
-        slidersStack.translatesAutoresizingMaskIntoConstraints = false
         slidersStack.layer.cornerRadius = Constants.SlidersStack.radius
         slidersStack.clipsToBounds = true
         
@@ -186,54 +161,33 @@ final class WishMakerViewController: UIViewController {
         view.addSubview(slidersStack)
         slidersStack.pinCenterX(to: view)
         slidersStack.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.SlidersStack.leading)
-        slidersStack.pinBottom(to: actionsStack.topAnchor, Constants.SlidersStack.bottom)
+        slidersStack.pinBottom(to: moveActionsStack.topAnchor, Constants.SlidersStack.bottom)
     }
     
-    private func setUpColorPicker() {
-        colorPicker.title = Constants.Picker.title
-        colorPicker.supportsAlpha = false
-        colorPicker.delegate = self
-        colorPicker.modalPresentationStyle = .popover
-        colorPicker.popoverPresentationController?.sourceItem = self.navigationItem.rightBarButtonItem
-    }
-    
-    private func setUpColorPickerButton() {
-        colorPickerButton.addTarget(self, action: #selector(presentColorPicker), for: .touchUpInside)
+    private func setUpChangeColorButtonsStack() {
+        changeColorButtonsStack.axis = .horizontal
+        changeColorButtonsStack.spacing = 10
+        changeColorButtonsStack.distribution = .fillEqually
         
-        view.addSubview(colorPickerButton)
-        colorPickerButton.setWidth((view.frame.width - CGFloat(Constants.ColorButton.indent)) / CGFloat(3))
-        colorPickerButton.setHeight(Constants.ColorButton.height)
-        colorPickerButton.pinLeft(to: slidersStack)
-        colorPickerButton.pinBottom(to: slidersStack.topAnchor, Constants.ColorButton.bottom)
-    }
-    
-    private func setUpShowHideButton() {
-        showHideButton.addTarget(self, action: #selector(showHideSliders), for: .touchUpInside)
+        let buttons = [colorPickerButton, showHideButton, randomColorButton]
+        let actions = [presentColorPicker, showHideSliders, randomChangeBackgroundColor]
         
-        view.addSubview(showHideButton)
-        showHideButton.setWidth((view.frame.width - CGFloat(Constants.ColorButton.indent)) / CGFloat(3))
-        showHideButton.setHeight(Constants.ColorButton.height)
-        showHideButton.pinLeft(to: colorPickerButton.trailingAnchor, Constants.ColorButton.leading)
-        showHideButton.pinBottom(to: slidersStack.topAnchor, Constants.ColorButton.bottom)
-    }
-    
-    private func setUpRandomColorButton() {
-        randomColorButton.addTarget(self, action: #selector(randomChangeBackgroundColor), for: .touchUpInside)
+        for i in 0..<buttons.count {
+            buttons[i].action = actions[i]
+            changeColorButtonsStack.addArrangedSubview(buttons[i])
+        }
         
-        view.addSubview(randomColorButton)
-        randomColorButton.setWidth((view.frame.width - CGFloat(Constants.ColorButton.indent)) / CGFloat(3))
-        randomColorButton.setHeight(Constants.ColorButton.height)
-        randomColorButton.pinLeft(to: showHideButton.trailingAnchor, Constants.ColorButton.leading)
-        randomColorButton.pinBottom(to: slidersStack.topAnchor, Constants.ColorButton.bottom)
+        view.addSubview(changeColorButtonsStack)
+        changeColorButtonsStack.pinCenterX(to: view)
+        changeColorButtonsStack.pinLeft(to: view, Constants.ChangeColorButtonsStack.leading)
+        changeColorButtonsStack.pinBottom(to: slidersStack.topAnchor, Constants.ChangeColorButtonsStack.bottom)
     }
     
     // MARK: - Actions
-    @objc
     private func addWishButtonPressed() {
         present(WishStoringViewController(), animated: true)
     }
     
-    @objc
     private func scheduleWishesButtonPressed() {
         present(WishStoringViewController(), animated: true)
     }
@@ -246,23 +200,21 @@ final class WishMakerViewController: UIViewController {
         view.backgroundColor = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1)
     }
     
-    @objc
     private func presentColorPicker() {
+        setUpColorPicker()
         self.present(colorPicker, animated: true)
     }
     
-    @objc
     private func showHideSliders() {
         if slidersStack.isHidden {
             slidersStack.isHidden = false
-            showHideButton.setTitle(Constants.ColorButton.hide, for: .normal)
+            showHideButton.changeTitle(Constants.ChangeColorButtonsStack.hideTitle)
         } else {
             slidersStack.isHidden = true
-            showHideButton.setTitle(Constants.ColorButton.show, for: .normal)
+            showHideButton.changeTitle(Constants.ChangeColorButtonsStack.showTitle)
         }
     }
     
-    @objc
     private func randomChangeBackgroundColor() {
         view.backgroundColor = .random
     }

@@ -179,7 +179,12 @@ extension WishStoringViewController: UITableViewDelegate {
             completion(true)
         }
         
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        switch indexPath.section {
+        case 1:
+            return UISwipeActionsConfiguration(actions: [deleteAction])
+        default:
+            return nil
+        }
     }
     
     func tableView(_ tableView: UITableView,
@@ -190,7 +195,12 @@ extension WishStoringViewController: UITableViewDelegate {
         }
         
         editAction.backgroundColor = .orange
-        return UISwipeActionsConfiguration(actions: [editAction])
+        switch indexPath.section {
+        case 1:
+            return UISwipeActionsConfiguration(actions: [editAction])
+        default:
+            return nil
+        }
     }
 }
 

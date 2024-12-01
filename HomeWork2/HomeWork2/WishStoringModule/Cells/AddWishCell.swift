@@ -84,7 +84,7 @@ final class AddWishCell: UITableViewCell {
     
     // MARK: - Actions
     @objc
-    func addWishButtonTapped() {
+    private func addWishButtonTapped() {
         addWish?(textView.text)
         textView.text = ""
     }
