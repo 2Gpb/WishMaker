@@ -60,6 +60,17 @@ final class WishMakerViewController: UIViewController {
         }
     }
     
+    // MARK: - Properties
+    private var color: UIColor = .black {
+        didSet {
+            view.backgroundColor = color
+            let buttons = [addWishesButton, scheduleWishesButton, colorPickerButton, showHideButton, randomColorButton]
+            for i in buttons.indices {
+                buttons[i].button.setTitleColor(color, for: .normal)
+            }
+        }
+    }
+    
     // MARK: - Private fields
     private let wishTitle: UILabel = UILabel()
     private let wishDescription: UILabel = UILabel()
@@ -197,7 +208,7 @@ final class WishMakerViewController: UIViewController {
         let green = sliderGreen.slider.value
         let blue = sliderBlue.slider.value
         
-        view.backgroundColor = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1)
+        self.color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1)
     }
     
     private func presentColorPicker() {
@@ -208,22 +219,22 @@ final class WishMakerViewController: UIViewController {
     private func showHideSliders() {
         if slidersStack.isHidden {
             slidersStack.isHidden = false
-            showHideButton.changeTitle(Constants.ChangeColorButtonsStack.hideTitle)
+            showHideButton.button.setTitle(Constants.ChangeColorButtonsStack.hideTitle, for: .normal)
         } else {
             slidersStack.isHidden = true
-            showHideButton.changeTitle(Constants.ChangeColorButtonsStack.showTitle)
+            showHideButton.button.setTitle(Constants.ChangeColorButtonsStack.showTitle, for: .normal)
         }
     }
     
     private func randomChangeBackgroundColor() {
-        view.backgroundColor = .random
+        self.color = .random
     }
 }
 
 // MARK: - UIColorPickerViewControllerDelegate
 extension WishMakerViewController: UIColorPickerViewControllerDelegate {
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
-        view.backgroundColor = color
+        self.color = color
     }
 }
 

@@ -18,7 +18,7 @@ final class CustomButton: UIView {
     var action: (() -> Void)?
     
     // MARK: - Private fields
-    private let button: UIButton = UIButton(type: .system)
+    let button: UIButton = UIButton(type: .system)
     
     // MARK: - Lifecycle
     init(title: String) {
@@ -33,11 +33,6 @@ final class CustomButton: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Methods
-    func changeTitle(_ title: String) {
-        button.setTitle(title, for: .normal)
-    }
-
     // MARK: - SetUp
     private func setUp() {
         button.setTitleColor(.systemCyan, for: .normal)
