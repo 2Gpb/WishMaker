@@ -118,18 +118,24 @@ final class WishStoringViewController: UIViewController {
     }
     
     private func setUpWarningAlert() {
-        let warningAlert: UIAlertController = UIAlertController(title: Constants.Alert.title,
-                                                                message: Constants.Alert.message,
-                                                                preferredStyle: .alert)
+        let warningAlert: UIAlertController = UIAlertController(
+            title: Constants.Alert.title,
+            message: Constants.Alert.message,
+            preferredStyle: .alert
+        )
+        
         let alertAction = UIAlertAction(title: Constants.Alert.actionTitle, style: .cancel)
         warningAlert.addAction(alertAction)
         present(warningAlert, animated: true)
     }
     
     private func setUpEditAlert(index: Int) {
-        let editAlert: UIAlertController = UIAlertController(title: Constants.EditAlert.title,
-                                                             message: Constants.EditAlert.message,
-                                                             preferredStyle: .alert)
+        let editAlert: UIAlertController = UIAlertController(
+            title: Constants.EditAlert.title,
+            message: Constants.EditAlert.message,
+            preferredStyle: .alert
+        )
+        
         editAlert.addTextField()
         editAlert.textFields?.first?.text = wishArray[index]
         
@@ -153,8 +159,11 @@ final class WishStoringViewController: UIViewController {
     // MARK: - Actions
     @objc
     private func shareButtonTapped() {
-        let activityViewController: UIActivityViewController = UIActivityViewController(activityItems: wishArray,
-                                                                                        applicationActivities: nil)
+        let activityViewController: UIActivityViewController = UIActivityViewController(
+            activityItems: wishArray,
+            applicationActivities: nil
+        )
+        
         present(activityViewController, animated: true)
     }
     
@@ -170,9 +179,14 @@ extension WishStoringViewController: UITableViewDelegate {
         return Constants.Table.heightForRow
     }
     
-    func tableView(_ tableView: UITableView,
-                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: Constants.Table.titleDelete) { [weak self] (_, _, completion) in
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: Constants.Table.titleDelete
+        ) { [weak self] (_, _, completion) in
             WishCoreDataService.shared.deleteElement(Int16(indexPath.row))
             self?.wishArray = WishCoreDataService.shared.getElements()
             tableView.reloadData()
@@ -187,9 +201,14 @@ extension WishStoringViewController: UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView,
-                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let editAction = UIContextualAction(style: .normal, title: Constants.Table.titleEdit) { [weak self] (_, _, completion) in
+    func tableView(
+        _ tableView: UITableView,
+        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let editAction = UIContextualAction(
+            style: .normal,
+            title: Constants.Table.titleEdit
+        ) { [weak self] (_, _, completion) in
             self?.setUpEditAlert(index: indexPath.row)
             completion(true)
         }

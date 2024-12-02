@@ -42,7 +42,10 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
     
     // MARK: - CRUD
     func addElement(_ id: Int16, text: String) {
-        guard let wishEntityDescription = NSEntityDescription.entity(forEntityName: "Wish", in: context) else { return }
+        guard let wishEntityDescription = NSEntityDescription.entity(
+            forEntityName: "Wish",
+            in: context
+        ) else { return }
         let wish = Wish(entity: wishEntityDescription, insertInto: context)
         wish.id = id
         wish.text = text

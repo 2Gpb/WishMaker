@@ -64,7 +64,11 @@ final class WishMakerViewController: UIViewController {
     private var color: UIColor = .black {
         didSet {
             view.backgroundColor = color
-            let buttons = [addWishesButton, scheduleWishesButton, colorPickerButton, showHideButton, randomColorButton]
+            let buttons = [addWishesButton,
+                           scheduleWishesButton,
+                           colorPickerButton,
+                           showHideButton,
+                           randomColorButton]
             for i in buttons.indices {
                 buttons[i].button.setTitleColor(color, for: .normal)
             }
@@ -74,21 +78,39 @@ final class WishMakerViewController: UIViewController {
     // MARK: - Private fields
     private let wishTitle: UILabel = UILabel()
     private let wishDescription: UILabel = UILabel()
-    
-    private let addWishesButton: CustomButton = CustomButton(title: Constants.MoveActionsStack.addWishesTitle)
-    private let scheduleWishesButton: CustomButton = CustomButton(title: Constants.MoveActionsStack.scheduleWishesTitle)
+    private let addWishesButton: CustomButton = CustomButton(
+        title: Constants.MoveActionsStack.addWishesTitle
+    )
+    private let scheduleWishesButton: CustomButton = CustomButton(
+        title: Constants.MoveActionsStack.scheduleWishesTitle
+    )
     private let moveActionsStack: UIStackView = UIStackView()
-    
-    private let sliderRed: CustomSlider = CustomSlider(title: Constants.Slider.red, min: Constants.Slider.min, max: Constants.Slider.max)
-    private let sliderGreen: CustomSlider = CustomSlider(title: Constants.Slider.green, min: Constants.Slider.min, max: Constants.Slider.max)
-    private let sliderBlue: CustomSlider = CustomSlider(title: Constants.Slider.blue, min: Constants.Slider.min, max: Constants.Slider.max)
+    private let sliderRed: CustomSlider = CustomSlider(
+        title: Constants.Slider.red,
+        min: Constants.Slider.min,
+        max: Constants.Slider.max
+    )
+    private let sliderGreen: CustomSlider = CustomSlider(
+        title: Constants.Slider.green,
+        min: Constants.Slider.min,
+        max: Constants.Slider.max
+    )
+    private let sliderBlue: CustomSlider = CustomSlider(
+        title: Constants.Slider.blue,
+        min: Constants.Slider.min,
+        max: Constants.Slider.max
+    )
     private let slidersStack: UIStackView = UIStackView()
-    
     private let colorPicker: UIColorPickerViewController = UIColorPickerViewController()
-    
-    private let colorPickerButton: CustomButton = CustomButton(title: Constants.ChangeColorButtonsStack.pickerTitle)
-    private let showHideButton: CustomButton = CustomButton(title: Constants.ChangeColorButtonsStack.hideTitle)
-    private let randomColorButton: CustomButton = CustomButton(title: Constants.ChangeColorButtonsStack.randomTitle)
+    private let colorPickerButton: CustomButton = CustomButton(
+        title: Constants.ChangeColorButtonsStack.pickerTitle
+    )
+    private let showHideButton: CustomButton = CustomButton(
+        title: Constants.ChangeColorButtonsStack.hideTitle
+    )
+    private let randomColorButton: CustomButton = CustomButton(
+        title: Constants.ChangeColorButtonsStack.randomTitle
+    )
     private let changeColorButtonsStack: UIStackView = UIStackView()
 
     // MARK: - Lifecycle
@@ -234,7 +256,11 @@ final class WishMakerViewController: UIViewController {
 
 // MARK: - UIColorPickerViewControllerDelegate
 extension WishMakerViewController: UIColorPickerViewControllerDelegate {
-    func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
+    func colorPickerViewController(
+        _ viewController: UIColorPickerViewController,
+        didSelect color: UIColor,
+        continuously: Bool
+    ) {
         self.color = color
     }
 }
