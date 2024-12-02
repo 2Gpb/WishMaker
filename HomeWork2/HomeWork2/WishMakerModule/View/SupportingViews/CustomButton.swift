@@ -12,6 +12,7 @@ final class CustomButton: UIView {
     private enum Constants {
         static let backgroundColor: UIColor = .white
         static let cornerRadius: CGFloat = 18
+        static let height: CGFloat = 46
     }
     
     // MARK: - Variables
@@ -24,7 +25,7 @@ final class CustomButton: UIView {
     init(title: String) {
         super.init(frame: .zero)
         self.button.setTitle(title, for: .normal)
-        self.setHeight(46)
+        self.setHeight(Constants.height)
         setUp()
     }
     
@@ -39,7 +40,6 @@ final class CustomButton: UIView {
         button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
         button.backgroundColor = Constants.backgroundColor
         button.layer.cornerRadius = Constants.cornerRadius
-        button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         
         self.addSubview(button)

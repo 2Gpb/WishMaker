@@ -32,8 +32,8 @@ final class WishStoringViewController: UIViewController {
             static let titlesSections: [String] = ["Add wish", "Wishes"]
             static let heightForRow: CGFloat = 48
             static let addWishSectionsCount: Int = 1
-            static let titleDelete: String = "Удалить"
-            static let titleEdit: String = "Изменить"
+            static let titleDelete: String = "Delete"
+            static let titleEdit: String = "Edit"
         }
         
         enum Alert {
