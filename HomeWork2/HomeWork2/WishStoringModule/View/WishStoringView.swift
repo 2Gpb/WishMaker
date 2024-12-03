@@ -1,15 +1,30 @@
 //
-//  WishStoringViewController.swift
+//  WishStoringView.swift
 //  HomeWork2
 //
-//  Created by Peter on 24.11.2024.
+//  Created by Peter on 03.12.2024.
 //
 
 import UIKit
 
-final class WishStoringViewController: UIViewController {
+protocol WishStoringViewDelegate: AnyObject {
+    func presentWarningAlert(_ alert: UIAlertController)
+    func presentEditAlert(_ alert: UIAlertController)
+    func presentActivityController(_ activityController: UIActivityViewController)
+    func closeScreen()
+    
+    func deleteWish(_ wish: Int16) -> [String]
+    func editWish(_ wish: Int16, newText: String) -> [String]
+    func getWishes() -> [String]
+    func addWish(_ wish: Int16, text: String) -> [String]
+}
+
+final class WishStoringView: UIView {
     // MARK: - Constants
     private enum Constants {
+        enum Error {
+            static let fatalError: String = "init(coder:) has not been implemented"
+        }
         enum CloseButton {
             static let image: String = "xmark.circle"
             static let height: CGFloat = 30
@@ -47,11 +62,10 @@ final class WishStoringViewController: UIViewController {
             static let message: String = "Please enter an edited wish"
             static let actionTitle: String = "OK"
         }
-        
-        enum Defaults {
-            static let wishesKey: String = "Wishes"
-        }
     }
+    
+    // MARK: - Variables
+    weak var delegate: WishStoringViewDelegate?
     
     // MARK: - Private variables
     private var wishArray: [String] = []
@@ -62,15 +76,21 @@ final class WishStoringViewController: UIViewController {
     private let table: UITableView = UITableView(frame: .zero)
     
     // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        wishArray = WishCoreDataService.shared.getElements()
+    init(delegate: WishStoringViewDelegate) {
+        super.init(frame: .zero)
+        self.delegate = delegate
+        wishArray = self.delegate?.getWishes() ?? []
         setUp()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.Error.fatalError)
     }
     
     // MARK: - SetUp
     private func setUp() {
-        view.backgroundColor = .systemCyan
+        backgroundColor = .systemCyan
         
         setUpShareButton()
         setUpCloseButton()
@@ -82,9 +102,9 @@ final class WishStoringViewController: UIViewController {
         shareButton.tintColor = .white
         shareButton.addTarget(self, action: #selector (shareButtonTapped), for: .touchUpInside)
         
-        view.addSubview(shareButton)
-        shareButton.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.ShareButton.top)
-        shareButton.pinLeft(to: view.safeAreaLayoutGuide.leadingAnchor, Constants.ShareButton.left)
+        addSubview(shareButton)
+        shareButton.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.ShareButton.top)
+        shareButton.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.ShareButton.left)
         shareButton.setHeight(Constants.ShareButton.height)
         shareButton.setWidth(Constants.ShareButton.width)
     }
@@ -93,16 +113,16 @@ final class WishStoringViewController: UIViewController {
         closeButton.setImage(UIImage(systemName: Constants.CloseButton.image), for: .normal)
         closeButton.tintColor = .white
         closeButton.addTarget(self, action: #selector (closeButtonTapped), for: .touchUpInside)
-        view.addSubview(closeButton)
+        addSubview(closeButton)
         
-        closeButton.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.CloseButton.top)
-        closeButton.pinRight(to: view.safeAreaLayoutGuide.trailingAnchor, Constants.CloseButton.right)
+        closeButton.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.CloseButton.top)
+        closeButton.pinRight(to: safeAreaLayoutGuide.trailingAnchor, Constants.CloseButton.right)
         closeButton.setHeight(Constants.CloseButton.height)
         closeButton.setWidth(Constants.CloseButton.width)
     }
     
     private func setUpTable() {
-        view.addSubview(table)
+        addSubview(table)
         
         table.dataSource = self
         table.delegate = self
@@ -113,8 +133,8 @@ final class WishStoringViewController: UIViewController {
         table.register(AddWishCell.self, forCellReuseIdentifier: AddWishCell.reuseId)
         
         table.pinTop(to: closeButton.bottomAnchor, Constants.Table.offset)
-        table.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor)
-        table.pinHorizontal(to: view, Constants.Table.offset)
+        table.pinBottom(to: safeAreaLayoutGuide.bottomAnchor)
+        table.pinHorizontal(to: self, Constants.Table.offset)
     }
     
     private func setUpWarningAlert() {
@@ -126,7 +146,7 @@ final class WishStoringViewController: UIViewController {
         
         let alertAction = UIAlertAction(title: Constants.Alert.actionTitle, style: .cancel)
         warningAlert.addAction(alertAction)
-        present(warningAlert, animated: true)
+        delegate?.presentWarningAlert(warningAlert)
     }
     
     private func setUpEditAlert(index: Int) {
@@ -142,18 +162,16 @@ final class WishStoringViewController: UIViewController {
         let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
             let newValue = editAlert.textFields?.first?.text ?? ""
             if newValue != "" {
-                WishCoreDataService.shared.editElement(Int16(index), newValue: newValue)
-                self?.wishArray = WishCoreDataService.shared.getElements()
+                self?.wishArray = self?.delegate?.editWish(Int16(index), newText: newValue) ?? []
                 self?.table.reloadData()
             } else {
-                WishCoreDataService.shared.deleteElement(Int16(index))
-                self?.wishArray = WishCoreDataService.shared.getElements()
+                self?.wishArray = self?.delegate?.deleteWish(Int16(index)) ?? []
                 self?.table.reloadData()
             }
         }
         
         editAlert.addAction(alertAction)
-        present(editAlert, animated: true)
+        delegate?.presentEditAlert(editAlert)
     }
     
     // MARK: - Actions
@@ -164,17 +182,17 @@ final class WishStoringViewController: UIViewController {
             applicationActivities: nil
         )
         
-        present(activityViewController, animated: true)
+        delegate?.presentActivityController(activityViewController)
     }
     
     @objc
     private func closeButtonTapped() {
-        dismiss(animated: true)
+        delegate?.closeScreen()
     }
 }
 
 // MARK: - UITableViewDelegate
-extension WishStoringViewController: UITableViewDelegate {
+extension WishStoringView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.Table.heightForRow
     }
@@ -187,8 +205,7 @@ extension WishStoringViewController: UITableViewDelegate {
             style: .destructive,
             title: Constants.Table.titleDelete
         ) { [weak self] (_, _, completion) in
-            WishCoreDataService.shared.deleteElement(Int16(indexPath.row))
-            self?.wishArray = WishCoreDataService.shared.getElements()
+            self?.wishArray = self?.delegate?.deleteWish(Int16(indexPath.row)) ?? []
             tableView.reloadData()
             completion(true)
         }
@@ -224,7 +241,7 @@ extension WishStoringViewController: UITableViewDelegate {
 }
 
 // MARK: - UITableViewDataSource
-extension WishStoringViewController: UITableViewDataSource {
+extension WishStoringView: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         Constants.Table.titlesSections.count
     }
@@ -256,8 +273,10 @@ extension WishStoringViewController: UITableViewDataSource {
             
             cell.addWish = { [weak self] text in
                 if text != "" {
-                    WishCoreDataService.shared.addElement(Int16(self?.wishArray.count ?? 0), text: text)
-                    self?.wishArray = WishCoreDataService.shared.getElements()
+                    self?.wishArray = self?.delegate?.addWish(
+                        Int16(self?.wishArray.count ?? 0),
+                        text: text
+                    ) ?? []
                     tableView.reloadData()
                 } else {
                     self?.setUpWarningAlert()

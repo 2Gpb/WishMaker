@@ -11,7 +11,6 @@ import CoreData
 protocol WishCoreDataServiceLogic {
     func logCoreDataDBPath()
     func addElement(_ id: Int16, text: String)
-    func getElement(_ id: Int16) -> String
     func getElements() -> [String]
     func editElement(_ id: Int16, newValue: String)
     func deleteElement(_ id: Int16)
@@ -51,15 +50,6 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         wish.text = text
         
         appDelegate.saveContext()
-    }
-    
-    func getElement(_ id: Int16) -> String {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Wish")
-        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
-        do {
-            let wishes = try? context.fetch(fetchRequest) as? [Wish]
-            return wishes?.first?.text ?? ""
-        }
     }
     
     func getElements() -> [String] {

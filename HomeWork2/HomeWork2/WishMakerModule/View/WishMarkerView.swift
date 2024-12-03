@@ -156,9 +156,9 @@ final class WishMakerView: UIView {
         wishTitle.textColor = .white
         wishTitle.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(wishTitle)
+        addSubview(wishTitle)
         wishTitle.pinCenterX(to: self)
-        wishTitle.pinTop(to: self.safeAreaLayoutGuide.topAnchor, Constants.Title.top)
+        wishTitle.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.Title.top)
     }
     
     private func setUpDescription() {
@@ -167,9 +167,9 @@ final class WishMakerView: UIView {
         wishDescription.numberOfLines = Constants.Description.numberOfLines
         wishDescription.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(wishDescription)
+        addSubview(wishDescription)
         wishDescription.pinCenterX(to: self)
-        wishDescription.pinLeft(to: self.safeAreaLayoutGuide.leadingAnchor, Constants.Description.leading)
+        wishDescription.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.Description.leading)
         wishDescription.pinTop(to: wishTitle.bottomAnchor, Constants.Description.top)
     }
     
@@ -195,8 +195,8 @@ final class WishMakerView: UIView {
             moveActionsStack.addArrangedSubview(buttons[i])
         }
         
-        self.addSubview(moveActionsStack)
-        moveActionsStack.pinBottom(to: self.safeAreaLayoutGuide.bottomAnchor, Constants.MoveActions.bottom)
+        addSubview(moveActionsStack)
+        moveActionsStack.pinBottom(to: safeAreaLayoutGuide.bottomAnchor, Constants.MoveActions.bottom)
         moveActionsStack.pinHorizontal(to: self, Constants.MoveActions.leading)
     }
     
@@ -213,9 +213,9 @@ final class WishMakerView: UIView {
             }
         }
         
-        self.addSubview(slidersStack)
+        addSubview(slidersStack)
         slidersStack.pinCenterX(to: self)
-        slidersStack.pinLeft(to: self.safeAreaLayoutGuide.leadingAnchor, Constants.SlidersStack.leading)
+        slidersStack.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.SlidersStack.leading)
         slidersStack.pinBottom(to: moveActionsStack.topAnchor, Constants.SlidersStack.bottom)
     }
     
@@ -232,7 +232,7 @@ final class WishMakerView: UIView {
             changeColorButtonsStack.addArrangedSubview(buttons[i])
         }
         
-        self.addSubview(changeColorButtonsStack)
+        addSubview(changeColorButtonsStack)
         changeColorButtonsStack.pinCenterX(to: self)
         changeColorButtonsStack.pinLeft(to: self, Constants.ChangeColorButtons.leading)
         changeColorButtonsStack.pinBottom(to: slidersStack.topAnchor, Constants.ChangeColorButtons.bottom)
