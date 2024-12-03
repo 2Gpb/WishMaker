@@ -34,7 +34,7 @@ final class WishMakerView: UIView {
             static let leading: CGFloat = 20
         }
         
-        enum MoveActionsStack {
+        enum MoveActions {
             static let addWishesTitle: String = "Add wish"
             static let scheduleWishesTitle: String = "Schedule wish granting"
             static let spacing: CGFloat = 20
@@ -60,11 +60,12 @@ final class WishMakerView: UIView {
             static let title: String = "Background Color"
         }
         
-        enum ChangeColorButtonsStack {
+        enum ChangeColorButtons {
             static let pickerTitle: String = "Pick color"
             static let hideTitle: String = "Hide sliders"
             static let showTitle: String = "Show sliders"
             static let randomTitle: String = "Rand color"
+            static let spacing: CGFloat = 10
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
         }
@@ -92,10 +93,10 @@ final class WishMakerView: UIView {
     private let wishTitle: UILabel = UILabel()
     private let wishDescription: UILabel = UILabel()
     private let addWishesButton: CustomButton = CustomButton(
-        title: Constants.MoveActionsStack.addWishesTitle
+        title: Constants.MoveActions.addWishesTitle
     )
     private let scheduleWishesButton: CustomButton = CustomButton(
-        title: Constants.MoveActionsStack.scheduleWishesTitle
+        title: Constants.MoveActions.scheduleWishesTitle
     )
     private let moveActionsStack: UIStackView = UIStackView()
     private let sliderRed: CustomSlider = CustomSlider(
@@ -116,13 +117,13 @@ final class WishMakerView: UIView {
     private let slidersStack: UIStackView = UIStackView()
     private let colorPicker: UIColorPickerViewController = UIColorPickerViewController()
     private let colorPickerButton: CustomButton = CustomButton(
-        title: Constants.ChangeColorButtonsStack.pickerTitle
+        title: Constants.ChangeColorButtons.pickerTitle
     )
     private let showHideButton: CustomButton = CustomButton(
-        title: Constants.ChangeColorButtonsStack.hideTitle
+        title: Constants.ChangeColorButtons.hideTitle
     )
     private let randomColorButton: CustomButton = CustomButton(
-        title: Constants.ChangeColorButtonsStack.randomTitle
+        title: Constants.ChangeColorButtons.randomTitle
     )
     private let changeColorButtonsStack: UIStackView = UIStackView()
 
@@ -181,7 +182,7 @@ final class WishMakerView: UIView {
     
     private func setUpMoveActionsStack() {
         moveActionsStack.axis = .vertical
-        moveActionsStack.spacing = Constants.MoveActionsStack.spacing
+        moveActionsStack.spacing = Constants.MoveActions.spacing
         
         let buttons = [addWishesButton, scheduleWishesButton]
         let actions = [
@@ -195,8 +196,8 @@ final class WishMakerView: UIView {
         }
         
         self.addSubview(moveActionsStack)
-        moveActionsStack.pinBottom(to: self.safeAreaLayoutGuide.bottomAnchor, Constants.MoveActionsStack.bottom)
-        moveActionsStack.pinHorizontal(to: self, Constants.MoveActionsStack.leading)
+        moveActionsStack.pinBottom(to: self.safeAreaLayoutGuide.bottomAnchor, Constants.MoveActions.bottom)
+        moveActionsStack.pinHorizontal(to: self, Constants.MoveActions.leading)
     }
     
     private func setUpSlidersStack() {
@@ -220,7 +221,7 @@ final class WishMakerView: UIView {
     
     private func setUpChangeColorButtonsStack() {
         changeColorButtonsStack.axis = .horizontal
-        changeColorButtonsStack.spacing = 10
+        changeColorButtonsStack.spacing = Constants.ChangeColorButtons.spacing
         changeColorButtonsStack.distribution = .fillEqually
         
         let buttons = [colorPickerButton, showHideButton, randomColorButton]
@@ -233,8 +234,8 @@ final class WishMakerView: UIView {
         
         self.addSubview(changeColorButtonsStack)
         changeColorButtonsStack.pinCenterX(to: self)
-        changeColorButtonsStack.pinLeft(to: self, Constants.ChangeColorButtonsStack.leading)
-        changeColorButtonsStack.pinBottom(to: slidersStack.topAnchor, Constants.ChangeColorButtonsStack.bottom)
+        changeColorButtonsStack.pinLeft(to: self, Constants.ChangeColorButtons.leading)
+        changeColorButtonsStack.pinBottom(to: slidersStack.topAnchor, Constants.ChangeColorButtons.bottom)
     }
     
     // MARK: - Actions
@@ -253,10 +254,10 @@ final class WishMakerView: UIView {
     private func showHideSliders() {
         if slidersStack.isHidden {
             slidersStack.isHidden = false
-            showHideButton.button.setTitle(Constants.ChangeColorButtonsStack.hideTitle, for: .normal)
+            showHideButton.button.setTitle(Constants.ChangeColorButtons.hideTitle, for: .normal)
         } else {
             slidersStack.isHidden = true
-            showHideButton.button.setTitle(Constants.ChangeColorButtonsStack.showTitle, for: .normal)
+            showHideButton.button.setTitle(Constants.ChangeColorButtons.showTitle, for: .normal)
         }
     }
     
@@ -275,4 +276,3 @@ extension WishMakerView: UIColorPickerViewControllerDelegate {
         self.color = color
     }
 }
-

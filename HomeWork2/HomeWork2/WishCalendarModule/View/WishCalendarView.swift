@@ -1,15 +1,18 @@
 //
-//  WishCalendarViewControlle.swift
+//  WishCalendarView.swift
 //  HomeWork2
 //
-//  Created by Peter on 01.12.2024.
+//  Created by Peter on 03.12.2024.
 //
 import UIKit
 
-
-final class WishCalendarViewController: UIViewController {
+final class WishCalendarView: UIView {
     // MARK: - Constants
     private enum Constants {
+        enum Error {
+            static let fatalError: String = "init(coder:) has not been implemented"
+        }
+        
         enum CollectionView {
             static let top: CGFloat = 20
             static let contentInset: UIEdgeInsets = UIEdgeInsets(
@@ -28,14 +31,19 @@ final class WishCalendarViewController: UIViewController {
     )
     
     // MARK: - Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
+        super.init(frame: .zero)
         setUp()
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.Error.fatalError)
     }
     
     // MARK: - SetUp
     func setUp() {
-        view.backgroundColor = .systemCyan
+        backgroundColor = .systemCyan
         setUpCollectionView()
     }
     
@@ -49,15 +57,15 @@ final class WishCalendarViewController: UIViewController {
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         
-        view.addSubview(collectionView)
-        collectionView.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.CollectionView.top)
-        collectionView.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor)
-        collectionView.pinHorizontal(to: view)
+        addSubview(collectionView)
+        collectionView.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.CollectionView.top)
+        collectionView.pinBottom(to: safeAreaLayoutGuide.bottomAnchor)
+        collectionView.pinHorizontal(to: self)
     }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension WishCalendarViewController: UICollectionViewDelegateFlowLayout {
+extension WishCalendarView: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
@@ -75,7 +83,7 @@ extension WishCalendarViewController: UICollectionViewDelegateFlowLayout {
 }
 
 // MARK: - UICollectionViewDataSource
-extension WishCalendarViewController: UICollectionViewDataSource {
+extension WishCalendarView: UICollectionViewDataSource {
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
