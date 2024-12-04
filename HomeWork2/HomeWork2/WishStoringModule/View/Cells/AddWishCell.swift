@@ -8,9 +8,6 @@
 import UIKit
 
 final class AddWishCell: UITableViewCell {
-    // MARK: - ReuseId
-    static let reuseId: String = "AddWishCell"
-    
     // MARK: - Constants
     private enum Constants {
         enum AddWishButton {
@@ -29,6 +26,9 @@ final class AddWishCell: UITableViewCell {
             static let leading: CGFloat = 16
         }
     }
+    
+    // MARK: - ReuseId
+    static let reuseId: String = "AddWishCell"
     
     // MARK: - Variables
     var addWish: ((String) -> ())?

@@ -27,11 +27,11 @@ final class WishCalendarView: UIView {
     //MARK: - Private fields
     private let collectionView: UICollectionView = UICollectionView(
         frame: .zero,
-        collectionViewLayout: UICollectionViewLayout()
+        collectionViewLayout: UICollectionViewFlowLayout()
     )
     
     // MARK: - Lifecycle
-    init() {
+    override init(frame: CGRect) {
         super.init(frame: .zero)
         setUp()
     }
@@ -43,19 +43,18 @@ final class WishCalendarView: UIView {
     
     // MARK: - SetUp
     func setUp() {
-        backgroundColor = .systemCyan
+        backgroundColor = .darkGray
         setUpCollectionView()
     }
     
     func setUpCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .clear
         collectionView.alwaysBounceVertical = true
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.contentInset = Constants.CollectionView.contentInset
-        
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(WishEventCell.self, forCellWithReuseIdentifier: WishEventCell.reuseId)
         
         addSubview(collectionView)
         collectionView.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.CollectionView.top)
@@ -95,7 +94,19 @@ extension WishCalendarView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: WishEventCell.reuseId,
+            for: indexPath
+        ) as? WishEventCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure(with: WishEvent(
+            title: "Testik",
+            description: "TestDescription",
+            startDate: "12",
+            endDate: "12")
+        )
         
         return cell
     }

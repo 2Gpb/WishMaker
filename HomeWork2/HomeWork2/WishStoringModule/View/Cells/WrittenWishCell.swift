@@ -8,9 +8,6 @@
 import UIKit
 
 final class WrittenWishCell: UITableViewCell {
-    // MARK: - ReuseId
-    static let reuseId: String = "WrittenWishCell"
-    
     // MARK: - Constants
     private enum Constants {
         enum Wrap {
@@ -24,6 +21,9 @@ final class WrittenWishCell: UITableViewCell {
             static let offset: CGFloat = 8
         }
     }
+    
+    // MARK: - ReuseId
+    static let reuseId: String = "WrittenWishCell"
     
     // MARK: - Private fields
     private let wishLabel: UILabel = UILabel()
