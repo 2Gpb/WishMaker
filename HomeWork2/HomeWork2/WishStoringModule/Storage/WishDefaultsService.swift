@@ -8,6 +8,7 @@
 enum WishKeys: String {
     case wishList = "wishList"
 }
+
 // MARK: - WishServiceLogic
 protocol WishServiceLogic {
     func getElements(for key: WishKeys) -> [String]

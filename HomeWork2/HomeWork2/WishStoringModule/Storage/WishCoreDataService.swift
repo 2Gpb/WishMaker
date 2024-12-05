@@ -75,7 +75,7 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         appDelegate.saveContext()
     }
     
-    func deleteElement(_ id: Int16){
+    func deleteElement(_ id: Int16) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Wish")
         fetchRequest.predicate = NSPredicate(format: "id == %d", id)
         do {

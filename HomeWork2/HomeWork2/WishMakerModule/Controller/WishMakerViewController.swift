@@ -18,6 +18,15 @@ final class WishMakerViewController: UIViewController {
         super.loadView()
         self.view = WishMakerView(delegate: self)
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpNavigationBar()
+    }
+    
+    private func setUpNavigationBar() {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
 }
 
 // MARK: - WishMakerViewDelegate

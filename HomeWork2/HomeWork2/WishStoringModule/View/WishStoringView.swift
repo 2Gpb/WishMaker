@@ -25,42 +25,63 @@ final class WishStoringView: UIView {
         enum Error {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
-        enum CloseButton {
-            static let image: String = "xmark.circle"
-            static let height: CGFloat = 30
-            static let width: CGFloat = 30
-            static let top: CGFloat = 20
-            static let right: CGFloat = 20
+        
+        enum View {
+            static let backgroundColor: UIColor = .background
         }
         
         enum ShareButton {
-            static let image: String = "square.and.arrow.up"
+            static let image: UIImage = UIImage(systemName: "square.and.arrow.up") ?? UIImage()
+            static let state: UIControl.State = .normal
+            static let tintColor: UIColor = .white
+            static let event: UIControl.Event = .touchUpInside
             static let height: CGFloat = 30
             static let width: CGFloat = 30
             static let top: CGFloat = 20
             static let left: CGFloat = 20
         }
         
+        
+        enum CloseButton {
+            static let image: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
+            static let state: UIControl.State = .normal
+            static let tintColor: UIColor = .white
+            static let event: UIControl.Event = .touchUpInside
+            static let height: CGFloat = 30
+            static let width: CGFloat = 30
+            static let top: CGFloat = 20
+            static let right: CGFloat = 20
+        }
+        
         enum Table {
+            static let backgroundColor: UIColor = .clear
+            static let separator:  UITableViewCell.SeparatorStyle = .none
             static let cornerRadius: CGFloat = 20
             static let offset: CGFloat = 20
             static let titlesSections: [String] = ["Add wish", "Wishes"]
-            static let heightForRow: CGFloat = 48
+            static let heightForRow: CGFloat = 52
             static let addWishSectionsCount: Int = 1
             static let titleDelete: String = "Delete"
+            static let deleteActionStyle: UIContextualAction.Style = .destructive
+            static let editActionStyle: UIContextualAction.Style = .destructive
             static let titleEdit: String = "Edit"
+            static let headerTextColor: UIColor = .white
         }
         
-        enum Alert {
+        enum WarningAlert {
             static let title: String = "Error!"
             static let message: String = "Please enter a wish"
+            static let preferredStyle: UIAlertController.Style = .alert
+            static let actionStyle: UIAlertAction.Style = .cancel
             static let actionTitle: String = "OK"
         }
         
         enum EditAlert {
             static let title: String = "Edit"
             static let message: String = "Please enter an edited wish"
+            static let preferredStyle: UIAlertController.Style = .alert
             static let actionTitle: String = "OK"
+            static let actionStyle: UIAlertAction.Style = .default
         }
     }
     
@@ -90,7 +111,7 @@ final class WishStoringView: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = .systemCyan
+        backgroundColor = Constants.View.backgroundColor
         
         setUpShareButton()
         setUpCloseButton()
@@ -98,9 +119,9 @@ final class WishStoringView: UIView {
     }
     
     private func setUpShareButton() {
-        shareButton.setImage(UIImage(systemName: Constants.ShareButton.image), for: .normal)
-        shareButton.tintColor = .white
-        shareButton.addTarget(self, action: #selector (shareButtonTapped), for: .touchUpInside)
+        shareButton.setImage(Constants.ShareButton.image, for: Constants.ShareButton.state)
+        shareButton.tintColor = Constants.ShareButton.tintColor
+        shareButton.addTarget(self, action: #selector (shareButtonTapped), for: Constants.ShareButton.event)
         
         addSubview(shareButton)
         shareButton.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.ShareButton.top)
@@ -110,11 +131,11 @@ final class WishStoringView: UIView {
     }
     
     private func setUpCloseButton() {
-        closeButton.setImage(UIImage(systemName: Constants.CloseButton.image), for: .normal)
-        closeButton.tintColor = .white
-        closeButton.addTarget(self, action: #selector (closeButtonTapped), for: .touchUpInside)
-        addSubview(closeButton)
+        closeButton.setImage(Constants.CloseButton.image, for: Constants.CloseButton.state)
+        closeButton.tintColor = Constants.CloseButton.tintColor
+        closeButton.addTarget(self, action: #selector (closeButtonTapped), for: Constants.CloseButton.event)
         
+        addSubview(closeButton)
         closeButton.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.CloseButton.top)
         closeButton.pinRight(to: safeAreaLayoutGuide.trailingAnchor, Constants.CloseButton.right)
         closeButton.setHeight(Constants.CloseButton.height)
@@ -126,9 +147,10 @@ final class WishStoringView: UIView {
         
         table.dataSource = self
         table.delegate = self
-        table.backgroundColor = .clear
-        table.separatorStyle = .none
+        table.backgroundColor = Constants.Table.backgroundColor
+        table.separatorStyle = Constants.Table.separator
         table.layer.cornerRadius = Constants.Table.cornerRadius
+        table.showsVerticalScrollIndicator = false
         table.register(WrittenWishCell.self, forCellReuseIdentifier: WrittenWishCell.reuseId)
         table.register(AddWishCell.self, forCellReuseIdentifier: AddWishCell.reuseId)
         
@@ -139,12 +161,16 @@ final class WishStoringView: UIView {
     
     private func setUpWarningAlert() {
         let warningAlert: UIAlertController = UIAlertController(
-            title: Constants.Alert.title,
-            message: Constants.Alert.message,
-            preferredStyle: .alert
+            title: Constants.WarningAlert.title,
+            message: Constants.WarningAlert.message,
+            preferredStyle: Constants.WarningAlert.preferredStyle
         )
         
-        let alertAction = UIAlertAction(title: Constants.Alert.actionTitle, style: .cancel)
+        let alertAction = UIAlertAction(
+            title: Constants.WarningAlert.actionTitle,
+            style: Constants.WarningAlert.actionStyle
+        )
+        
         warningAlert.addAction(alertAction)
         delegate?.presentWarningAlert(warningAlert)
     }
@@ -153,13 +179,16 @@ final class WishStoringView: UIView {
         let editAlert: UIAlertController = UIAlertController(
             title: Constants.EditAlert.title,
             message: Constants.EditAlert.message,
-            preferredStyle: .alert
+            preferredStyle: Constants.EditAlert.preferredStyle
         )
         
         editAlert.addTextField()
         editAlert.textFields?.first?.text = wishArray[index]
         
-        let alertAction = UIAlertAction(title: Constants.Table.titleEdit, style: .default) { [weak self] _ in
+        let alertAction = UIAlertAction(
+            title: Constants.EditAlert.actionTitle,
+            style: Constants.EditAlert.actionStyle
+        ) { [weak self] _ in
             let newValue = editAlert.textFields?.first?.text ?? ""
             if newValue != "" {
                 self?.wishArray = self?.delegate?.editWish(Int16(index), newText: newValue) ?? []
@@ -193,6 +222,13 @@ final class WishStoringView: UIView {
 
 // MARK: - UITableViewDelegate
 extension WishStoringView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.textColor = Constants.Table.headerTextColor
+            header.automaticallyUpdatesBackgroundConfiguration = false
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.Table.heightForRow
     }
@@ -202,7 +238,7 @@ extension WishStoringView: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
-            style: .destructive,
+            style: Constants.Table.deleteActionStyle,
             title: Constants.Table.titleDelete
         ) { [weak self] (_, _, completion) in
             self?.wishArray = self?.delegate?.deleteWish(Int16(indexPath.row)) ?? []
@@ -223,7 +259,7 @@ extension WishStoringView: UITableViewDelegate {
         leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let editAction = UIContextualAction(
-            style: .normal,
+            style: Constants.Table.editActionStyle,
             title: Constants.Table.titleEdit
         ) { [weak self] (_, _, completion) in
             self?.setUpEditAlert(index: indexPath.row)

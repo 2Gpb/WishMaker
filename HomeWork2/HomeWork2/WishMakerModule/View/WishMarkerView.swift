@@ -24,12 +24,15 @@ final class WishMakerView: UIView {
         enum Title {
             static let text: String = "Wish Maker"
             static let fontSize: CGFloat = 32
+            static let fontWeight: UIFont.Weight = .bold
+            static let textColor: UIColor = .white
             static let top: CGFloat = 10
         }
         
         enum Description {
             static let text: String = "This app will bring you joy and will fulfill three of your wishes!\n - The first wish is to change the background color."
             static let numberOfLines: Int = 4
+            static let textColor: UIColor = .white
             static let top: CGFloat = 10
             static let leading: CGFloat = 20
         }
@@ -37,6 +40,7 @@ final class WishMakerView: UIView {
         enum MoveActions {
             static let addWishesTitle: String = "Add wish"
             static let scheduleWishesTitle: String = "Schedule wish granting"
+            static let axis: NSLayoutConstraint.Axis = .vertical
             static let spacing: CGFloat = 20
             static let leading: CGFloat = 20
             static let bottom: CGFloat = 20
@@ -50,7 +54,8 @@ final class WishMakerView: UIView {
             static let min: Double = 0
         }
         
-        enum SlidersStack {
+        enum Sliders {
+            static let axis: NSLayoutConstraint.Axis = .vertical
             static let radius: CGFloat = 20
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
@@ -58,9 +63,12 @@ final class WishMakerView: UIView {
         
         enum Picker {
             static let title: String = "Background Color"
+            static let style: UIModalPresentationStyle = .popover
         }
         
         enum ChangeColorButtons {
+            static let axis: NSLayoutConstraint.Axis = .horizontal
+            static let distribution: UIStackView.Distribution = .fillEqually
             static let pickerTitle: String = "Pick color"
             static let hideTitle: String = "Hide sliders"
             static let showTitle: String = "Show sliders"
@@ -68,6 +76,7 @@ final class WishMakerView: UIView {
             static let spacing: CGFloat = 10
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
+            static let alpha: CGFloat = 1
         }
     }
     
@@ -152,9 +161,12 @@ final class WishMakerView: UIView {
     
     private func setUpTitle() {
         wishTitle.text = Constants.Title.text
-        wishTitle.font = .systemFont(ofSize: Constants.Title.fontSize, weight: .bold)
-        wishTitle.textColor = .white
-        wishTitle.translatesAutoresizingMaskIntoConstraints = false
+        wishTitle.font =
+            .systemFont(
+                ofSize: Constants.Title.fontSize,
+                weight: Constants.Title.fontWeight
+            )
+        wishTitle.textColor = Constants.Title.textColor
         
         addSubview(wishTitle)
         wishTitle.pinCenterX(to: self)
@@ -163,9 +175,8 @@ final class WishMakerView: UIView {
     
     private func setUpDescription() {
         wishDescription.text = Constants.Description.text
-        wishDescription.textColor = .white
+        wishDescription.textColor = Constants.Description.textColor
         wishDescription.numberOfLines = Constants.Description.numberOfLines
-        wishDescription.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(wishDescription)
         wishDescription.pinCenterX(to: self)
@@ -174,14 +185,14 @@ final class WishMakerView: UIView {
     }
     
     private func setUpColorPicker() {
-        colorPicker.title = "Picker"
+        colorPicker.title = Constants.Picker.title
         colorPicker.supportsAlpha = false
         colorPicker.delegate = self
-        colorPicker.modalPresentationStyle = .popover
+        colorPicker.modalPresentationStyle = Constants.Picker.style
     }
     
     private func setUpMoveActionsStack() {
-        moveActionsStack.axis = .vertical
+        moveActionsStack.axis = Constants.MoveActions.axis
         moveActionsStack.spacing = Constants.MoveActions.spacing
         
         let buttons = [addWishesButton, scheduleWishesButton]
@@ -201,28 +212,28 @@ final class WishMakerView: UIView {
     }
     
     private func setUpSlidersStack() {
-        slidersStack.axis = .vertical
-        slidersStack.layer.cornerRadius = Constants.SlidersStack.radius
+        slidersStack.axis = Constants.Sliders.axis
+        slidersStack.layer.cornerRadius = Constants.Sliders.radius
         slidersStack.clipsToBounds = true
         
         for slider in [sliderRed, sliderGreen, sliderBlue] {
             slidersStack.addArrangedSubview(slider)
             slider.valueChanged = { [weak self] in
                 self?.slidersChangeBackgroundColor()
-                slider.currentValue.text = "\(Int(CGFloat(slider.slider.value) * 100))%"
+                slider.currentValue.text = "\(Int(slider.slider.value * 100))%"
             }
         }
         
         addSubview(slidersStack)
         slidersStack.pinCenterX(to: self)
-        slidersStack.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.SlidersStack.leading)
-        slidersStack.pinBottom(to: moveActionsStack.topAnchor, Constants.SlidersStack.bottom)
+        slidersStack.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.Sliders.leading)
+        slidersStack.pinBottom(to: moveActionsStack.topAnchor, Constants.Sliders.bottom)
     }
     
     private func setUpChangeColorButtonsStack() {
-        changeColorButtonsStack.axis = .horizontal
+        changeColorButtonsStack.axis = Constants.ChangeColorButtons.axis
         changeColorButtonsStack.spacing = Constants.ChangeColorButtons.spacing
-        changeColorButtonsStack.distribution = .fillEqually
+        changeColorButtonsStack.distribution = Constants.ChangeColorButtons.distribution
         
         let buttons = [colorPickerButton, showHideButton, randomColorButton]
         let actions = [presentColorPicker, showHideSliders, randomChangeBackgroundColor]
@@ -244,7 +255,12 @@ final class WishMakerView: UIView {
         let green = sliderGreen.slider.value
         let blue = sliderBlue.slider.value
         
-        self.color = UIColor(red: CGFloat(red), green: CGFloat(green), blue: CGFloat(blue), alpha: 1)
+        self.color = UIColor(
+            red: CGFloat(red),
+            green: CGFloat(green),
+            blue: CGFloat(blue),
+            alpha: Constants.ChangeColorButtons.alpha
+        )
     }
     
     private func presentColorPicker() {

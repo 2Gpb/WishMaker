@@ -10,7 +10,17 @@ import UIKit
 final class WrittenWishCell: UITableViewCell {
     // MARK: - Constants
     private enum Constants {
+        enum Error {
+            static let fatalError: String = "init(coder:) has not been implemented"
+        }
+        
+        enum Cell {
+            static let style: UITableViewCell.SelectionStyle = .none
+            static let backgroundColor: UIColor = .clear
+        }
+        
         enum Wrap {
+            static let backgroundColor: UIColor = .cells
             static let cornerRadius: CGFloat = 12
             static let offsetV: CGFloat = 5
             static let trailing: CGFloat = 5
@@ -18,6 +28,10 @@ final class WrittenWishCell: UITableViewCell {
         }
         
         enum WishLabel {
+            static let alignment: NSTextAlignment = .center
+            static let textColor: UIColor = .white
+            static let fontSize: CGFloat = 17
+            static let fontWeight: UIFont.Weight = .bold
             static let offset: CGFloat = 8
         }
     }
@@ -26,6 +40,7 @@ final class WrittenWishCell: UITableViewCell {
     static let reuseId: String = "WrittenWishCell"
     
     // MARK: - Private fields
+    private let wrap: UIView = UIView()
     private let wishLabel: UILabel = UILabel()
     
     // MARK: - Lifecycle
@@ -36,7 +51,7 @@ final class WrittenWishCell: UITableViewCell {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(Constants.Error.fatalError)
     }
     
     // MARK: - Methods
@@ -46,21 +61,31 @@ final class WrittenWishCell: UITableViewCell {
     
     // MARK: - SetUp
     private func setUp() {
-        selectionStyle = .none
-        backgroundColor = .clear
+        selectionStyle = Constants.Cell.style
+        backgroundColor = Constants.Cell.backgroundColor
         
-        let wrap: UIView = UIView()
-        addSubview(wrap)
-        
-        wrap.backgroundColor = .white
+        setUpWrap()
+        setUpWishLabel()
+    }
+    
+    private func setUpWrap() {
+        wrap.backgroundColor = Constants.Wrap.backgroundColor
         wrap.layer.cornerRadius = Constants.Wrap.cornerRadius
+        
+        addSubview(wrap)
         wrap.pinVertical(to: self, Constants.Wrap.offsetV)
         wrap.pinRight(to: self.trailingAnchor, Constants.Wrap.trailing)
         wrap.pinLeft(to: self.leadingAnchor, Constants.Wrap.leading)
-        
-        wishLabel.textAlignment = .center
-        wishLabel.font = .preferredFont(forTextStyle: .headline)
-        
+    }
+    
+    private func setUpWishLabel() {
+        wishLabel.textAlignment = Constants.WishLabel.alignment
+        wishLabel.textColor = Constants.WishLabel.textColor
+        wishLabel.font =
+            .systemFont(
+                ofSize: Constants.WishLabel.fontSize,
+                weight: Constants.WishLabel.fontWeight
+        )
         wrap.addSubview(wishLabel)
         wishLabel.pin(to: wrap, Constants.WishLabel.offset)
     }

@@ -10,37 +10,57 @@ import UIKit
 final class CustomButton: UIView {
     // MARK: - Constants
     private enum Constants {
-        static let backgroundColor: UIColor = .white
-        static let cornerRadius: CGFloat = 18
-        static let height: CGFloat = 46
+        enum Error {
+            static let fatalError: String = "init(coder:) has not been implemented"
+        }
+        
+        enum View {
+            static let height: CGFloat = 46
+        }
+        
+        enum Button {
+            static let titleColor: UIColor = .systemCyan
+            static let state: UIControl.State = .normal
+            static let fontSize: CGFloat = 17
+            static let fontWeight: UIFont.Weight = .bold
+            static let backgroundColor: UIColor = .white
+            static let cornerRadius: CGFloat = 18
+            static let event: UIControl.Event = .touchUpInside
+            static let height: CGFloat = 46
+        }
     }
     
     // MARK: - Variables
     var action: (() -> Void)?
     
-    // MARK: - Private fields
+    // MARK: - Fields
     let button: UIButton = UIButton(type: .system)
     
     // MARK: - Lifecycle
     init(title: String) {
         super.init(frame: .zero)
         self.button.setTitle(title, for: .normal)
-        self.setHeight(Constants.height)
         setUp()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(Constants.Error.fatalError)
     }
     
     // MARK: - SetUp
     private func setUp() {
-        button.setTitleColor(.systemCyan, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
-        button.backgroundColor = Constants.backgroundColor
-        button.layer.cornerRadius = Constants.cornerRadius
-        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        self.setHeight(Constants.View.height)
+        
+        button.setTitleColor(Constants.Button.titleColor, for: Constants.Button.state)
+        button.titleLabel?.font = 
+            .systemFont(
+                ofSize: Constants.Button.fontSize,
+                weight: Constants.Button.fontWeight
+            )
+        button.backgroundColor = Constants.Button.backgroundColor
+        button.layer.cornerRadius = Constants.Button.cornerRadius
+        button.addTarget(self, action: #selector(buttonTapped), for: Constants.Button.event)
         
         self.addSubview(button)
         button.pin(to: self)

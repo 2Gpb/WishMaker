@@ -6,11 +6,28 @@
 //
 import UIKit
 
-
 final class WishCalendarViewController: UIViewController {
     // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
-        view = WishCalendarView()
+        let vc = WishCalendarView()
+        vc.delegate = self
+        view = vc
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpNavigationBar()
+    }
+    // MARK: - Private methods
+    private func setUpNavigationBar() {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+}
+
+// MARK: - WishCalendarViewDelegate
+extension WishCalendarViewController: WishCalendarViewDelegate {
+    func goBackScreen() {
+        navigationController?.popViewController(animated: true)
     }
 }

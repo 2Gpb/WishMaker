@@ -10,18 +10,34 @@ import UIKit
 final class AddWishCell: UITableViewCell {
     // MARK: - Constants
     private enum Constants {
+        enum Error {
+            static let fatalError: String = "init(coder:) has not been implemented"
+        }
+        
+        enum Cell {
+            static let backgroundColor: UIColor = .clear
+        }
+        
         enum AddWishButton {
             static let title: String = "Add"
+            static let state: UIControl.State = .normal
+            static let titleColor: UIColor = .white
             static let fontSize: CGFloat = 12
+            static let fontWeight: UIFont.Weight = .bold
             static let cornerRadius: CGFloat = 12
-            static let borderWidth: CGFloat = 1
+            static let borderWidth: CGFloat = 2
+            static let borderColor: CGColor = UIColor.white.cgColor
+            static let event: UIControl.Event = .touchUpInside
             static let offset: CGFloat = 5
             static let width: CGFloat = 60
         }
         
         enum TextView {
+            static let fontSize: CGFloat = 17
+            static let fontWeight: UIFont.Weight = .regular
             static let cornerRadius: CGFloat = 12
             static let borderWidth: CGFloat = 1
+            static let backgroundColor: UIColor = .lightGray
             static let offset: CGFloat = 5
             static let leading: CGFloat = 16
         }
@@ -45,24 +61,29 @@ final class AddWishCell: UITableViewCell {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(Constants.Error.fatalError)
     }
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = .clear
+        backgroundColor = Constants.Cell.backgroundColor
         
         setUpAddWishButton()
         setUpTextView()
     }
     
     private func setUpAddWishButton() {
-        addWishButton.setTitle(Constants.AddWishButton.title, for: .normal)
-        addWishButton.setTitleColor(.black, for: .normal)
-        addWishButton.titleLabel?.font = UIFont.systemFont(ofSize: Constants.AddWishButton.fontSize, weight: .bold)
+        addWishButton.setTitle(Constants.AddWishButton.title, for: Constants.AddWishButton.state)
+        addWishButton.setTitleColor(Constants.AddWishButton.titleColor, for: Constants.AddWishButton.state)
+        addWishButton.titleLabel?.font = UIFont
+            .systemFont(
+                ofSize: Constants.AddWishButton.fontSize,
+                weight: Constants.AddWishButton.fontWeight
+            )
         addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
         addWishButton.layer.borderWidth = Constants.AddWishButton.borderWidth
-        addWishButton.addTarget(self, action: #selector(addWishButtonTapped), for: .touchUpInside)
+        addWishButton.layer.borderColor = Constants.AddWishButton.borderColor
+        addWishButton.addTarget(self, action: #selector(addWishButtonTapped), for: Constants.AddWishButton.event)
         
         contentView.addSubview(addWishButton)
         addWishButton.pinRight(to: trailingAnchor, Constants.AddWishButton.offset)
@@ -72,9 +93,14 @@ final class AddWishCell: UITableViewCell {
     }
     
     private func setUpTextView() {
+        textView.font = UIFont
+            .systemFont(
+                ofSize: Constants.TextView.fontSize,
+                weight: Constants.TextView.fontWeight
+            )
         textView.layer.cornerRadius = Constants.TextView.cornerRadius
         textView.layer.borderWidth = Constants.TextView.borderWidth
-        textView.font = .preferredFont(forTextStyle: .callout)
+        textView.backgroundColor = Constants.TextView.backgroundColor
         
         contentView.addSubview(textView)
         textView.pinLeft(to: leadingAnchor, Constants.TextView.leading)

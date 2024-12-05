@@ -14,18 +14,27 @@ final class CustomSlider: UIView {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
+        enum View {
+            static let backgroundColor: UIColor = .white
+        }
+        
         enum TitleView {
+            static let fontSize: CGFloat = 17
+            static let fontWeight: UIFont.Weight = .bold
             static let top: Double = 10
             static let leading: Double = 20
         }
         
         enum CurrentValue {
             static let text: String = "0%"
+            static let fontSize: CGFloat = 17
+            static let fontWeight: UIFont.Weight = .bold
             static let top: Double = 10
             static let leading: Double = 10
         }
         
         enum Slider {
+            static let event: UIControl.Event = .valueChanged
             static let startValue: Float = 0
             static let leading: Double = 20
             static let bottom: Double = 10
@@ -46,13 +55,8 @@ final class CustomSlider: UIView {
     init(title: String, min: Double, max: Double) {
         super.init(frame: .zero)
         titleView.text = title
-        titleView.font = .preferredFont(forTextStyle: .headline)
-        slider.value = Constants.Slider.startValue
         slider.maximumValue = Float(max)
         slider.minimumValue = Float(min)
-        slider.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
-        currentValue.text = Constants.CurrentValue.text
-        currentValue.font = .preferredFont(forTextStyle: .headline)
         setUp()
     }
     
@@ -63,20 +67,41 @@ final class CustomSlider: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = .white
-        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = Constants.View.backgroundColor
+        setUpTitleView()
+        setUpCurrentValue()
+        setUpSlider()
+    }
+    
+    private func setUpTitleView() {
+        titleView.font =
+            .systemFont(
+                ofSize: Constants.TitleView.fontSize,
+                weight: Constants.TitleView.fontWeight
+            )
         
-        for view in [titleView, slider, currentValue] {
-            addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
-        }
-        
+        addSubview(titleView)
         titleView.pinTop(to: topAnchor, Constants.TitleView.top)
         titleView.pinLeft(to: leadingAnchor, Constants.TitleView.leading)
+    }
+    
+    private func setUpCurrentValue() {
+        currentValue.text = Constants.CurrentValue.text
+        currentValue.font = .systemFont(
+            ofSize: Constants.CurrentValue.fontSize,
+            weight: Constants.CurrentValue.fontWeight
+        )
         
+        addSubview(currentValue)
         currentValue.pinTop(to: topAnchor, Constants.CurrentValue.top)
         currentValue.pinLeft(to: titleView.trailingAnchor, Constants.CurrentValue.leading)
+    }
+    
+    private func setUpSlider() {
+        slider.value = Constants.Slider.startValue
+        slider.addTarget(self, action: #selector(sliderValueChanged), for: Constants.Slider.event)
         
+        addSubview(slider)
         slider.pinTop(to: titleView.bottomAnchor)
         slider.pinLeft(to: leadingAnchor, Constants.Slider.leading)
         slider.pinCenterX(to: centerXAnchor)
