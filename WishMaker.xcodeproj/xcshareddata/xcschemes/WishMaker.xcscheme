@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1600"
+   LastUpgradeVersion = "1610"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D0A0035A2CB6E01100E55BF8"
-               BuildableName = "HomeWork1.app"
-               BlueprintName = "HomeWork1"
-               ReferencedContainer = "container:HomeWork1.xcodeproj">
+               BlueprintIdentifier = "D0966E0D2CEDC2B300B47928"
+               BuildableName = "WishMaker.app"
+               BlueprintName = "WishMaker"
+               ReferencedContainer = "container:WishMaker.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0A0035A2CB6E01100E55BF8"
-            BuildableName = "HomeWork1.app"
-            BlueprintName = "HomeWork1"
-            ReferencedContainer = "container:HomeWork1.xcodeproj">
+            BlueprintIdentifier = "D0966E0D2CEDC2B300B47928"
+            BuildableName = "WishMaker.app"
+            BlueprintName = "WishMaker"
+            ReferencedContainer = "container:WishMaker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D0A0035A2CB6E01100E55BF8"
-            BuildableName = "HomeWork1.app"
-            BlueprintName = "HomeWork1"
-            ReferencedContainer = "container:HomeWork1.xcodeproj">
+            BlueprintIdentifier = "D0966E0D2CEDC2B300B47928"
+            BuildableName = "WishMaker.app"
+            BlueprintName = "WishMaker"
+            ReferencedContainer = "container:WishMaker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

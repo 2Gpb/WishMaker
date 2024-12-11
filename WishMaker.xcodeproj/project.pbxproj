@@ -7,32 +7,32 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		D0A0035B2CB6E01100E55BF8 /* HomeWork1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeWork1.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0966E0E2CEDC2B300B47928 /* WishMaker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WishMaker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D01759CD2CB7CC4F007A4838 /* Exceptions for "HomeWork1" folder in "HomeWork1" target */ = {
+		D0966E202CEDC2B400B47928 /* Exceptions for "WishMaker" folder in "WishMaker" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = D0A0035A2CB6E01100E55BF8 /* HomeWork1 */;
+			target = D0966E0D2CEDC2B300B47928 /* WishMaker */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D0A0035D2CB6E01100E55BF8 /* HomeWork1 */ = {
+		D0966E102CEDC2B300B47928 /* WishMaker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				D01759CD2CB7CC4F007A4838 /* Exceptions for "HomeWork1" folder in "HomeWork1" target */,
+				D0966E202CEDC2B400B47928 /* Exceptions for "WishMaker" folder in "WishMaker" target */,
 			);
-			path = HomeWork1;
+			path = WishMaker;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		D0A003582CB6E01100E55BF8 /* Frameworks */ = {
+		D0966E0B2CEDC2B300B47928 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,18 +42,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D0A003522CB6E01100E55BF8 = {
+		D0966E052CEDC2B300B47928 = {
 			isa = PBXGroup;
 			children = (
-				D0A0035D2CB6E01100E55BF8 /* HomeWork1 */,
-				D0A0035C2CB6E01100E55BF8 /* Products */,
+				D0966E102CEDC2B300B47928 /* WishMaker */,
+				D0966E0F2CEDC2B300B47928 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		D0A0035C2CB6E01100E55BF8 /* Products */ = {
+		D0966E0F2CEDC2B300B47928 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0A0035B2CB6E01100E55BF8 /* HomeWork1.app */,
+				D0966E0E2CEDC2B300B47928 /* WishMaker.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,64 +61,64 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D0A0035A2CB6E01100E55BF8 /* HomeWork1 */ = {
+		D0966E0D2CEDC2B300B47928 /* WishMaker */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D0A0036E2CB6E01200E55BF8 /* Build configuration list for PBXNativeTarget "HomeWork1" */;
+			buildConfigurationList = D0966E212CEDC2B400B47928 /* Build configuration list for PBXNativeTarget "WishMaker" */;
 			buildPhases = (
-				D0A003572CB6E01100E55BF8 /* Sources */,
-				D0A003582CB6E01100E55BF8 /* Frameworks */,
-				D0A003592CB6E01100E55BF8 /* Resources */,
+				D0966E0A2CEDC2B300B47928 /* Sources */,
+				D0966E0B2CEDC2B300B47928 /* Frameworks */,
+				D0966E0C2CEDC2B300B47928 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				D0A0035D2CB6E01100E55BF8 /* HomeWork1 */,
+				D0966E102CEDC2B300B47928 /* WishMaker */,
 			);
-			name = HomeWork1;
+			name = WishMaker;
 			packageProductDependencies = (
 			);
-			productName = HomeWork1;
-			productReference = D0A0035B2CB6E01100E55BF8 /* HomeWork1.app */;
+			productName = HomeWork2;
+			productReference = D0966E0E2CEDC2B300B47928 /* WishMaker.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		D0A003532CB6E01100E55BF8 /* Project object */ = {
+		D0966E062CEDC2B300B47928 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastSwiftUpdateCheck = 1610;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
-					D0A0035A2CB6E01100E55BF8 = {
-						CreatedOnToolsVersion = 16.0;
+					D0966E0D2CEDC2B300B47928 = {
+						CreatedOnToolsVersion = 16.1;
 					};
 				};
 			};
-			buildConfigurationList = D0A003562CB6E01100E55BF8 /* Build configuration list for PBXProject "HomeWork1" */;
+			buildConfigurationList = D0966E092CEDC2B300B47928 /* Build configuration list for PBXProject "WishMaker" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = D0A003522CB6E01100E55BF8;
+			mainGroup = D0966E052CEDC2B300B47928;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = D0A0035C2CB6E01100E55BF8 /* Products */;
+			productRefGroup = D0966E0F2CEDC2B300B47928 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D0A0035A2CB6E01100E55BF8 /* HomeWork1 */,
+				D0966E0D2CEDC2B300B47928 /* WishMaker */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D0A003592CB6E01100E55BF8 /* Resources */ = {
+		D0966E0C2CEDC2B300B47928 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -128,7 +128,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		D0A003572CB6E01100E55BF8 /* Sources */ = {
+		D0966E0A2CEDC2B300B47928 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -138,7 +138,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		D0A0036F2CB6E01200E55BF8 /* Debug */ = {
+		D0966E222CEDC2B400B47928 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -147,18 +147,19 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W4G8RWL3P3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HomeWork1/Info.plist;
+				INFOPLIST_FILE = WishMaker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = rut.HomeWork1;
+				PRODUCT_BUNDLE_IDENTIFIER = rut.WishMaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -166,7 +167,7 @@
 			};
 			name = Debug;
 		};
-		D0A003702CB6E01200E55BF8 /* Release */ = {
+		D0966E232CEDC2B400B47928 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -175,18 +176,19 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = W4G8RWL3P3;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = HomeWork1/Info.plist;
+				INFOPLIST_FILE = WishMaker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = rut.HomeWork1;
+				PRODUCT_BUNDLE_IDENTIFIER = rut.WishMaker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -194,7 +196,7 @@
 			};
 			name = Release;
 		};
-		D0A003712CB6E01200E55BF8 /* Debug */ = {
+		D0966E242CEDC2B400B47928 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -246,7 +248,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -257,7 +259,7 @@
 			};
 			name = Debug;
 		};
-		D0A003722CB6E01200E55BF8 /* Release */ = {
+		D0966E252CEDC2B400B47928 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -303,7 +305,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -316,25 +318,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D0A003562CB6E01100E55BF8 /* Build configuration list for PBXProject "HomeWork1" */ = {
+		D0966E092CEDC2B300B47928 /* Build configuration list for PBXProject "WishMaker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D0A003712CB6E01200E55BF8 /* Debug */,
-				D0A003722CB6E01200E55BF8 /* Release */,
+				D0966E242CEDC2B400B47928 /* Debug */,
+				D0966E252CEDC2B400B47928 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D0A0036E2CB6E01200E55BF8 /* Build configuration list for PBXNativeTarget "HomeWork1" */ = {
+		D0966E212CEDC2B400B47928 /* Build configuration list for PBXNativeTarget "WishMaker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D0A0036F2CB6E01200E55BF8 /* Debug */,
-				D0A003702CB6E01200E55BF8 /* Release */,
+				D0966E222CEDC2B400B47928 /* Debug */,
+				D0966E232CEDC2B400B47928 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = D0A003532CB6E01100E55BF8 /* Project object */;
+	rootObject = D0966E062CEDC2B300B47928 /* Project object */;
 }
