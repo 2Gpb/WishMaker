@@ -25,7 +25,7 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
     
     // MARK: - Properties
     private var appDelegate: AppDelegate {
-        UIApplication.shared.delegate as! AppDelegate
+        UIApplication.shared.delegate as? AppDelegate ?? AppDelegate()
     }
     
     private var context: NSManagedObjectContext {

@@ -27,6 +27,10 @@ final class WishCalendarViewController: UIViewController {
 
 // MARK: - WishCalendarViewDelegate
 extension WishCalendarViewController: WishCalendarViewDelegate {
+    func createEvent() {
+        navigationController?.pushViewController(WishEventCreationController(), animated: true)
+    }
+    
     func goBackScreen() {
         navigationController?.popViewController(animated: true)
     }

@@ -8,6 +8,7 @@ import UIKit
 
 protocol WishCalendarViewDelegate: AnyObject {
     func goBackScreen()
+    func createEvent()
 }
 
 final class WishCalendarView: UIView {
@@ -21,6 +22,28 @@ final class WishCalendarView: UIView {
             static let backgroundColor: UIColor = .background
         }
         
+        enum BackButton {
+            static let image: UIImage = UIImage(systemName: "chevron.left") ?? UIImage()
+            static let color: UIColor = .white
+            static let state: UIControl.State = .normal
+            static let event: UIControl.Event = .touchUpInside
+            static let top: CGFloat = 8
+            static let leading: CGFloat = 10
+            static let height: CGFloat = 24
+            static let width: CGFloat = 24
+        }
+        
+        enum PlusButton {
+            static let image: UIImage = UIImage(systemName: "plus") ?? UIImage()
+            static let state: UIControl.State = .normal
+            static let color: UIColor = .white
+            static let event: UIControl.Event = .touchUpInside
+            static let top: CGFloat = 8
+            static let right: CGFloat = 10
+            static let height: CGFloat = 24
+            static let width: CGFloat = 24
+        }
+        
         enum CollectionView {
             static let backgroundColor: UIColor = .clear
             static let sectionInsets: UIEdgeInsets = UIEdgeInsets(
@@ -29,21 +52,10 @@ final class WishCalendarView: UIView {
                 bottom: 0,
                 right: 0
             )
-            static let top: CGFloat = 15
+            static let top: CGFloat = 20
             static let heightCell: CGFloat = 165
             static let totalIndent: CGFloat = 20
             static let lineSpacing: CGFloat = 15
-        }
-        
-        enum BackButton {
-            static let image: UIImage = UIImage(systemName: "chevron.left") ?? UIImage()
-            static let color: UIColor = .white
-            static let state: UIControl.State = .normal
-            static let event: UIControl.Event = .touchUpInside
-            static let top: CGFloat = 0
-            static let leading: CGFloat = 10
-            static let height: CGFloat = 24
-            static let width: CGFloat = 24
         }
     }
     
@@ -60,6 +72,7 @@ final class WishCalendarView: UIView {
     
     //MARK: - Private fields
     private let backButton: UIButton = UIButton(type: .system)
+    private let plusButton: UIButton = UIButton(type: .system)
     private let collectionView: UICollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -80,6 +93,7 @@ final class WishCalendarView: UIView {
     func setUp() {
         backgroundColor = Constants.View.backgroundColor
         setUpBackButton()
+        setUpPlusButton()
         setUpCollectionView()
     }
     
@@ -93,6 +107,18 @@ final class WishCalendarView: UIView {
         backButton.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.BackButton.leading)
         backButton.setHeight(Constants.BackButton.height)
         backButton.setWidth(Constants.BackButton.width)
+    }
+    
+    private func setUpPlusButton() {
+        plusButton.setImage(Constants.PlusButton.image, for: Constants.PlusButton.state)
+        plusButton.tintColor = Constants.PlusButton.color
+        plusButton.addTarget(self, action: #selector(addEvent), for: Constants.PlusButton.event)
+        
+        addSubview(plusButton)
+        plusButton.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.PlusButton.top)
+        plusButton.pinRight(to: safeAreaLayoutGuide.trailingAnchor, Constants.PlusButton.right)
+        plusButton.setHeight(Constants.PlusButton.height)
+        plusButton.setWidth(Constants.PlusButton.width)
     }
     
     private func setUpCollectionView() {
@@ -113,6 +139,11 @@ final class WishCalendarView: UIView {
     @objc
     private func goBackScreen() {
         delegate?.goBackScreen()
+    }
+    
+    @objc
+    private func addEvent() {
+        delegate?.createEvent()
     }
 }
 
