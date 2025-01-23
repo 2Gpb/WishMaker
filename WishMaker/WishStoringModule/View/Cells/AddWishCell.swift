@@ -40,6 +40,7 @@ final class AddWishCell: UITableViewCell {
             static let backgroundColor: UIColor = .lightGray
             static let offset: CGFloat = 5
             static let leading: CGFloat = 16
+            static let insets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 6, bottom: 0, right: 9)
         }
     }
     
@@ -101,6 +102,7 @@ final class AddWishCell: UITableViewCell {
         textView.layer.cornerRadius = Constants.TextView.cornerRadius
         textView.layer.borderWidth = Constants.TextView.borderWidth
         textView.backgroundColor = Constants.TextView.backgroundColor
+        textView.textContainerInset = Constants.TextView.insets
         
         contentView.addSubview(textView)
         textView.pinLeft(to: leadingAnchor, Constants.TextView.leading)

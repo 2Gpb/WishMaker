@@ -15,7 +15,7 @@ final class CustomSlider: UIView {
         }
         
         enum View {
-            static let backgroundColor: UIColor = .white
+            static let backgroundColor: UIColor = .lightGray
         }
         
         enum TitleView {
@@ -23,12 +23,14 @@ final class CustomSlider: UIView {
             static let fontWeight: UIFont.Weight = .bold
             static let top: Double = 10
             static let leading: Double = 20
+            static let textColor: UIColor = .cells
         }
         
         enum CurrentValue {
             static let text: String = "0%"
             static let fontSize: CGFloat = 17
             static let fontWeight: UIFont.Weight = .bold
+            static let textColor: UIColor = .cells
             static let top: Double = 10
             static let leading: Double = 10
         }
@@ -38,6 +40,7 @@ final class CustomSlider: UIView {
             static let startValue: Float = 0
             static let leading: Double = 20
             static let bottom: Double = 10
+            static let top: Double = 6
         }
     }
     
@@ -74,6 +77,7 @@ final class CustomSlider: UIView {
     }
     
     private func setUpTitleView() {
+        titleView.textColor = Constants.TitleView.textColor
         titleView.font =
             .systemFont(
                 ofSize: Constants.TitleView.fontSize,
@@ -87,6 +91,7 @@ final class CustomSlider: UIView {
     
     private func setUpCurrentValue() {
         currentValue.text = Constants.CurrentValue.text
+        currentValue.textColor = Constants.CurrentValue.textColor
         currentValue.font = .systemFont(
             ofSize: Constants.CurrentValue.fontSize,
             weight: Constants.CurrentValue.fontWeight
@@ -102,7 +107,7 @@ final class CustomSlider: UIView {
         slider.addTarget(self, action: #selector(sliderValueChanged), for: Constants.Slider.event)
         
         addSubview(slider)
-        slider.pinTop(to: titleView.bottomAnchor)
+        slider.pinTop(to: titleView.bottomAnchor, Constants.Slider.top)
         slider.pinLeft(to: leadingAnchor, Constants.Slider.leading)
         slider.pinCenterX(to: centerXAnchor)
         slider.pinBottom(to: bottomAnchor, Constants.Slider.bottom)

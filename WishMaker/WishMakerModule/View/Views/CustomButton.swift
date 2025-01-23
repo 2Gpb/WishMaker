@@ -19,11 +19,11 @@ final class CustomButton: UIView {
         }
         
         enum Button {
-            static let titleColor: UIColor = .systemCyan
+            static let titleColor: UIColor = .cells
             static let state: UIControl.State = .normal
             static let fontSize: CGFloat = 17
             static let fontWeight: UIFont.Weight = .bold
-            static let backgroundColor: UIColor = .white
+            static let backgroundColor: UIColor = .lightGray
             static let cornerRadius: CGFloat = 18
             static let event: UIControl.Event = .touchUpInside
             static let height: CGFloat = 46

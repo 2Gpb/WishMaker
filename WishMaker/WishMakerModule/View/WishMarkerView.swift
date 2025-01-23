@@ -21,6 +21,10 @@ final class WishMakerView: UIView {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
+        enum View {
+            static let backgroundColor: UIColor = .background
+        }
+        
         enum Title {
             static let text: String = "Wish Maker"
             static let fontSize: CGFloat = 32
@@ -150,7 +154,7 @@ final class WishMakerView: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        self.backgroundColor = .systemCyan
+        self.backgroundColor = Constants.View.backgroundColor
         setUpTitle()
         setUpDescription()
         setUpColorPicker()
