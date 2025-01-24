@@ -7,6 +7,14 @@
 import UIKit
 
 final class WishCalendarViewController: UIViewController {
+    // MARK: - Variables
+    var events: [WishEvent] = [WishEvent(
+        title: "I want to finish the layout in Figma. ",
+        description: "I want to finish the layout in figma of an application I'm going to write for my diploma.",
+        startDate: "11:00, 12.09.2024",
+        endDate: "13:00, 12.09.2024"
+    )]
+    
     // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
@@ -28,10 +36,21 @@ final class WishCalendarViewController: UIViewController {
 // MARK: - WishCalendarViewDelegate
 extension WishCalendarViewController: WishCalendarViewDelegate {
     func createEvent() {
-        navigationController?.pushViewController(WishEventCreationController(), animated: true)
+        let vc = WishEventCreationController()
+        vc.delegate = self
+        present(vc, animated: true)
     }
     
     func goBackScreen() {
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension WishCalendarViewController: WishEventCreationDelegate {
+    func addEvent(_ event: WishEvent) {
+        events.append(event)
+        if let calendarView = view as? WishCalendarView {
+            calendarView.reloadTable()
+        }
     }
 }

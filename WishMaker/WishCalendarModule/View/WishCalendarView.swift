@@ -7,6 +7,7 @@
 import UIKit
 
 protocol WishCalendarViewDelegate: AnyObject {
+    var events: [WishEvent] { get set }
     func goBackScreen()
     func createEvent()
 }
@@ -29,8 +30,8 @@ final class WishCalendarView: UIView {
             static let event: UIControl.Event = .touchUpInside
             static let top: CGFloat = 8
             static let leading: CGFloat = 10
-            static let height: CGFloat = 24
-            static let width: CGFloat = 24
+            static let height: CGFloat = 30
+            static let width: CGFloat = 30
         }
         
         enum PlusButton {
@@ -40,8 +41,8 @@ final class WishCalendarView: UIView {
             static let event: UIControl.Event = .touchUpInside
             static let top: CGFloat = 8
             static let right: CGFloat = 10
-            static let height: CGFloat = 24
-            static let width: CGFloat = 24
+            static let height: CGFloat = 30
+            static let width: CGFloat = 30
         }
         
         enum CollectionView {
@@ -62,14 +63,6 @@ final class WishCalendarView: UIView {
     // MARK: - Variables
     weak var delegate: WishCalendarViewDelegate?
     
-    // MARK: - Privavte variables
-    private var events: [WishEvent] = [WishEvent(
-        title: "I want to finish the layout in Figma. ",
-        description: "I want to finish the layout in figma of an application I'm going to write for my diploma.",
-        startDate: "11:00, 12.09.2024",
-        endDate: "13:00, 12.09.2024"
-    )]
-    
     //MARK: - Private fields
     private let backButton: UIButton = UIButton(type: .system)
     private let plusButton: UIButton = UIButton(type: .system)
@@ -89,8 +82,13 @@ final class WishCalendarView: UIView {
         fatalError(Constants.Error.fatalError)
     }
     
+    // MARK: - Methods
+    func reloadTable() {
+        collectionView.reloadData()
+    }
+    
     // MARK: - SetUp
-    func setUp() {
+    private func setUp() {
         backgroundColor = Constants.View.backgroundColor
         setUpBackButton()
         setUpPlusButton()
@@ -160,11 +158,8 @@ extension WishCalendarView: UICollectionViewDelegateFlowLayout {
         )
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        print((indexPath.item))
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.item)
     }
     
     func collectionView(
@@ -190,7 +185,7 @@ extension WishCalendarView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return events.count
+        return delegate?.events.count ?? 0
     }
     
     func collectionView(
@@ -204,7 +199,14 @@ extension WishCalendarView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: events[indexPath.row])
+        cell.configure(
+            with: delegate?.events[indexPath.row] ?? WishEvent(
+                title: "",
+                description: "",
+                startDate: "",
+                endDate: ""
+            )
+        )
         
         return cell
     }
