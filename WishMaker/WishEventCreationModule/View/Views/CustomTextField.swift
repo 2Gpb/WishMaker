@@ -25,7 +25,6 @@ final class CustomTextField: UIView {
             static let dateFormat: String = "MMMM d, yyyy 'at' HH:mm"
             static let locale: Locale = Locale(identifier: "en_EN")
             static let timeZone: TimeZone = .current
-            static let defaultValue: String = "No date selected"
         }
         
         enum TitleLabel {

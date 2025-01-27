@@ -9,14 +9,23 @@ import CoreData
 
 // MARK: - WishCoreDataServiceLogic
 protocol WishCoreDataServiceLogic {
-    func logCoreDataDBPath()
-    func addElement(_ id: Int16, text: String)
+    func addElement(text: String)
     func getElements() -> [String]
-    func editElement(_ id: Int16, newValue: String)
-    func deleteElement(_ id: Int16)
+    func getElement(_ id: Int) -> String
+    func editElement(_ id: Int, newValue: String)
+    func deleteElement(_ id: Int)
 }
 
 final class WishCoreDataService: WishCoreDataServiceLogic {
+    // MARK: - Constants
+    private enum Constants {
+        static let entityName: String = "Wish"
+        static let getElementsError: String = "Failed to get elements"
+        static let getElementError: String = "Failed to get element"
+        static let editElementError: String = "Failed to edit element"
+        static let deleteElementsError: String = "Failed to delete element"
+    }
+    
     // MARK: - Singleton
     static let shared: WishCoreDataServiceLogic = WishCoreDataService()
     
@@ -32,28 +41,20 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         appDelegate.persistentContainer.viewContext
     }
     
-    // MARK: Methods
-    func logCoreDataDBPath() {
-        if let url = appDelegate.persistentContainer.persistentStoreCoordinator.persistentStores.first?.url {
-            print("DB url - \(url)")
-        }
-    }
-    
     // MARK: - CRUD
-    func addElement(_ id: Int16, text: String) {
+    func addElement(text: String) {
         guard let wishEntityDescription = NSEntityDescription.entity(
-            forEntityName: "Wish",
+            forEntityName: Constants.entityName,
             in: context
         ) else { return }
         let wish = Wish(entity: wishEntityDescription, insertInto: context)
-        wish.id = id
         wish.text = text
         
         appDelegate.saveContext()
     }
     
     func getElements() -> [String] {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Wish")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entityName)
         do {
             let wishes = try context.fetch(fetchRequest) as? [Wish]
             var textWishes: [String] = []
@@ -62,33 +63,43 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
             })
             return textWishes
         } catch {
-            print("Failed to get elements: \(error)")
+            print(Constants.getElementsError + ": \(error)")
             return []
         }
     }
     
-    func editElement(_ id: Int16, newValue: String) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Wish")
+    func getElement(_ id: Int) -> String {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entityName)
+        do {
+            let wishes = try context.fetch(fetchRequest) as? [Wish]
+            return wishes?[id].text ?? ""
+        } catch {
+            print(Constants.getElementError + ": \(error)")
+            return ""
+        }
+    }
+    
+    func editElement(_ id: Int, newValue: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entityName)
         do {
             guard let wishes = try context.fetch(fetchRequest) as? [Wish],
-                  wishes.indices.contains(Int(id)) else { return }
-            let wishToEdit = wishes[Int(id)]
+                  wishes.indices.contains(id) else { return }
+            let wishToEdit = wishes[id]
             wishToEdit.text = newValue
         } catch {
-            print("Failed to edit element: \(error)")
+            print(Constants.editElementError + ": \(error)")
         }
         appDelegate.saveContext()
     }
 
-    func deleteElement(_ id: Int16) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Wish")
+    func deleteElement(_ id: Int) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entityName)
         do {
             guard let wishes = try context.fetch(fetchRequest) as? [Wish],
-                  wishes.indices.contains(Int(id)) else { return }
-            let wishToDelete = wishes[Int(id)]
-            context.delete(wishToDelete)
+                  wishes.indices.contains(id) else { return }
+            context.delete(wishes[id])
         } catch {
-            print("Failed to delete element: \(error)")
+            print(Constants.deleteElementsError + ": \(error)")
         }
         appDelegate.saveContext()
     }

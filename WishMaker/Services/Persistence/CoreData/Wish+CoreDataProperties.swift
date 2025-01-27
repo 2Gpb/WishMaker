@@ -11,7 +11,6 @@ import CoreData
 
 
 extension Wish {
-    @NSManaged public var id: Int16
     @NSManaged public var text: String?
 }
 

@@ -33,22 +33,23 @@ extension WishStoringViewController: WishStoringViewDelegate {
         dismiss(animated: true)
     }
     
-    func deleteWish(_ wish: Int16) -> [String] {
-        WishCoreDataService.shared.deleteElement(wish)
-        return WishCoreDataService.shared.getElements()
+    func deleteWish(_ id: Int) {
+        WishCoreDataService.shared.deleteElement(id)
     }
     
-    func editWish(_ wish: Int16, newText: String) -> [String] {
-        WishCoreDataService.shared.editElement(wish, newValue: newText)
-        return WishCoreDataService.shared.getElements()
+    func editWish(_ id: Int, newText: String) {
+        WishCoreDataService.shared.editElement(id, newValue: newText)
     }
     
     func getWishes() -> [String] {
         WishCoreDataService.shared.getElements()
     }
     
-    func addWish(_ wish: Int16, text: String) -> [String] {
-        WishCoreDataService.shared.addElement(wish, text: text)
-        return WishCoreDataService.shared.getElements()
+    func getWish(_ id: Int) -> String {
+        WishCoreDataService.shared.getElement(id)
+    }
+    
+    func addWish(text: String) {
+        WishCoreDataService.shared.addElement(text: text)
     }
 }

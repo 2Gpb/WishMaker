@@ -13,10 +13,11 @@ protocol WishStoringViewDelegate: AnyObject {
     func presentActivityController(_ activityController: UIActivityViewController)
     func closeScreen()
     
-    func deleteWish(_ wish: Int16) -> [String]
-    func editWish(_ wish: Int16, newText: String) -> [String]
+    func deleteWish(_ id: Int)
+    func editWish(_ id: Int, newText: String)
     func getWishes() -> [String]
-    func addWish(_ wish: Int16, text: String) -> [String]
+    func getWish(_ id: Int) -> String
+    func addWish(text: String)
 }
 
 final class WishStoringView: UIView {
@@ -89,7 +90,7 @@ final class WishStoringView: UIView {
     weak var delegate: WishStoringViewDelegate?
     
     // MARK: - Private variables
-    private var wishArray: [String] = []
+//    private var wishArray: [String] = []
     
     // MARK: - Private fields
     private let shareButton: UIButton = UIButton(type: .system)
@@ -100,7 +101,6 @@ final class WishStoringView: UIView {
     init(delegate: WishStoringViewDelegate) {
         super.init(frame: .zero)
         self.delegate = delegate
-        wishArray = self.delegate?.getWishes() ?? []
         setUp()
     }
     
@@ -183,7 +183,7 @@ final class WishStoringView: UIView {
         )
         
         editAlert.addTextField()
-        editAlert.textFields?.first?.text = wishArray[index]
+        editAlert.textFields?.first?.text = delegate?.getWishes()[index]
         
         let alertAction = UIAlertAction(
             title: Constants.EditAlert.actionTitle,
@@ -191,10 +191,10 @@ final class WishStoringView: UIView {
         ) { [weak self] _ in
             let newValue = editAlert.textFields?.first?.text ?? ""
             if newValue != "" {
-                self?.wishArray = self?.delegate?.editWish(Int16(index), newText: newValue) ?? []
+                self?.delegate?.editWish(index, newText: newValue)
                 self?.table.reloadData()
             } else {
-                self?.wishArray = self?.delegate?.deleteWish(Int16(index)) ?? []
+                self?.delegate?.deleteWish(index)
                 self?.table.reloadData()
             }
         }
@@ -207,7 +207,7 @@ final class WishStoringView: UIView {
     @objc
     private func shareButtonTapped() {
         let activityViewController: UIActivityViewController = UIActivityViewController(
-            activityItems: wishArray,
+            activityItems: delegate?.getWishes() ?? [],
             applicationActivities: nil
         )
         
@@ -241,7 +241,7 @@ extension WishStoringView: UITableViewDelegate {
             style: Constants.Table.deleteActionStyle,
             title: Constants.Table.titleDelete
         ) { [weak self] (_, _, completion) in
-            self?.wishArray = self?.delegate?.deleteWish(Int16(indexPath.row)) ?? []
+            self?.delegate?.deleteWish(indexPath.row)
             tableView.reloadData()
             completion(true)
         }
@@ -291,7 +291,7 @@ extension WishStoringView: UITableViewDataSource {
         case 0:
             return Constants.Table.addWishSectionsCount
         case 1:
-            return wishArray.count
+            return delegate?.getWishes().count ?? 0
         default:
             return 0
         }
@@ -309,10 +309,7 @@ extension WishStoringView: UITableViewDataSource {
             
             cell.addWish = { [weak self] text in
                 if text != "" {
-                    self?.wishArray = self?.delegate?.addWish(
-                        Int16(self?.wishArray.count ?? 0),
-                        text: text
-                    ) ?? []
+                    self?.delegate?.addWish(text: text)
                     tableView.reloadData()
                 } else {
                     self?.setUpWarningAlert()
@@ -328,8 +325,8 @@ extension WishStoringView: UITableViewDataSource {
                 return UITableViewCell()
             }
             
-            cell.configure(with: wishArray[indexPath.row])
-            
+            let wish = delegate?.getWish(indexPath.row)
+            cell.configure(with: wish ?? "")
             return cell
         default:
             return UITableViewCell()

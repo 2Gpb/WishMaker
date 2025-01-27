@@ -13,6 +13,10 @@ final class WishEventCell: UICollectionViewCell {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
+        enum ReuseIdentifier {
+            static let value: String = "WishEventCell"
+        }
+        
         enum Cell {
             static let backgroundColor: UIColor = .cells
             static let radius: CGFloat = 20
@@ -56,10 +60,31 @@ final class WishEventCell: UICollectionViewCell {
             static let leading: Double = 20
             static let trailing: Double = 20
         }
+        
+        enum Formatter {
+            static let dateFormat: String = "HH:mm, dd.MM.yyyy"
+            static let locale: Locale = Locale(identifier: "en_EN")
+            static let timeZone: TimeZone = .current
+        }
+        
+        enum DeleteButton {
+            static let type: UIButton.ButtonType = .system
+            static let image: UIImage? = UIImage(systemName: "trash")
+            static let state: UIControl.State = .normal
+            static let color: UIColor = .red
+            static let event: UIControl.Event = .touchUpInside
+            static let top: CGFloat = 20
+            static let right: CGFloat = 20
+            static let height: CGFloat = 22
+            static let width: CGFloat = 17
+        }
     }
     
     // MARK: - ReuseID
-    static let reuseId = "WishEventCell"
+    static let reuseId = Constants.ReuseIdentifier.value
+    
+    // MARK: - Variables
+    var onDelete: (() -> Void)?
     
     // MARK: - Private fields
     private let wrapView: UIView = UIView()
@@ -67,6 +92,7 @@ final class WishEventCell: UICollectionViewCell {
     private let descriptionLabel: UILabel = UILabel()
     private let startDateLabel: UILabel = UILabel()
     private let endDateLabel: UILabel = UILabel()
+    private let deleteButton: UIButton = UIButton(type: Constants.DeleteButton.type)
     
     // MARK: - Lifecycle
     override init(frame: CGRect) {
@@ -82,9 +108,9 @@ final class WishEventCell: UICollectionViewCell {
     // MARK: - Methods
     public func configure(with event: CalendarEventModel) {
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm, dd.MM.yyyy"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.timeZone = TimeZone.current
+        formatter.dateFormat = Constants.Formatter.dateFormat
+        formatter.locale = Constants.Formatter.locale
+        formatter.timeZone = Constants.Formatter.timeZone
         
         titleLabel.text = event.title
         descriptionLabel.text = event.description
@@ -100,6 +126,7 @@ final class WishEventCell: UICollectionViewCell {
         
         setUpStartDateLabel()
         setUpEndDateLabel()
+        setUpDeleteButton()
         setUpTitleLabel()
         setUpDescription()
     }
@@ -130,6 +157,18 @@ final class WishEventCell: UICollectionViewCell {
         endDateLabel.pinLeft(to: self.leadingAnchor, Constants.EndDateLabel.leading)
     }
     
+    private func setUpDeleteButton() {
+        deleteButton.setImage(Constants.DeleteButton.image, for: Constants.DeleteButton.state)
+        deleteButton.tintColor = Constants.DeleteButton.color
+        deleteButton.addTarget(self, action: #selector(deleteButtonTapped), for: Constants.DeleteButton.event)
+        
+        addSubview(deleteButton)
+        deleteButton.pinTop(to: self, Constants.DeleteButton.top)
+        deleteButton.pinRight(to: self, Constants.DeleteButton.right)
+        deleteButton.setHeight(Constants.DeleteButton.height)
+        deleteButton.setWidth(Constants.DeleteButton.width)
+    }
+    
     private func setUpTitleLabel() {
         titleLabel.font = 
             .systemFont(
@@ -158,5 +197,11 @@ final class WishEventCell: UICollectionViewCell {
         descriptionLabel.pinTop(to: titleLabel.bottomAnchor, Constants.DescriptionLabel.top)
         descriptionLabel.pinLeft(to: self, Constants.DescriptionLabel.leading)
         descriptionLabel.pinRight(to: self, Constants.DescriptionLabel.trailing)
+    }
+    
+    // MARK: - Actions
+    @objc
+    private func deleteButtonTapped() {
+        onDelete?()
     }
 }

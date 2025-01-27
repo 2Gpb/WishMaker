@@ -7,9 +7,12 @@
 import UIKit
 
 protocol WishCalendarViewDelegate: AnyObject {
-    var events: [CalendarEventModel] { get set }
     func goBackScreen()
     func createEvent()
+    
+    func getEvents() -> [CalendarEventModel]
+    func getEvent(_ id: Int) -> CalendarEventModel
+    func deleteEvent(id: Int)
 }
 
 final class WishCalendarView: UIView {
@@ -32,6 +35,7 @@ final class WishCalendarView: UIView {
             static let leading: CGFloat = 10
             static let height: CGFloat = 30
             static let width: CGFloat = 30
+            static let type: UIButton.ButtonType = .system
         }
         
         enum PlusButton {
@@ -43,6 +47,7 @@ final class WishCalendarView: UIView {
             static let right: CGFloat = 10
             static let height: CGFloat = 30
             static let width: CGFloat = 30
+            static let type: UIButton.ButtonType = .system
         }
         
         enum CollectionView {
@@ -71,8 +76,8 @@ final class WishCalendarView: UIView {
     weak var delegate: WishCalendarViewDelegate?
     
     //MARK: - Private fields
-    private let backButton: UIButton = UIButton(type: .system)
-    private let plusButton: UIButton = UIButton(type: .system)
+    private let backButton: UIButton = UIButton(type: Constants.BackButton.type)
+    private let plusButton: UIButton = UIButton(type: Constants.PlusButton.type)
     private let collectionView: UICollectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout()
@@ -117,7 +122,7 @@ final class WishCalendarView: UIView {
     private func setUpPlusButton() {
         plusButton.setImage(Constants.PlusButton.image, for: Constants.PlusButton.state)
         plusButton.tintColor = Constants.PlusButton.color
-        plusButton.addTarget(self, action: #selector(addEvent), for: Constants.PlusButton.event)
+        plusButton.addTarget(self, action: #selector(createEvent), for: Constants.PlusButton.event)
         
         addSubview(plusButton)
         plusButton.pinTop(to: safeAreaLayoutGuide.topAnchor, Constants.PlusButton.top)
@@ -147,7 +152,7 @@ final class WishCalendarView: UIView {
     }
     
     @objc
-    private func addEvent() {
+    private func createEvent() {
         delegate?.createEvent()
     }
 }
@@ -192,7 +197,8 @@ extension WishCalendarView: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return delegate?.events.count ?? 0
+        let events = delegate?.getEvents()
+        return events?.count ?? 0
     }
     
     func collectionView(
@@ -206,7 +212,13 @@ extension WishCalendarView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(with: delegate?.events[indexPath.row] ?? Constants.CollectionView.defaultCell)
+        cell.onDelete = { [weak self] in
+            self?.delegate?.deleteEvent(id: indexPath.row)
+            self?.reloadTable()
+        }
+        
+        let event = delegate?.getEvent(indexPath.row)
+        cell.configure(with: event ?? Constants.CollectionView.defaultCell)
         return cell
     }
 }
