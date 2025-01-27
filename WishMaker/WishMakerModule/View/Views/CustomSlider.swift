@@ -49,10 +49,8 @@ final class CustomSlider: UIView {
     
     // MARK: - Private fields
     private let titleView = UILabel()
-    
-    // MARK: - Fields
-    let slider = UISlider()
-    let currentValue = UILabel()
+    private let slider = UISlider()
+    private let currentValue = UILabel()
     
     //MARK: - Lifecycle
     init(title: String, min: Double, max: Double) {
@@ -66,6 +64,15 @@ final class CustomSlider: UIView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError(Constants.Error.fatalError)
+    }
+    
+    // MARK: - Methods
+    public func updateCurrentValue() {
+        currentValue.text = "\(Int(slider.value * 100))%"
+    }
+    
+    public func getValue() -> CGFloat {
+        return CGFloat(slider.value)
     }
     
     // MARK: - SetUp

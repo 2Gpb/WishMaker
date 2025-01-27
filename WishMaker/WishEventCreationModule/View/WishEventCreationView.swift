@@ -10,12 +10,16 @@ import UIKit
 
 protocol WishEventCreationViewDelegate: AnyObject {
     func goBackScreen()
-    func createWishEvent(_ event: WishEvent)
+    func createWishEvent(_ event: CalendarEventModel)
 }
 
 final class WishEventCreationView: UIView {
     // MARK: - Constants
     private enum Constants {
+        enum Error {
+            static let fatalError: String = "init(coder:) has not been implemented"
+        }
+        
         enum View {
             static let backgroundColor: UIColor = .background
         }
@@ -108,7 +112,7 @@ final class WishEventCreationView: UIView {
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(Constants.Error.fatalError)
     }
     
     // MARK: - SetUp
@@ -208,18 +212,18 @@ final class WishEventCreationView: UIView {
     private func addButtonTapped() {
         if let title = titleTextField.getText(),
            let description = descriptionTextField.getText(),
-           let startDate = startDateTextField.getText(),
-           let endDate = endDateTextField.getText()
+           let startDate = startDateTextField.getDate(),
+           let endDate = endDateTextField.getDate()
         {
             delegate?.createWishEvent(
-                WishEvent(
+                CalendarEventModel(
                     title: title,
                     description: description,
                     startDate: startDate,
                     endDate: endDate
                 )
             )
-            delegate?.goBackScreen()
         }
+        delegate?.goBackScreen()
     }
 }

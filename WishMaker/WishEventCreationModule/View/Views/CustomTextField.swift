@@ -15,10 +15,17 @@ final class CustomTextField: UIView {
             static let fatalError = "init(coder:) has not been implemented"
         }
         
-        enum Formatter {
+        enum InputFormatter {
             static let dateStyle: DateFormatter.Style = .long
             static let timeStyle: DateFormatter.Style = .short
             static let locale: Locale = Locale(identifier: "en_EN")
+        }
+        
+        enum OutputFormatter {
+            static let dateFormat: String = "MMMM d, yyyy 'at' HH:mm"
+            static let locale: Locale = Locale(identifier: "en_EN")
+            static let timeZone: TimeZone = .current
+            static let defaultValue: String = "No date selected"
         }
         
         enum TitleLabel {
@@ -90,14 +97,28 @@ final class CustomTextField: UIView {
     
     public func setDate(_ date: Date) {
         let formatter = DateFormatter()
-        formatter.dateStyle = Constants.Formatter.dateStyle
-        formatter.timeStyle = Constants.Formatter.timeStyle
-        formatter.locale = Constants.Formatter.locale
+        formatter.dateStyle = Constants.InputFormatter.dateStyle
+        formatter.timeStyle = Constants.InputFormatter.timeStyle
+        formatter.locale = Constants.InputFormatter.locale
         textField.text = formatter.string(from: date)
     }
     
+    public func getDate() -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = Constants.OutputFormatter.dateFormat
+        formatter.locale = Constants.OutputFormatter.locale
+        formatter.timeZone = Constants.OutputFormatter.timeZone
+        if let text = textField.text, text.isEmpty == false {
+            return formatter.date(from: text)
+        }
+        return nil
+    }
+
     public func getText() -> String? {
-        return textField.text
+        if let text = textField.text, text.isEmpty == false {
+            return text
+        }
+        return nil
     }
     
     // MARK: - SetUp

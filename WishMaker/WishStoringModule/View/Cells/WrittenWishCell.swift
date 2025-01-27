@@ -14,6 +14,10 @@ final class WrittenWishCell: UITableViewCell {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
+        enum ReuseIdentifier {
+            static let value: String = "WrittenWishCell"
+        }
+        
         enum Cell {
             static let style: UITableViewCell.SelectionStyle = .none
             static let backgroundColor: UIColor = .clear
@@ -37,7 +41,7 @@ final class WrittenWishCell: UITableViewCell {
     }
     
     // MARK: - ReuseId
-    static let reuseId: String = "WrittenWishCell"
+    static let reuseId: String = Constants.ReuseIdentifier.value
     
     // MARK: - Private fields
     private let wrap: UIView = UIView()

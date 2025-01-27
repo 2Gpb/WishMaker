@@ -14,6 +14,10 @@ final class AddWishCell: UITableViewCell {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
+        enum ReuseIdentifier {
+            static let value: String = "AddWishCell"
+        }
+        
         enum Cell {
             static let backgroundColor: UIColor = .clear
         }
@@ -45,7 +49,7 @@ final class AddWishCell: UITableViewCell {
     }
     
     // MARK: - ReuseId
-    static let reuseId: String = "AddWishCell"
+    static let reuseId: String = Constants.ReuseIdentifier.value
     
     // MARK: - Variables
     var addWish: ((String) -> ())?

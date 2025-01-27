@@ -21,6 +21,11 @@ final class WishMakerView: UIView {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
+        enum Color {
+            static let defaultColor: UIColor = .black
+            static let state: UIControl.State = .normal
+        }
+        
         enum View {
             static let backgroundColor: UIColor = .background
         }
@@ -81,6 +86,7 @@ final class WishMakerView: UIView {
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
             static let alpha: CGFloat = 1
+            static let state: UIControl.State = .normal
         }
     }
     
@@ -88,7 +94,7 @@ final class WishMakerView: UIView {
     weak var delegate: WishMakerViewDelegate?
     
     // MARK: - Private properties
-    private var color: UIColor = .black {
+    private var color: UIColor = Constants.Color.defaultColor {
         didSet {
             self.backgroundColor = color
             let buttons = [addWishesButton,
@@ -97,7 +103,7 @@ final class WishMakerView: UIView {
                            showHideButton,
                            randomColorButton]
             for i in buttons.indices {
-                buttons[i].button.setTitleColor(color, for: .normal)
+                buttons[i].setTitleColor(color)
             }
         }
     }
@@ -224,7 +230,7 @@ final class WishMakerView: UIView {
             slidersStack.addArrangedSubview(slider)
             slider.valueChanged = { [weak self] in
                 self?.slidersChangeBackgroundColor()
-                slider.currentValue.text = "\(Int(slider.slider.value * 100))%"
+                slider.updateCurrentValue()
             }
         }
         
@@ -255,14 +261,10 @@ final class WishMakerView: UIView {
     
     // MARK: - Actions
     private func slidersChangeBackgroundColor() {
-        let red = sliderRed.slider.value
-        let green = sliderGreen.slider.value
-        let blue = sliderBlue.slider.value
-        
         self.color = UIColor(
-            red: CGFloat(red),
-            green: CGFloat(green),
-            blue: CGFloat(blue),
+            red: sliderRed.getValue(),
+            green: sliderGreen.getValue(),
+            blue: sliderBlue.getValue(),
             alpha: Constants.ChangeColorButtons.alpha
         )
     }
@@ -274,10 +276,10 @@ final class WishMakerView: UIView {
     private func showHideSliders() {
         if slidersStack.isHidden {
             slidersStack.isHidden = false
-            showHideButton.button.setTitle(Constants.ChangeColorButtons.hideTitle, for: .normal)
+            showHideButton.setTitle(Constants.ChangeColorButtons.hideTitle)
         } else {
             slidersStack.isHidden = true
-            showHideButton.button.setTitle(Constants.ChangeColorButtons.showTitle, for: .normal)
+            showHideButton.setTitle(Constants.ChangeColorButtons.showTitle)
         }
     }
     

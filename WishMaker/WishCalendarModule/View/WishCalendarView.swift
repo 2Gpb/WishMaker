@@ -7,7 +7,7 @@
 import UIKit
 
 protocol WishCalendarViewDelegate: AnyObject {
-    var events: [WishEvent] { get set }
+    var events: [CalendarEventModel] { get set }
     func goBackScreen()
     func createEvent()
 }
@@ -46,13 +46,20 @@ final class WishCalendarView: UIView {
         }
         
         enum CollectionView {
-            static let backgroundColor: UIColor = .clear
             static let sectionInsets: UIEdgeInsets = UIEdgeInsets(
                 top: 0,
                 left: 0,
                 bottom: 0,
                 right: 0
             )
+            static let defaultCell: CalendarEventModel = CalendarEventModel(
+                title: "",
+                description: "",
+                startDate: Date(),
+                endDate: Date()
+            )
+            
+            static let backgroundColor: UIColor = .clear
             static let top: CGFloat = 20
             static let heightCell: CGFloat = 165
             static let totalIndent: CGFloat = 20
@@ -199,15 +206,7 @@ extension WishCalendarView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.configure(
-            with: delegate?.events[indexPath.row] ?? WishEvent(
-                title: "",
-                description: "",
-                startDate: "",
-                endDate: ""
-            )
-        )
-        
+        cell.configure(with: delegate?.events[indexPath.row] ?? Constants.CollectionView.defaultCell)
         return cell
     }
 }

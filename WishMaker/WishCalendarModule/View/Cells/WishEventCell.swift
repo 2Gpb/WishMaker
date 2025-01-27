@@ -80,11 +80,16 @@ final class WishEventCell: UICollectionViewCell {
     }
     
     // MARK: - Methods
-    func configure(with event: WishEvent) {
+    public func configure(with event: CalendarEventModel) {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm, dd.MM.yyyy"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.timeZone = TimeZone.current
+        
         titleLabel.text = event.title
         descriptionLabel.text = event.description
-        startDateLabel.text = Constants.StartDateLabel.text + (event.startDate)
-        endDateLabel.text = Constants.EndDateLabel.text + (event.endDate)
+        startDateLabel.text = Constants.StartDateLabel.text + formatter.string(from: event.startDate)
+        endDateLabel.text = Constants.EndDateLabel.text + formatter.string(from: event.endDate)
     }
     
     // MARK: - SetUp

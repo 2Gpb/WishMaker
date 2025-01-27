@@ -19,6 +19,7 @@ final class CustomButton: UIView {
         }
         
         enum Button {
+            static let type: UIButton.ButtonType = .system
             static let titleColor: UIColor = .cells
             static let state: UIControl.State = .normal
             static let fontSize: CGFloat = 17
@@ -33,19 +34,28 @@ final class CustomButton: UIView {
     // MARK: - Variables
     var action: (() -> Void)?
     
-    // MARK: - Fields
-    let button: UIButton = UIButton(type: .system)
+    // MARK: - Private fields
+    private let button: UIButton = UIButton(type: Constants.Button.type)
     
     // MARK: - Lifecycle
     init(title: String) {
         super.init(frame: .zero)
-        self.button.setTitle(title, for: .normal)
+        self.button.setTitle(title, for: Constants.Button.state)
         setUp()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError(Constants.Error.fatalError)
+    }
+    
+    // MARK: - Methods
+    public func setTitle(_ title: String) {
+        self.button.setTitle(title, for: Constants.Button.state)
+    }
+    
+    public func setTitleColor(_ color: UIColor) {
+        self.button.setTitleColor(color, for: Constants.Button.state)
     }
     
     // MARK: - SetUp

@@ -8,11 +8,11 @@ import UIKit
 
 final class WishCalendarViewController: UIViewController {
     // MARK: - Variables
-    var events: [WishEvent] = [WishEvent(
-        title: "I want to finish the layout in Figma. ",
+    var events: [CalendarEventModel] = [CalendarEventModel(
+        title: "I want to finish the layout in Figma.",
         description: "I want to finish the layout in figma of an application I'm going to write for my diploma.",
-        startDate: "11:00, 12.09.2024",
-        endDate: "13:00, 12.09.2024"
+        startDate: Date(),
+        endDate: Date()
     )]
     
     // MARK: - Lifecycle
@@ -46,8 +46,9 @@ extension WishCalendarViewController: WishCalendarViewDelegate {
     }
 }
 
+// MARK: - WishEventCreationDelegate
 extension WishCalendarViewController: WishEventCreationDelegate {
-    func addEvent(_ event: WishEvent) {
+    func addEvent(_ event: CalendarEventModel) {
         events.append(event)
         if let calendarView = view as? WishCalendarView {
             calendarView.reloadTable()

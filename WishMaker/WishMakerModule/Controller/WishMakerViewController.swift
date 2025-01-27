@@ -10,8 +10,8 @@ import Foundation
 
 final class WishMakerViewController: UIViewController {
     // MARK: - Private fields
-    private let wishStoringViewController = WishStoringViewController()
-    private let wishCalendarViewController = WishCalendarViewController()
+    private let wishStoringViewController: UIViewController = WishStoringViewController()
+    private let wishCalendarViewController: UIViewController = WishCalendarViewController()
     
     // MARK: - Lifecycle
     override func loadView() {
@@ -24,6 +24,7 @@ final class WishMakerViewController: UIViewController {
         setUpNavigationBar()
     }
     
+    // MARK: - SetUp
     private func setUpNavigationBar() {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
