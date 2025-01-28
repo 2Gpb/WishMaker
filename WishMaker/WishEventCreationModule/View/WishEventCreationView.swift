@@ -145,8 +145,10 @@ final class WishEventCreationView: UIView {
     
     
     // MARK: - Lifecycle
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(delegate: WishEventCreationViewDelegate, color: UIColor?) {
+        super.init(frame: .zero)
+        self.delegate = delegate
+        self.backgroundColor = color
         setUp()
     }
     
@@ -157,7 +159,6 @@ final class WishEventCreationView: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = Constants.View.backgroundColor
         setUpButtons()
         setUpWishListButton()
         setUpTitleTextField()

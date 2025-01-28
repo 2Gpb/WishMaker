@@ -9,10 +9,6 @@ import UIKit
 import Foundation
 
 final class WishMakerViewController: UIViewController {
-    // MARK: - Private fields
-    private let wishStoringViewController: UIViewController = WishStoringViewController()
-    private let wishCalendarViewController: UIViewController = WishCalendarViewController()
-    
     // MARK: - Lifecycle
     override func loadView() {
         super.loadView()
@@ -33,10 +29,14 @@ final class WishMakerViewController: UIViewController {
 // MARK: - WishMakerViewDelegate
 extension WishMakerViewController: WishMakerViewDelegate {
     func presentWishStoringViewController() {
+        let view = self.view as? WishMakerView
+        let wishStoringViewController: UIViewController = WishStoringViewController(view?.getColor())
         present(wishStoringViewController, animated: true)
     }
     
     func pushWishCalendarViewController() {
+        let view = self.view as? WishMakerView
+        let wishCalendarViewController: UIViewController = WishCalendarViewController(view?.getColor())
         navigationController?.pushViewController(wishCalendarViewController, animated: true)
     }
     

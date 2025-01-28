@@ -22,10 +22,6 @@ final class WishCalendarView: UIView {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
-        enum View {
-            static let backgroundColor: UIColor = .background
-        }
-        
         enum BackButton {
             static let image: UIImage = UIImage(systemName: "chevron.left") ?? UIImage()
             static let color: UIColor = .white
@@ -84,8 +80,10 @@ final class WishCalendarView: UIView {
     )
     
     // MARK: - Lifecycle
-    override init(frame: CGRect) {
+    init(delegate: WishCalendarViewDelegate, color: UIColor?) {
         super.init(frame: .zero)
+        self.delegate = delegate
+        self.backgroundColor = color
         setUp()
     }
     
@@ -101,7 +99,6 @@ final class WishCalendarView: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = Constants.View.backgroundColor
         setUpBackButton()
         setUpPlusButton()
         setUpCollectionView()

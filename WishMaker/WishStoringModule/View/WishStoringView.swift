@@ -27,10 +27,6 @@ final class WishStoringView: UIView {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
-        enum View {
-            static let backgroundColor: UIColor = .background
-        }
-        
         enum ShareButton {
             static let image: UIImage = UIImage(systemName: "square.and.arrow.up") ?? UIImage()
             static let state: UIControl.State = .normal
@@ -91,18 +87,16 @@ final class WishStoringView: UIView {
     // MARK: - Variables
     weak var delegate: WishStoringViewDelegate?
     
-    // MARK: - Private variables
-//    private var wishArray: [String] = []
-    
     // MARK: - Private fields
     private let shareButton: UIButton = UIButton(type: .system)
     private let closeButton: UIButton = UIButton(type: .system)
     private let table: UITableView = UITableView(frame: .zero)
     
     // MARK: - Lifecycle
-    init(delegate: WishStoringViewDelegate) {
+    init(delegate: WishStoringViewDelegate, color: UIColor?) {
         super.init(frame: .zero)
         self.delegate = delegate
+        self.backgroundColor = color
         setUp()
     }
     
@@ -113,8 +107,6 @@ final class WishStoringView: UIView {
     
     // MARK: - SetUp
     private func setUp() {
-        backgroundColor = Constants.View.backgroundColor
-        
         setUpShareButton()
         setUpCloseButton()
         setUpTable()

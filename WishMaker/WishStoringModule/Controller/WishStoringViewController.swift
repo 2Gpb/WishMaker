@@ -8,10 +8,28 @@
 import UIKit
 
 final class WishStoringViewController: UIViewController {
+    // MARK: - Constants
+    private enum Constants {
+        static let error: String = "init(coder:) has not been implemented"
+    }
+    
+    // MARK: - Private fields
+    private var wishStoringView: WishStoringView?
+    
     // MARK: - Lifecycle
+    init(_ color: UIColor?) {
+        super.init(nibName: nil, bundle: nil)
+        wishStoringView = WishStoringView(delegate: self, color: color)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError(Constants.error)
+    }
+    
     override func loadView() {
         super.loadView()
-        view = WishStoringView(delegate: self)
+        view = wishStoringView
     }
 }
 

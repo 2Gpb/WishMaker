@@ -154,6 +154,11 @@ final class WishMakerView: UIView {
         fatalError(Constants.Error.fatalError)
     }
     
+    // MARK: - Methods
+    public func getColor() -> UIColor {
+        color
+    }
+    
     // MARK: - SetUp
     private func setUp() {
         self.backgroundColor = Constants.View.backgroundColor
