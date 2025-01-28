@@ -75,6 +75,7 @@ final class WishStoringView: UIView {
             static let preferredStyle: UIAlertController.Style = .alert
             static let actionStyle: UIAlertAction.Style = .cancel
             static let actionTitle: String = "OK"
+            static let style: UIUserInterfaceStyle = .dark
         }
         
         enum EditAlert {
@@ -83,6 +84,7 @@ final class WishStoringView: UIView {
             static let preferredStyle: UIAlertController.Style = .alert
             static let actionTitle: String = "OK"
             static let actionStyle: UIAlertAction.Style = .default
+            static let style: UIUserInterfaceStyle = .dark
         }
     }
     
@@ -170,7 +172,7 @@ final class WishStoringView: UIView {
             title: Constants.WarningAlert.actionTitle,
             style: Constants.WarningAlert.actionStyle
         )
-        
+        warningAlert.overrideUserInterfaceStyle = Constants.WarningAlert.style
         warningAlert.addAction(alertAction)
         delegate?.presentWarningAlert(warningAlert)
     }
@@ -184,6 +186,7 @@ final class WishStoringView: UIView {
         
         editAlert.addTextField()
         editAlert.textFields?.first?.text = delegate?.getWishes()[index]
+        editAlert.overrideUserInterfaceStyle = Constants.EditAlert.style
         
         let alertAction = UIAlertAction(
             title: Constants.EditAlert.actionTitle,

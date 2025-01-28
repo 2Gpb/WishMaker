@@ -102,6 +102,10 @@ final class CustomTextField: UIView {
         textField.text = formatter.string(from: date)
     }
     
+    public func setText(_ text: String) {
+        textField.text = text
+    }
+    
     public func getDate() -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = Constants.OutputFormatter.dateFormat

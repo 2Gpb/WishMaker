@@ -21,13 +21,9 @@ final class WishMakerView: UIView {
             static let fatalError: String = "init(coder:) has not been implemented"
         }
         
-        enum Color {
-            static let defaultColor: UIColor = .black
-            static let state: UIControl.State = .normal
-        }
-        
         enum View {
             static let backgroundColor: UIColor = .background
+            static let state: UIControl.State = .normal
         }
         
         enum Title {
@@ -94,7 +90,7 @@ final class WishMakerView: UIView {
     weak var delegate: WishMakerViewDelegate?
     
     // MARK: - Private properties
-    private var color: UIColor = Constants.Color.defaultColor {
+    private var color: UIColor = Constants.View.backgroundColor {
         didSet {
             self.backgroundColor = color
             let buttons = [addWishesButton,

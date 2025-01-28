@@ -47,4 +47,8 @@ extension WishEventCreationController: WishEventCreationViewDelegate {
         }
         dismiss(animated: true)
     }
+    
+    func presentWishesAlert(_ alert: UIAlertController) {
+        present(alert, animated: true)
+    }
 }
