@@ -53,6 +53,7 @@ final class WishCalendarView: UIView {
                 bottom: 0,
                 right: 0
             )
+            
             static let defaultCell: CalendarEventModel = CalendarEventModel(
                 title: "",
                 description: "",
@@ -162,7 +163,7 @@ extension WishCalendarView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(
+        CGSize(
             width: collectionView.bounds.width - Constants.CollectionView.totalIndent,
             height: Constants.CollectionView.heightCell
         )
@@ -177,7 +178,7 @@ extension WishCalendarView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumLineSpacingForSectionAt section: Int
     ) -> CGFloat {
-        return Constants.CollectionView.lineSpacing
+        Constants.CollectionView.lineSpacing
     }
     
     func collectionView(
@@ -185,7 +186,7 @@ extension WishCalendarView: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         insetForSectionAt section: Int
     ) -> UIEdgeInsets {
-        return Constants.CollectionView.sectionInsets
+        Constants.CollectionView.sectionInsets
     }
 }
 

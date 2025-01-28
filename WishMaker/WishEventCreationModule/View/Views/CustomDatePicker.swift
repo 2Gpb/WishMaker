@@ -70,6 +70,7 @@ final class CustomDatePicker: UIView {
     // MARK: - SetUp
     private func setUp() {
         backgroundColor = .background
+        
         setUpButtons()
         setUpDatePicker()
     }

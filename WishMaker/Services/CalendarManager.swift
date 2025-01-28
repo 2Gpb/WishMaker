@@ -12,7 +12,7 @@ protocol CalendarManaging {
     func create(eventModel: CalendarEventModel) -> Bool
 }
 
-// MARK: - CalendarService
+// MARK: - CalendarManager
 final class CalendarManager: CalendarManaging {
     // MARK: - Private fields
     private let eventStore: EKEventStore = EKEventStore()
@@ -41,7 +41,6 @@ final class CalendarManager: CalendarManaging {
             }
             
             let event: EKEvent = EKEvent(eventStore: self.eventStore)
-            
             event.title = eventModel.title
             event.notes = eventModel.description
             event.startDate = eventModel.startDate

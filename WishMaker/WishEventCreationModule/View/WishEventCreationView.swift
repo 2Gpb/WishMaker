@@ -12,6 +12,7 @@ protocol WishEventCreationViewDelegate: AnyObject {
     func goBackScreen()
     func createWishEvent(_ event: CalendarEventModel)
     func presentWishesAlert(_ alert: UIAlertController)
+    func getWishes() -> [String]
 }
 
 final class WishEventCreationView: UIView {
@@ -143,7 +144,6 @@ final class WishEventCreationView: UIView {
         placeholder: Constants.EndDateTextField.placeholder,
         alignment: Constants.EndDateTextField.alignment
     )
-    
     
     // MARK: - Lifecycle
     init(delegate: WishEventCreationViewDelegate, color: UIColor?) {
@@ -280,6 +280,7 @@ final class WishEventCreationView: UIView {
                 )
             )
         }
+        
         delegate?.goBackScreen()
     }
     
@@ -339,8 +340,8 @@ final class WishEventCreationView: UIView {
 // MARK: - UIPickerViewDelegate
 extension WishEventCreationView: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let wishes = WishCoreDataService.shared.getElements()
-        return wishes[row]
+        let wishes = delegate?.getWishes()
+        return wishes?[row]
     }
 }
 
@@ -351,7 +352,7 @@ extension WishEventCreationView: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        let wishes = WishCoreDataService.shared.getElements()
-        return wishes.count
+        let wishes = delegate?.getWishes()
+        return wishes?.count ?? 0
     }
 }

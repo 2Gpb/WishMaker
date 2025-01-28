@@ -70,6 +70,7 @@ final class EventCoreDataService: EventCoreDataServiceLogic {
                         )
                     )
             }
+            
             return CalendarEvents
         } catch {
             print(Constants.getElementsError + ": \(error)")
@@ -81,7 +82,6 @@ final class EventCoreDataService: EventCoreDataServiceLogic {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.entityName)
         do {
             let events = try context.fetch(fetchRequest) as? [Event]
-            
             return CalendarEventModel(
                 title: events?[id].title ?? "",
                 description: events?[id].note ?? "",

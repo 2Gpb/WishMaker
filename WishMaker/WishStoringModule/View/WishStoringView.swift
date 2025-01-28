@@ -64,6 +64,13 @@ final class WishStoringView: UIView {
             static let titleEdit: String = "Edit"
             static let headerTextColor: UIColor = .white
             static let selectionStyle: UITableViewCell.SelectionStyle = .none
+            static let addWishTitle: String = "Add wish"
+            static let wishesTitle: String = "Wishes"
+            static let fontTitle: UIFont = .systemFont(ofSize: 15, weight: .semibold)
+            static let titleX: CGFloat = 0
+            static let titleY: CGFloat = 0
+            static let titleHeight: CGFloat = 30
+            static let titleWidthOffset: CGFloat = 65
         }
         
         enum WarningAlert {
@@ -138,8 +145,6 @@ final class WishStoringView: UIView {
     }
     
     private func setUpTable() {
-        addSubview(table)
-        
         table.dataSource = self
         table.delegate = self
         table.backgroundColor = Constants.Table.backgroundColor
@@ -149,6 +154,7 @@ final class WishStoringView: UIView {
         table.register(WrittenWishCell.self, forCellReuseIdentifier: WrittenWishCell.reuseId)
         table.register(AddWishCell.self, forCellReuseIdentifier: AddWishCell.reuseId)
         
+        addSubview(table)
         table.pinTop(to: closeButton.bottomAnchor, Constants.Table.offset)
         table.pinBottom(to: safeAreaLayoutGuide.bottomAnchor)
         table.pinHorizontal(to: self, Constants.Table.offset)
@@ -165,6 +171,7 @@ final class WishStoringView: UIView {
             title: Constants.WarningAlert.actionTitle,
             style: Constants.WarningAlert.actionStyle
         )
+        
         warningAlert.overrideUserInterfaceStyle = Constants.WarningAlert.style
         warningAlert.addAction(alertAction)
         delegate?.presentWarningAlert(warningAlert)
@@ -221,10 +228,16 @@ extension WishStoringView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         let label = UILabel()
-        label.text = section == 0 ? "Add wish" : "Wishes"
+        label.text = section == 0 ? Constants.Table.addWishTitle : Constants.Table.wishesTitle
         label.textColor = Constants.Table.headerTextColor
-        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
-        label.frame = CGRect(x: 2, y: 0, width: tableView.frame.width - 65, height: 30)
+        label.font = Constants.Table.fontTitle
+        label.frame = CGRect(
+            x: Constants.Table.titleX,
+            y: Constants.Table.titleY,
+            width: tableView.frame.width - Constants.Table.titleWidthOffset,
+            height: Constants.Table.titleHeight
+        )
+        
         headerView.addSubview(label)
         return headerView
     }
@@ -233,8 +246,10 @@ extension WishStoringView: UITableViewDelegate {
         switch indexPath.section {
         case 0:
             return Constants.Table.heightForRowForFirstSection
-        default:
+        case 1:
             return Constants.Table.heightForRow
+        default:
+            return 0
         }
     }
     

@@ -11,6 +11,7 @@ final class WishCalendarViewController: UIViewController {
     private enum Constants {
         static let error: String = "init(coder:) has not been implemented"
     }
+    
     // MARK: - Private fields
     private var color: UIColor?
     
@@ -44,8 +45,7 @@ final class WishCalendarViewController: UIViewController {
 // MARK: - WishCalendarViewDelegate
 extension WishCalendarViewController: WishCalendarViewDelegate {
     func createEvent() {
-        let vc = WishEventCreationController(delegate: self, color: color)
-        present(vc, animated: true)
+        present(WishEventCreationController(delegate: self, color: color), animated: true)
     }
     
     func goBackScreen() {

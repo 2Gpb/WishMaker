@@ -132,12 +132,12 @@ final class WishEventCell: UICollectionViewCell {
     }
     
     private func setUpStartDateLabel() {
-        startDateLabel.font = 
+        startDateLabel.textColor = Constants.StartDateLabel.textColor
+        startDateLabel.font =
             .systemFont(
             ofSize: Constants.StartDateLabel.fontSize,
             weight: Constants.StartDateLabel.fontWeight
         )
-        startDateLabel.textColor = Constants.StartDateLabel.textColor
         
         addSubview(startDateLabel)
         startDateLabel.pinTop(to: self, Constants.StartDateLabel.top)
@@ -145,12 +145,12 @@ final class WishEventCell: UICollectionViewCell {
     }
     
     private func setUpEndDateLabel() {
-        endDateLabel.font = 
+        endDateLabel.textColor = Constants.EndDateLabel.textColor
+        endDateLabel.font =
             .systemFont(
             ofSize: Constants.EndDateLabel.fontSize,
             weight: Constants.EndDateLabel.fontWeight
         )
-        endDateLabel.textColor = Constants.EndDateLabel.textColor
         
         addSubview(endDateLabel)
         endDateLabel.pinTop(to: startDateLabel.bottomAnchor, Constants.EndDateLabel.top)
@@ -170,13 +170,13 @@ final class WishEventCell: UICollectionViewCell {
     }
     
     private func setUpTitleLabel() {
-        titleLabel.font = 
+        titleLabel.textColor = Constants.TitleLabel.textColor
+        titleLabel.numberOfLines = Constants.TitleLabel.numberOfLines
+        titleLabel.font =
             .systemFont(
                 ofSize: Constants.TitleLabel.fontSize,
                 weight: Constants.TitleLabel.fontWeight
             )
-        titleLabel.textColor = Constants.TitleLabel.textColor
-        titleLabel.numberOfLines = Constants.TitleLabel.numberOfLines
         
         addSubview(titleLabel)
         titleLabel.pinTop(to: endDateLabel.bottomAnchor, Constants.TitleLabel.top)
@@ -185,13 +185,13 @@ final class WishEventCell: UICollectionViewCell {
     }
     
     private func setUpDescription() {
+        descriptionLabel.textColor = Constants.DescriptionLabel.textColor
+        descriptionLabel.numberOfLines = Constants.DescriptionLabel.numberOfLines
         descriptionLabel.font =
             .systemFont(
                 ofSize: Constants.DescriptionLabel.fontSize,
                 weight: Constants.DescriptionLabel.fontWeight
             )
-        descriptionLabel.textColor = Constants.DescriptionLabel.textColor
-        descriptionLabel.numberOfLines = Constants.DescriptionLabel.numberOfLines
         
         addSubview(descriptionLabel)
         descriptionLabel.pinTop(to: titleLabel.bottomAnchor, Constants.DescriptionLabel.top)

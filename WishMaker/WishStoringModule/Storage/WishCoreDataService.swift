@@ -61,6 +61,7 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
             wishes?.forEach({ wish in
                 textWishes.append(wish.text ?? "")
             })
+            
             return textWishes
         } catch {
             print(Constants.getElementsError + ": \(error)")
@@ -89,6 +90,7 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         } catch {
             print(Constants.editElementError + ": \(error)")
         }
+        
         appDelegate.saveContext()
     }
 
@@ -101,6 +103,7 @@ final class WishCoreDataService: WishCoreDataServiceLogic {
         } catch {
             print(Constants.deleteElementsError + ": \(error)")
         }
+        
         appDelegate.saveContext()
     }
 }

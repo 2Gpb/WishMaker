@@ -46,7 +46,7 @@ final class WishEventCreationController: UIViewController {
 
 // MARK: - WishEventCreationViewDelegate
 extension WishEventCreationController: WishEventCreationViewDelegate {
-    func goBackScreen() {
+  func goBackScreen() {
         dismiss(animated: true)
     }
     
@@ -62,5 +62,9 @@ extension WishEventCreationController: WishEventCreationViewDelegate {
     
     func presentWishesAlert(_ alert: UIAlertController) {
         present(alert, animated: true)
+    }
+    
+    func getWishes() -> [String] {
+        WishCoreDataService.shared.getElements()
     }
 }

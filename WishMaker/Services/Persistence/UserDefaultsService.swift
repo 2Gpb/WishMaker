@@ -19,6 +19,7 @@ final class UserDefaultsService: UserDefaultsLogic {
     init(userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
     }
+    
     func set<T>(value: T, forKey key: String) {
         userDefaults.set(value, forKey: key)
     }

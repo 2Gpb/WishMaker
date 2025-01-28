@@ -64,12 +64,14 @@ final class WishMakerView: UIView {
             static let radius: CGFloat = 20
             static let bottom: CGFloat = 20
             static let leading: CGFloat = 20
+            static let clips: Bool = true
         }
         
         enum Picker {
             static let title: String = "Background Color"
             static let style: UIModalPresentationStyle = .popover
             static let interfaceStyle: UIUserInterfaceStyle = .dark
+            static let alpha: Bool = false
         }
         
         enum ChangeColorButtons {
@@ -111,36 +113,44 @@ final class WishMakerView: UIView {
     private let addWishesButton: CustomButton = CustomButton(
         title: Constants.MoveActions.addWishesTitle
     )
+    
     private let scheduleWishesButton: CustomButton = CustomButton(
         title: Constants.MoveActions.scheduleWishesTitle
     )
+    
     private let moveActionsStack: UIStackView = UIStackView()
     private let sliderRed: CustomSlider = CustomSlider(
         title: Constants.Slider.red,
         min: Constants.Slider.min,
         max: Constants.Slider.max
     )
+    
     private let sliderGreen: CustomSlider = CustomSlider(
         title: Constants.Slider.green,
         min: Constants.Slider.min,
         max: Constants.Slider.max
     )
+    
     private let sliderBlue: CustomSlider = CustomSlider(
         title: Constants.Slider.blue,
         min: Constants.Slider.min,
         max: Constants.Slider.max
     )
+    
     private let slidersStack: UIStackView = UIStackView()
     private let colorPicker: UIColorPickerViewController = UIColorPickerViewController()
     private let colorPickerButton: CustomButton = CustomButton(
         title: Constants.ChangeColorButtons.pickerTitle
     )
+    
     private let showHideButton: CustomButton = CustomButton(
         title: Constants.ChangeColorButtons.hideTitle
     )
+    
     private let randomColorButton: CustomButton = CustomButton(
         title: Constants.ChangeColorButtons.randomTitle
     )
+    
     private let changeColorButtonsStack: UIStackView = UIStackView()
 
     // MARK: - Lifecycle
@@ -163,6 +173,7 @@ final class WishMakerView: UIView {
     // MARK: - SetUp
     private func setUp() {
         self.backgroundColor = Constants.View.backgroundColor
+        
         setUpTitle()
         setUpDescription()
         setUpColorPicker()
@@ -173,12 +184,12 @@ final class WishMakerView: UIView {
     
     private func setUpTitle() {
         wishTitle.text = Constants.Title.text
+        wishTitle.textColor = Constants.Title.textColor
         wishTitle.font =
             .systemFont(
                 ofSize: Constants.Title.fontSize,
                 weight: Constants.Title.fontWeight
             )
-        wishTitle.textColor = Constants.Title.textColor
         
         addSubview(wishTitle)
         wishTitle.pinCenterX(to: self)
@@ -198,7 +209,7 @@ final class WishMakerView: UIView {
     
     private func setUpColorPicker() {
         colorPicker.title = Constants.Picker.title
-        colorPicker.supportsAlpha = false
+        colorPicker.supportsAlpha = Constants.Picker.alpha
         colorPicker.delegate = self
         colorPicker.modalPresentationStyle = Constants.Picker.style
         colorPicker.overrideUserInterfaceStyle = Constants.Picker.interfaceStyle
@@ -227,7 +238,7 @@ final class WishMakerView: UIView {
     private func setUpSlidersStack() {
         slidersStack.axis = Constants.Sliders.axis
         slidersStack.layer.cornerRadius = Constants.Sliders.radius
-        slidersStack.clipsToBounds = true
+        slidersStack.clipsToBounds = Constants.Sliders.clips
         
         for slider in [sliderRed, sliderGreen, sliderBlue] {
             slidersStack.addArrangedSubview(slider)

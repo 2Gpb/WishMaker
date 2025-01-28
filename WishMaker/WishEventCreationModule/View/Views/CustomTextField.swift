@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class CustomTextField: UIView {
-    // MARK: Constants
+    // MARK: - Constants
     private enum Constants {
         enum Error {
             static let fatalError = "init(coder:) has not been implemented"
@@ -77,6 +77,7 @@ final class CustomTextField: UIView {
             string: placeholder,
             attributes: Constants.TextField.placeholderAttributes
         )
+        
         setUp()
     }
     
@@ -114,6 +115,7 @@ final class CustomTextField: UIView {
         if let text = textField.text, text.isEmpty == false {
             return formatter.date(from: text)
         }
+        
         return nil
     }
 
@@ -121,6 +123,7 @@ final class CustomTextField: UIView {
         if let text = textField.text, text.isEmpty == false {
             return text
         }
+        
         return nil
     }
     

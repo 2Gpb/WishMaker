@@ -83,15 +83,15 @@ final class AddWishCell: UITableViewCell {
     private func setUpAddWishButton() {
         addWishButton.setTitle(Constants.AddWishButton.title, for: Constants.AddWishButton.state)
         addWishButton.setTitleColor(Constants.AddWishButton.titleColor, for: Constants.AddWishButton.state)
+        addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
+        addWishButton.layer.borderWidth = Constants.AddWishButton.borderWidth
+        addWishButton.layer.borderColor = Constants.AddWishButton.borderColor
+        addWishButton.addTarget(self, action: #selector(addWishButtonTapped), for: Constants.AddWishButton.event)
         addWishButton.titleLabel?.font = UIFont
             .systemFont(
                 ofSize: Constants.AddWishButton.fontSize,
                 weight: Constants.AddWishButton.fontWeight
             )
-        addWishButton.layer.cornerRadius = Constants.AddWishButton.cornerRadius
-        addWishButton.layer.borderWidth = Constants.AddWishButton.borderWidth
-        addWishButton.layer.borderColor = Constants.AddWishButton.borderColor
-        addWishButton.addTarget(self, action: #selector(addWishButtonTapped), for: Constants.AddWishButton.event)
         
         contentView.addSubview(addWishButton)
         addWishButton.pinRight(to: trailingAnchor, Constants.AddWishButton.right)
@@ -101,17 +101,16 @@ final class AddWishCell: UITableViewCell {
     }
     
     private func setUpTextView() {
-        textView.font = UIFont
-            .systemFont(
-                ofSize: Constants.TextView.fontSize,
-                weight: Constants.TextView.fontWeight
-            )
-        
         textView.layer.cornerRadius = Constants.TextView.cornerRadius
         textView.layer.borderWidth = Constants.TextView.borderWidth
         textView.backgroundColor = Constants.TextView.backgroundColor
         textView.textColor = Constants.TextView.textColor
         textView.textContainerInset = Constants.TextView.insets
+        textView.font = UIFont
+            .systemFont(
+                ofSize: Constants.TextView.fontSize,
+                weight: Constants.TextView.fontWeight
+            )
         
         contentView.addSubview(textView)
         textView.pinLeft(to: leadingAnchor, Constants.TextView.left)

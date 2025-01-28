@@ -59,7 +59,7 @@ final class WrittenWishCell: UITableViewCell {
     }
     
     // MARK: - Methods
-    func configure(with wish: String) {
+    public func configure(with wish: String) {
         wishLabel.text = wish
     }
     
@@ -90,6 +90,7 @@ final class WrittenWishCell: UITableViewCell {
                 ofSize: Constants.WishLabel.fontSize,
                 weight: Constants.WishLabel.fontWeight
         )
+        
         wrap.addSubview(wishLabel)
         wishLabel.pin(to: wrap, Constants.WishLabel.offset)
     }
