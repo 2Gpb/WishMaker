@@ -38,7 +38,6 @@ final class WishStoringView: UIView {
             static let left: CGFloat = 20
         }
         
-        
         enum CloseButton {
             static let image: UIImage = UIImage(systemName: "xmark.circle") ?? UIImage()
             static let state: UIControl.State = .normal
@@ -56,13 +55,15 @@ final class WishStoringView: UIView {
             static let cornerRadius: CGFloat = 20
             static let offset: CGFloat = 20
             static let titlesSections: [String] = ["Add wish", "Wishes"]
-            static let heightForRow: CGFloat = 52
+            static let heightForRowForFirstSection: CGFloat = 46
+            static let heightForRow: CGFloat = 56
             static let addWishSectionsCount: Int = 1
             static let titleDelete: String = "Delete"
             static let deleteActionStyle: UIContextualAction.Style = .destructive
             static let editActionStyle: UIContextualAction.Style = .destructive
             static let titleEdit: String = "Edit"
             static let headerTextColor: UIColor = .white
+            static let selectionStyle: UITableViewCell.SelectionStyle = .none
         }
         
         enum WarningAlert {
@@ -217,15 +218,24 @@ final class WishStoringView: UIView {
 
 // MARK: - UITableViewDelegate
 extension WishStoringView: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
-        if let header = view as? UITableViewHeaderFooterView {
-            header.textLabel?.textColor = Constants.Table.headerTextColor
-            header.automaticallyUpdatesBackgroundConfiguration = false
-        }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        let label = UILabel()
+        label.text = section == 0 ? "Add wish" : "Wishes"
+        label.textColor = Constants.Table.headerTextColor
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+        label.frame = CGRect(x: 2, y: 0, width: tableView.frame.width - 65, height: 30)
+        headerView.addSubview(label)
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.Table.heightForRow
+        switch indexPath.section {
+        case 0:
+            return Constants.Table.heightForRowForFirstSection
+        default:
+            return Constants.Table.heightForRow
+        }
     }
     
     func tableView(
@@ -302,6 +312,7 @@ extension WishStoringView: UITableViewDataSource {
                 return UITableViewCell()
             }
             
+            cell.selectionStyle = Constants.Table.selectionStyle
             cell.addWish = { [weak self] text in
                 if text != "" {
                     self?.delegate?.addWish(text: text)

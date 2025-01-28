@@ -14,12 +14,12 @@ final class WishStoringViewController: UIViewController {
     }
     
     // MARK: - Private fields
-    private var wishStoringView: WishStoringView?
+    private var color: UIColor?
     
     // MARK: - Lifecycle
     init(_ color: UIColor?) {
         super.init(nibName: nil, bundle: nil)
-        wishStoringView = WishStoringView(delegate: self, color: color)
+        self.color = color
     }
     
     @available(*, unavailable)
@@ -29,7 +29,7 @@ final class WishStoringViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view = wishStoringView
+        view = WishStoringView(delegate: self, color: color)
     }
 }
 

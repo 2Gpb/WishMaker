@@ -23,13 +23,14 @@ final class WishEventCreationController: UIViewController {
     weak var delegate: WishEventCreationDelegate?
     
     // MARK: - Private fields
-    private var wishEventCreationView: WishEventCreationView?
     private let calendar: CalendarManaging = CalendarManager()
+    private var color: UIColor?
     
     // MARK: - Lifecycle
     init(delegate: WishEventCreationDelegate, color: UIColor?) {
         super.init(nibName: nil, bundle: nil)
-        wishEventCreationView = WishEventCreationView(delegate: self, color: color)
+        self.delegate = delegate
+        self.color = color
     }
     
     @available(*, unavailable)
@@ -39,7 +40,7 @@ final class WishEventCreationController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view = wishEventCreationView
+        view = WishEventCreationView(delegate: self, color: color)
     }
 }
 

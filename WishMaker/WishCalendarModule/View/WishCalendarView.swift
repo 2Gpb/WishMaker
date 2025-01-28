@@ -28,7 +28,7 @@ final class WishCalendarView: UIView {
             static let state: UIControl.State = .normal
             static let event: UIControl.Event = .touchUpInside
             static let top: CGFloat = 8
-            static let leading: CGFloat = 10
+            static let leading: CGFloat = 12
             static let height: CGFloat = 30
             static let width: CGFloat = 30
             static let type: UIButton.ButtonType = .system
@@ -40,7 +40,7 @@ final class WishCalendarView: UIView {
             static let color: UIColor = .white
             static let event: UIControl.Event = .touchUpInside
             static let top: CGFloat = 8
-            static let right: CGFloat = 10
+            static let right: CGFloat = 12
             static let height: CGFloat = 30
             static let width: CGFloat = 30
             static let type: UIButton.ButtonType = .system
@@ -63,8 +63,9 @@ final class WishCalendarView: UIView {
             static let backgroundColor: UIColor = .clear
             static let top: CGFloat = 20
             static let heightCell: CGFloat = 165
-            static let totalIndent: CGFloat = 20
-            static let lineSpacing: CGFloat = 15
+            static let totalIndent: CGFloat = 0
+            static let lineSpacing: CGFloat = 16
+            static let vOffset: CGFloat = 20
         }
     }
     
@@ -139,7 +140,7 @@ final class WishCalendarView: UIView {
         addSubview(collectionView)
         collectionView.pinTop(to: backButton.bottomAnchor, Constants.CollectionView.top)
         collectionView.pinBottom(to: bottomAnchor)
-        collectionView.pinHorizontal(to: self)
+        collectionView.pinHorizontal(to: self, Constants.CollectionView.vOffset)
     }
     
     // MARK: - Actions

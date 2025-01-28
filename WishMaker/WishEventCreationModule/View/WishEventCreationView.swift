@@ -39,14 +39,15 @@ final class WishEventCreationView: UIView {
             static let height: CGFloat = 28
             static let width: CGFloat = 68
             static let cancelLeft: CGFloat = 12
-            static let addRight: CGFloat = 6
+            static let addRight: CGFloat = 2
         }
         
         enum TitleTextField {
             static let title: String = "Title"
             static let placeholder: String = "Enter the name of the event"
             static let top: CGFloat = 30
-            static let horizontal: CGFloat = 16
+            static let left: CGFloat = 20
+            static let right: CGFloat = 10
             static let height: CGFloat = 74
         }
         
@@ -56,8 +57,8 @@ final class WishEventCreationView: UIView {
             static let state: UIControl.State = .normal
             static let color: UIColor = .white
             static let event: UIControl.Event = .touchUpInside
-            static let top: CGFloat = 60
-            static let right: CGFloat = 16
+            static let top: CGFloat = 65
+            static let right: CGFloat = 20
             static let width: CGFloat = 30
             static let height: CGFloat = 30
         }
@@ -66,7 +67,7 @@ final class WishEventCreationView: UIView {
             static let title: String = "Description"
             static let placeholder: String = "Enter a description"
             static let top: CGFloat = 20
-            static let horizontalOffset: CGFloat = 16
+            static let horizontalOffset: CGFloat = 20
             static let height: CGFloat = 74
         }
         
@@ -74,7 +75,7 @@ final class WishEventCreationView: UIView {
             static let title: String = "Start date"
             static let placeholder: String = "Enter the start date of the event"
             static let top: CGFloat = 20
-            static let horizontalOffset: CGFloat = 16
+            static let horizontalOffset: CGFloat = 20
             static let height: CGFloat = 74
             static let alignment: NSTextAlignment = .center
             static let datePickerFrame: CGRect = CGRect(x: 0, y: 0, width: 402, height: 520)
@@ -84,7 +85,7 @@ final class WishEventCreationView: UIView {
             static let title: String = "End date"
             static let placeholder: String = "Enter the end date of the event"
             static let top: CGFloat = 20
-            static let horizontalOffset: CGFloat = 16
+            static let horizontalOffset: CGFloat = 20
             static let height: CGFloat = 74
             static let alignment: NSTextAlignment = .center
             static let datePickerFrame: CGRect = CGRect(x: 0, y: 0, width: 402, height: 520)
@@ -207,8 +208,8 @@ final class WishEventCreationView: UIView {
     private func setUpTitleTextField() {
         addSubview(titleTextField)
         titleTextField.pinTop(to: add.bottomAnchor, Constants.TitleTextField.top)
-        titleTextField.pinLeft(to: self, Constants.TitleTextField.horizontal)
-        titleTextField.pinRight(to: wishListButton.leadingAnchor, Constants.TitleTextField.horizontal)
+        titleTextField.pinLeft(to: self, Constants.TitleTextField.left)
+        titleTextField.pinRight(to: wishListButton.leadingAnchor, Constants.TitleTextField.right)
         titleTextField.setHeight(Constants.TitleTextField.height)
     }
     

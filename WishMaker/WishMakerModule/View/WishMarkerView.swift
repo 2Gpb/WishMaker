@@ -46,7 +46,7 @@ final class WishMakerView: UIView {
             static let addWishesTitle: String = "Add wish"
             static let scheduleWishesTitle: String = "Schedule wish granting"
             static let axis: NSLayoutConstraint.Axis = .vertical
-            static let spacing: CGFloat = 20
+            static let spacing: CGFloat = 18
             static let leading: CGFloat = 20
             static let bottom: CGFloat = 20
         }
@@ -69,6 +69,7 @@ final class WishMakerView: UIView {
         enum Picker {
             static let title: String = "Background Color"
             static let style: UIModalPresentationStyle = .popover
+            static let interfaceStyle: UIUserInterfaceStyle = .dark
         }
         
         enum ChangeColorButtons {
@@ -191,7 +192,7 @@ final class WishMakerView: UIView {
         
         addSubview(wishDescription)
         wishDescription.pinCenterX(to: self)
-        wishDescription.pinLeft(to: safeAreaLayoutGuide.leadingAnchor, Constants.Description.leading)
+        wishDescription.pinHorizontal(to: self, Constants.Description.leading)
         wishDescription.pinTop(to: wishTitle.bottomAnchor, Constants.Description.top)
     }
     
@@ -200,6 +201,7 @@ final class WishMakerView: UIView {
         colorPicker.supportsAlpha = false
         colorPicker.delegate = self
         colorPicker.modalPresentationStyle = Constants.Picker.style
+        colorPicker.overrideUserInterfaceStyle = Constants.Picker.interfaceStyle
     }
     
     private func setUpMoveActionsStack() {

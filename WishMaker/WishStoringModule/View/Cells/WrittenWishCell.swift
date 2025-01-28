@@ -25,10 +25,10 @@ final class WrittenWishCell: UITableViewCell {
         
         enum Wrap {
             static let backgroundColor: UIColor = .cells
-            static let cornerRadius: CGFloat = 12
+            static let cornerRadius: CGFloat = 14
             static let offsetV: CGFloat = 5
-            static let trailing: CGFloat = 5
-            static let leading: CGFloat = 16
+            static let trailing: CGFloat = 0
+            static let leading: CGFloat = 0
         }
         
         enum WishLabel {

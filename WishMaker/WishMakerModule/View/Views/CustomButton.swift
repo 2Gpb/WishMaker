@@ -25,9 +25,9 @@ final class CustomButton: UIView {
             static let fontSize: CGFloat = 17
             static let fontWeight: UIFont.Weight = .bold
             static let backgroundColor: UIColor = .lightGray
-            static let cornerRadius: CGFloat = 18
+            static let cornerRadius: CGFloat = 15
             static let event: UIControl.Event = .touchUpInside
-            static let height: CGFloat = 46
+            static let height: CGFloat = 50
         }
     }
     
@@ -68,6 +68,7 @@ final class CustomButton: UIView {
                 ofSize: Constants.Button.fontSize,
                 weight: Constants.Button.fontWeight
             )
+        
         button.backgroundColor = Constants.Button.backgroundColor
         button.layer.cornerRadius = Constants.Button.cornerRadius
         button.addTarget(self, action: #selector(buttonTapped), for: Constants.Button.event)

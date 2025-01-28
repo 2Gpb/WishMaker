@@ -46,7 +46,7 @@ final class WishEventCell: UICollectionViewCell {
             static let fontWeight: UIFont.Weight = .bold
             static let textColor: UIColor = .white
             static let numberOfLines: Int = 1
-            static let top: Double = 20
+            static let top: Double = 16
             static let leading: Double = 20
             static let trailing: Double = 20
         }
@@ -56,7 +56,7 @@ final class WishEventCell: UICollectionViewCell {
             static let fontWeight: UIFont.Weight = .regular
             static let textColor: UIColor = .white
             static let numberOfLines: Int = 2
-            static let top: Double = 8
+            static let top: Double = 14
             static let leading: Double = 20
             static let trailing: Double = 20
         }

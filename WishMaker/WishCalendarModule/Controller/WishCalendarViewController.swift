@@ -12,14 +12,12 @@ final class WishCalendarViewController: UIViewController {
         static let error: String = "init(coder:) has not been implemented"
     }
     // MARK: - Private fields
-    private var wishCalendarView: WishCalendarView?
-    private var wishEventCreationController: WishEventCreationController?
+    private var color: UIColor?
     
     // MARK: - Lifecycle
     init(_ color: UIColor?) {
         super.init(nibName: nil, bundle: nil)
-        wishCalendarView = WishCalendarView(delegate: self, color: color)
-        wishEventCreationController = WishEventCreationController(delegate: self, color: color)
+        self.color = color
     }
     
     @available(*, unavailable)
@@ -29,7 +27,7 @@ final class WishCalendarViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view = wishCalendarView
+        view = WishCalendarView(delegate: self, color: color)
     }
     
     override func viewDidLoad() {
@@ -46,9 +44,8 @@ final class WishCalendarViewController: UIViewController {
 // MARK: - WishCalendarViewDelegate
 extension WishCalendarViewController: WishCalendarViewDelegate {
     func createEvent() {
-        if let vc = wishEventCreationController {
-            present(vc, animated: true)
-        }
+        let vc = WishEventCreationController(delegate: self, color: color)
+        present(vc, animated: true)
     }
     
     func goBackScreen() {
@@ -72,6 +69,7 @@ extension WishCalendarViewController: WishCalendarViewDelegate {
 extension WishCalendarViewController: WishEventCreationDelegate {
     func addEvent(_ event: CalendarEventModel) {
         EventCoreDataService.shared.addElement(eventModel: event)
-        wishCalendarView?.reloadTable()
+        let view = view as? WishCalendarView
+        view?.reloadTable()
     }
 }

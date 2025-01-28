@@ -28,23 +28,26 @@ final class AddWishCell: UITableViewCell {
             static let titleColor: UIColor = .white
             static let fontSize: CGFloat = 12
             static let fontWeight: UIFont.Weight = .bold
-            static let cornerRadius: CGFloat = 12
+            static let cornerRadius: CGFloat = 14
             static let borderWidth: CGFloat = 2
             static let borderColor: CGColor = UIColor.white.cgColor
             static let event: UIControl.Event = .touchUpInside
-            static let offset: CGFloat = 5
+            static let offset: CGFloat = 0
+            static let right: CGFloat = 0
             static let width: CGFloat = 60
         }
         
         enum TextView {
             static let fontSize: CGFloat = 17
             static let fontWeight: UIFont.Weight = .regular
-            static let cornerRadius: CGFloat = 12
+            static let cornerRadius: CGFloat = 14
             static let borderWidth: CGFloat = 1
             static let backgroundColor: UIColor = .lightGray
-            static let offset: CGFloat = 5
-            static let leading: CGFloat = 16
-            static let insets: UIEdgeInsets = UIEdgeInsets(top: 10, left: 6, bottom: 0, right: 9)
+            static let offset: CGFloat = 0
+            static let left: CGFloat = 0
+            static let right: CGFloat = 5
+            static let textColor: UIColor = .black
+            static let insets: UIEdgeInsets = UIEdgeInsets(top: 12, left: 8, bottom: 0, right: 9)
         }
     }
     
@@ -91,7 +94,7 @@ final class AddWishCell: UITableViewCell {
         addWishButton.addTarget(self, action: #selector(addWishButtonTapped), for: Constants.AddWishButton.event)
         
         contentView.addSubview(addWishButton)
-        addWishButton.pinRight(to: trailingAnchor, Constants.AddWishButton.offset)
+        addWishButton.pinRight(to: trailingAnchor, Constants.AddWishButton.right)
         addWishButton.pinTop(to: topAnchor, Constants.AddWishButton.offset)
         addWishButton.pinBottom(to: bottomAnchor, Constants.AddWishButton.offset)
         addWishButton.setWidth(Constants.AddWishButton.width)
@@ -103,14 +106,16 @@ final class AddWishCell: UITableViewCell {
                 ofSize: Constants.TextView.fontSize,
                 weight: Constants.TextView.fontWeight
             )
+        
         textView.layer.cornerRadius = Constants.TextView.cornerRadius
         textView.layer.borderWidth = Constants.TextView.borderWidth
         textView.backgroundColor = Constants.TextView.backgroundColor
+        textView.textColor = Constants.TextView.textColor
         textView.textContainerInset = Constants.TextView.insets
         
         contentView.addSubview(textView)
-        textView.pinLeft(to: leadingAnchor, Constants.TextView.leading)
-        textView.pinRight(to: addWishButton.leadingAnchor, Constants.TextView.offset)
+        textView.pinLeft(to: leadingAnchor, Constants.TextView.left)
+        textView.pinRight(to: addWishButton.leadingAnchor, Constants.TextView.right)
         textView.pinVertical(to: self, Constants.TextView.offset)
     }
     
